@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <script type="text/javascript"
+            src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js">
+        </script>
+
+        <style>
+            .test {
+                background-color: red;
+                height: 500px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="testDiv" class="test" />
+
+        <script>
+
+            const context = cast.framework.CastReceiverContext.getInstance();
+
+            const testDiv = document.getElementById("testDiv");
+            let i = 0;
+
+            const CUSTOM_CHANNEL = 'urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.customchannel';
+            context.addCustomMessageListener(CUSTOM_CHANNEL, function(customEvent) {
+                testDiv.innerHTML = "received something" +i++;
+            });
+
+            context.start();
+
+        </script>
+    </body>
+</html>
