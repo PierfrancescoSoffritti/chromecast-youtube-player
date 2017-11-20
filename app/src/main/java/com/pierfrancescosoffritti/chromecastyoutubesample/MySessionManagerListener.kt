@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.android.gms.cast.framework.Session
 import com.google.android.gms.cast.framework.SessionManagerListener
 
-class MySessionManagerListener : SessionManagerListener<Session> {
+class MySessionManagerListener(val mainActivity: MainActivity) : SessionManagerListener<Session> {
     override fun onSessionSuspended(p0: Session?, p1: Int) {}
     override fun onSessionResumeFailed(p0: Session?, p1: Int) {}
     override fun onSessionStarting(p0: Session?) {}
@@ -13,7 +13,7 @@ class MySessionManagerListener : SessionManagerListener<Session> {
     override fun onSessionStartFailed(p0: Session?, p1: Int) {}
 
     override fun onSessionStarted(session: Session, sessionId: String) {
-        Log.d(javaClass.simpleName, "session started");
+        mainActivity.sendMessage("session started!!!!!")
     }
 
     override fun onSessionResumed(session: Session, wasSuspended: Boolean) {
