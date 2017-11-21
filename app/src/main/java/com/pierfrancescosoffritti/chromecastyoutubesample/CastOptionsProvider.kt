@@ -7,7 +7,7 @@ import com.google.android.gms.cast.framework.OptionsProvider
 
 
 internal class CastOptionsProvider : OptionsProvider {
-    private val APP_ID = "4F8B3483";
+    private val APP_ID = "C5CBE8CA";
 
     override fun getCastOptions(appContext: Context): CastOptions {
         return CastOptions.Builder()

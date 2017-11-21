@@ -7,7 +7,7 @@ import com.google.android.gms.cast.framework.SessionManagerListener
 class MySessionManagerListener(val mainActivity: MainActivity) : SessionManagerListener<Session> {
     override fun onSessionSuspended(p0: Session?, p1: Int) {}
     override fun onSessionResumeFailed(p0: Session?, p1: Int) {}
-    override fun onSessionStarting(p0: Session?) {}
+    override fun onSessionStarting(p0: Session?) { }
     override fun onSessionEnding(p0: Session?) {}
     override fun onSessionResuming(p0: Session?, p1: String?) {}
     override fun onSessionStartFailed(p0: Session?, p1: Int) {}
