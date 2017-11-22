@@ -25,14 +25,16 @@
             let i = 0;
 
             context.addCustomMessageListener(namespace, function(customEvent) {
-                console.log("hthhfdjhvdjfdhfjdhfjdhfsjdfhsidjhfisdhfisudfhsiudhfsiudhfisudhfisudhfishdiushdiusdfisdhfsudhfisuhdfiushfishdfisuhdfiushdfusihfiushf")
+                console.log("CUSTOM MESSAGE RECEIVED!!")
+                console.log("senderId: " +customEvent.senderId)
+
                 testDiv.innerHTML = "received something " +i++;
                 testDiv.style.backgroundColor = "green";
+
+                context.sendCustomMessage(namespace, undefined, "test message from receiver");
             });
 
             context.start();
-
-            context.sendCustomMessage(namespace, undefined, "test message")
 
         </script>
     </body>

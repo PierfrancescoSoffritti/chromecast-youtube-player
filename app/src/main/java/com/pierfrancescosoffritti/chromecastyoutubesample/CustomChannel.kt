@@ -5,7 +5,7 @@ import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.Cast
 
 
-internal class CustomChannel : Cast.MessageReceivedCallback {
+class CustomChannel : Cast.MessageReceivedCallback {
     val namespace: String
         get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.customchannel"
 

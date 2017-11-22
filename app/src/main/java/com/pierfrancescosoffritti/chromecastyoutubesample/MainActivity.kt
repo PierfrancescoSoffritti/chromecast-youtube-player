@@ -7,16 +7,15 @@ import com.google.android.gms.cast.framework.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.cast.framework.CastContext
 
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
-    private val sessionManagerListener = MySessionManagerListener(this)
+    private lateinit var sessionManagerListener: SessionManagerListener<Session>
     private val customChannel = CustomChannel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        sessionManager = CastContext.getSharedInstance(this).sessionManager;
+        sessionManager = CastContext.getSharedInstance(this).sessionManager
+        sessionManagerListener = MySessionManagerListener(this, sessionManager, customChannel)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,10 +25,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        if(sessionManager.currentCastSession != null) {
-            sessionManager.currentCastSession.setMessageReceivedCallbacks(customChannel.namespace, customChannel)
-        }
-
         sessionManager.addSessionManagerListener(sessionManagerListener)
         super.onResume()
     }
