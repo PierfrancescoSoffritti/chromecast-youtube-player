@@ -38,5 +38,6 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-cast-framework:11.6.0'
 
-    implementation 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:3.0.0'
+    implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
+    implementation 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:3.0.1'
 }

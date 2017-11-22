@@ -1,9 +1,12 @@
-const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.customchannel";
+const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication";
+let Constants;
 
 const context = cast.framework.CastReceiverContext.getInstance();
 
 function initCommunications(event) {
     console.log("INIT MESSAGE RECEIVED!!");
+
+    Constants = event.data;
 
     const script = document.createElement('script');
     script.src = "https://www.youtube.com/iframe_api";

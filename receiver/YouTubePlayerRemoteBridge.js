@@ -3,11 +3,11 @@ function YouTubePlayerRemoteBridge() {
     const channel = new CustomChannel();
 
     function sendYouTubeIframeAPIReady() {
-        channel.sendMessage("IframeAPIReady")
+        channel.sendMessage(Constants.IframeAPIReady)
     }
 
     function sendReady() {
-        channel.sendMessage("ready")
+        channel.sendMessage(Constants.Ready)
     }
 
     function sendPlayerStateChange(data) {
