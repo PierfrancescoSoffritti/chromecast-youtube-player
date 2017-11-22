@@ -13,7 +13,7 @@ class MySessionManagerListener(val mainActivity: MainActivity) : SessionManagerL
     override fun onSessionStartFailed(p0: Session?, p1: Int) {}
 
     override fun onSessionStarted(session: Session, sessionId: String) {
-        mainActivity.sendMessage("session started!!!!!")
+        mainActivity.sendMessage("{ \"text\": \"session started!!!!!\" }")
     }
 
     override fun onSessionResumed(session: Session, wasSuspended: Boolean) {
