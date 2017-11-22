@@ -18,6 +18,8 @@ class MySessionManagerListener(val mainActivity: MainActivity, val sessionManage
         sessionManager.currentCastSession.setMessageReceivedCallbacks(customChannel.namespace, customChannel)
 
         mainActivity.sendMessage("{ \"text\": \"session started!!!!!\" }")
+
+        mainActivity.sendMessage("{ \"videoId\": \"6JYIGclVQdw\" }")
     }
 
     override fun onSessionResumed(session: Session, wasSuspended: Boolean) {

@@ -1,41 +1,20 @@
 <html>
     <head>
-        <script type="text/javascript"
-            src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js">
-        </script>
+        <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+        <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+        
+        <script type="text/javascript" src="./CustomChannel.js"></script>
+        <script type="text/javascript" src="./YouTubePlayerRemoteBridge.js"></script>
+        <script type="text/javascript" src="./youTubePlayer.js"></script>
+        <script type="text/javascript" src="./main.js"></script>
 
-        <style>
-            .test {
-                background-color: pink;
-                height: 500px;
-                width: 100%;
-            }
-        </style>
+        <link rel="stylesheet" href="./styles.css"> 
+
+        <title>ChromeCastYouTubeSample</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     </head>
     <body>
-        <div id="testDiv" class="test" />
-
-        <script>
-
-            const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.customchannel";
-
-            const context = cast.framework.CastReceiverContext.getInstance();
-
-            const testDiv = document.getElementById("testDiv");
-            let i = 0;
-
-            context.addCustomMessageListener(namespace, function(customEvent) {
-                console.log("CUSTOM MESSAGE RECEIVED!!")
-                console.log("senderId: " +customEvent.senderId)
-
-                testDiv.innerHTML = "received something " +i++;
-                testDiv.style.backgroundColor = "green";
-
-                context.sendCustomMessage(namespace, undefined, "test message from receiver");
-            });
-
-            context.start();
-
-        </script>
+        <div id="youTubePlayerDOM"></div>
     </body>
 </html>
