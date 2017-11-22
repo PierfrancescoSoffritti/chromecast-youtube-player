@@ -17,7 +17,7 @@ class MySessionManagerListener(val mainActivity: MainActivity, val sessionManage
     override fun onSessionStarted(session: Session, sessionId: String) {
         sessionManager.currentCastSession.setMessageReceivedCallbacks(customChannel.namespace, customChannel)
 
-        mainActivity.sendMessage("{ \"text\": \"session started!!!!!\" }")
+        mainActivity.sendMessage("{ \"text\": \"loadYouTubePlayer\" }")
 
         mainActivity.sendMessage("{ \"videoId\": \"6JYIGclVQdw\" }")
     }
