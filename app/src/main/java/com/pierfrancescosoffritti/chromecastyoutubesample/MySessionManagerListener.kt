@@ -5,9 +5,9 @@ import com.github.salomonbrys.kotson.jsonObject
 import com.google.android.gms.cast.framework.*
 import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.Constants
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.ChromeCastCustomChannel
+import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.ChromecastCustomChannel
 
-class MySessionManagerListener(private val chromeCastCustomChannel: ChromeCastCustomChannel) : SessionManagerListener<CastSession> {
+class MySessionManagerListener(private val chromecastCustomChannel: ChromecastCustomChannel) : SessionManagerListener<CastSession> {
     override fun onSessionSuspended(castSession: CastSession?, p1: Int) {}
     override fun onSessionResumeFailed(castSession: CastSession?, p1: Int) {}
 
@@ -20,16 +20,16 @@ class MySessionManagerListener(private val chromeCastCustomChannel: ChromeCastCu
     override fun onSessionStartFailed(castSession: CastSession?, p1: Int) {}
 
     override fun onSessionStarted(castSession: CastSession, sessionId: String) {
-        castSession.setMessageReceivedCallbacks(chromeCastCustomChannel.namespace, chromeCastCustomChannel)
+        castSession.setMessageReceivedCallbacks(chromecastCustomChannel.namespace, chromecastCustomChannel)
 
         val obj: JsonObject = jsonObject(
                 "IframeAPIReady" to Constants.IFRAME_API_READY,
                 "Ready" to Constants.READY
         )
 
-        chromeCastCustomChannel.sendMessage(obj.toString())
+        chromecastCustomChannel.sendMessage(obj.toString())
 
-//        chromeCastCustomChannel.sendMessage("{ \"text\": \"loadYouTubePlayer\" }")
+//        chromecastCustomChannel.sendMessage("{ \"text\": \"loadYouTubePlayer\" }")
     }
 
     override fun onSessionResumed(castSession: CastSession, wasSuspended: Boolean) {

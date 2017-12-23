@@ -5,13 +5,14 @@ import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.Cast
 import com.google.android.gms.cast.framework.SessionManager
 
-class ChromeCastCustomChannel(private val sessionManager: SessionManager) : Cast.MessageReceivedCallback {
+class ChromecastCustomChannel(private val sessionManager: SessionManager) : Cast.MessageReceivedCallback {
     val namespace
         get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
     private val observers = HashSet<ChannelObserver>()
 
     override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
-        observers.forEach{ it.onMessageReceived(message.replace("\"", ""))}
+        val m = message.replace("\"", "")
+        observers.forEach{ it.onMessageReceived(m)}
     }
 
     fun sendMessage(message: String) = try {

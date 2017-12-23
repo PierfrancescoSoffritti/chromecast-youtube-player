@@ -2,7 +2,8 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
 
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
-class ChromeCastYouTubePlayer(chromeCastCustomChannel: ChromeCastCustomChannel, private val youTubePlayerInitListener: YouTubePlayerInitListener) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
+// can't have an init method as in YouTubePlayerView, because communication is initialized by cast framework
+class ChromeCastYouTubePlayer(chromecastCustomChannel: ChromecastCustomChannel, private val youTubePlayerInitListener: YouTubePlayerInitListener) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
     private val playerStateTracker = PlayerStateTracker()
@@ -11,7 +12,7 @@ class ChromeCastYouTubePlayer(chromeCastCustomChannel: ChromeCastCustomChannel, 
         youTubePlayerListeners.clear()
         youTubePlayerListeners.add(playerStateTracker)
 
-        chromeCastCustomChannel.addObserver(InBoundChannel(YouTubePlayerBridge(this)))
+        chromecastCustomChannel.addObserver(InBoundChannel(YouTubePlayerBridge(this)))
     }
 
     override fun onYouTubeIframeAPIReady() {
