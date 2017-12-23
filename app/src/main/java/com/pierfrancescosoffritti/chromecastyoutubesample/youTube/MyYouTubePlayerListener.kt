@@ -1,9 +1,10 @@
 package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
 
 import android.util.Log
+import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
-class MyYouTubePlayerListener : YouTubePlayerListener {
+class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTubePlayerListener {
     override fun onPlaybackQualityChange(playbackQuality: String?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -18,6 +19,7 @@ class MyYouTubePlayerListener : YouTubePlayerListener {
 
     override fun onReady() {
         Log.d("listener", "ready")
+        youTubePlayer.loadVideo("6JYIGclVQdw", 0f)
     }
 
     override fun onPlaybackRateChange(playbackRate: String?) {

@@ -5,9 +5,12 @@ import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.Cast
 import com.google.android.gms.cast.framework.SessionManager
 
-class ChromecastCustomChannel(private val sessionManager: SessionManager) : Cast.MessageReceivedCallback {
-    val namespace
-        get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
+/**
+ * This class represents the communication channel with the CastReceiver.
+ * It has two responsibilities: receiving and sending messages.
+ */
+class ChromecastCommunicationChannel(private val sessionManager: SessionManager) : Cast.MessageReceivedCallback {
+    val namespace get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
     private val observers = HashSet<ChannelObserver>()
 
     override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
@@ -21,7 +24,10 @@ class ChromecastCustomChannel(private val sessionManager: SessionManager) : Cast
                 .setResultCallback {
                     if(it.isSuccess)
                         Log.d(this.javaClass.simpleName, "message sent")
+                    else
+                        Log.d(this.javaClass.simpleName, "failed, can't send message")
                 }
+
     } catch (e: Exception) {
         throw RuntimeException(e)
     }

@@ -1,24 +1,25 @@
 const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication";
-let Constants;
+let CommunicationConstants;
 
 const context = cast.framework.CastReceiverContext.getInstance();
+
+const senderMessagesDispatcher = new SenderMessagesDispatcher(context);
+
+context.addCustomMessageListener(namespace, initCommunications);
+context.start();
 
 function initCommunications(event) {
     console.log("INIT MESSAGE RECEIVED!!");
 
-    Constants = event.data;
+    CommunicationConstants = event.data;
 
+    // load youtube apis
     const script = document.createElement('script');
     script.src = "https://www.youtube.com/iframe_api";
     document.getElementsByTagName('head')[0].appendChild(script);
 
-    // if(event.data.videoId)
-    //     loadVideo(event.data.videoId, 0)
-
-    context.sendCustomMessage(namespace, event.senderId, "test message from receiver");
+    context.sendCustomMessage(namespace, event.senderId, "communication init: success");
     context.removeCustomMessageListener(namespace, initCommunications);
+
+    context.addCustomMessageListener(namespace, senderMessagesDispatcher.onMessage);
 }
-
-context.addCustomMessageListener(namespace, initCommunications);
-
-context.start();

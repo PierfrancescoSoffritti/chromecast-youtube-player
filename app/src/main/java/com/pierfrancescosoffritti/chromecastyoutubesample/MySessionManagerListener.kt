@@ -5,31 +5,33 @@ import com.github.salomonbrys.kotson.jsonObject
 import com.google.android.gms.cast.framework.*
 import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.Constants
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.ChromecastCustomChannel
+import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.ChromecastCommunicationChannel
 
-class MySessionManagerListener(private val chromecastCustomChannel: ChromecastCustomChannel) : SessionManagerListener<CastSession> {
+// this class must be refactored
+class MySessionManagerListener(private val chromecastCommunicationChannel: ChromecastCommunicationChannel) : SessionManagerListener<CastSession> {
     override fun onSessionSuspended(castSession: CastSession?, p1: Int) {}
     override fun onSessionResumeFailed(castSession: CastSession?, p1: Int) {}
 
-    override fun onSessionStarting(castSession: CastSession) {
-
-    }
+    override fun onSessionStarting(castSession: CastSession) {}
     override fun onSessionEnding(castSession: CastSession?) {}
     override fun onSessionResuming(castSession: CastSession?, p1: String?) {}
 
     override fun onSessionStartFailed(castSession: CastSession?, p1: Int) {}
 
     override fun onSessionStarted(castSession: CastSession, sessionId: String) {
-        castSession.setMessageReceivedCallbacks(chromecastCustomChannel.namespace, chromecastCustomChannel)
+        castSession.setMessageReceivedCallbacks(chromecastCommunicationChannel.namespace, chromecastCommunicationChannel)
 
-        val obj: JsonObject = jsonObject(
-                "IframeAPIReady" to Constants.IFRAME_API_READY,
-                "Ready" to Constants.READY
+        exchangeCommunicationConstants(chromecastCommunicationChannel)
+    }
+
+    private fun exchangeCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+        val communicationConstants: JsonObject = jsonObject(
+                Constants.IFRAME_API_READY to Constants.IFRAME_API_READY,
+                Constants.READY to Constants.READY,
+                Constants.LOAD to Constants.LOAD
         )
 
-        chromecastCustomChannel.sendMessage(obj.toString())
-
-//        chromecastCustomChannel.sendMessage("{ \"text\": \"loadYouTubePlayer\" }")
+        chromecastCommunicationChannel.sendMessage(communicationConstants.toString())
     }
 
     override fun onSessionResumed(castSession: CastSession, wasSuspended: Boolean) {

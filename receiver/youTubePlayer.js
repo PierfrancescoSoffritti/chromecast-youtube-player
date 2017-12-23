@@ -6,10 +6,13 @@ const BUFFERING = "BUFFERING";
 const CUED = "CUED";
 
 const YouTubePlayerBridge = new YouTubePlayerRemoteBridge();
+const actions = { seekTo, pauseVideo, playVideo, loadVideo, cueVideo, mute, unMute, setVolume }
+
 let player;
 
 function onYouTubeIframeAPIReady() {
-
+    senderMessagesDispatcher.setCallbacks(actions);
+    
     YouTubePlayerBridge.sendYouTubeIframeAPIReady();
     
     player = new YT.Player('youTubePlayerDOM', {

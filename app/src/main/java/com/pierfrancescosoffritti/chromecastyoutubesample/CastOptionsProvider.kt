@@ -5,9 +5,11 @@ import com.google.android.gms.cast.framework.CastOptions
 import com.google.android.gms.cast.framework.SessionProvider
 import com.google.android.gms.cast.framework.OptionsProvider
 
-
+/**
+ * Class providing setup info to the Chromecast framework
+ */
 internal class CastOptionsProvider : OptionsProvider {
-    private val APP_ID = "C5CBE8CA";
+    private val APP_ID = "C5CBE8CA"
 
     override fun getCastOptions(appContext: Context): CastOptions {
         return CastOptions.Builder()
