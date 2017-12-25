@@ -7,10 +7,10 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerBridge
  * class responsible for dispatching messages received from the CastReceiver
   */
 class ChromecastMessagesDispatcher(private val bridge: YouTubePlayerBridge) : ChromecastCommunicationChannel.ChannelObserver {
-    override fun onMessageReceived(message: String) {
-        Log.d(javaClass.simpleName +"on msg", message)
+    override fun onMessageReceived(message: YouTubeMessage) {
+        Log.d(javaClass.simpleName +" on msg, type: ", message.type + " data: " +message.data)
 
-        when (message) {
+        when (message.type) {
             Constants.IFRAME_API_READY -> bridge.sendYouTubeIframeAPIReady()
             Constants.READY -> bridge.sendReady()
         }

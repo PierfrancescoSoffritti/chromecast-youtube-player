@@ -18,7 +18,6 @@ function initCommunications(event) {
     script.src = "https://www.youtube.com/iframe_api";
     document.getElementsByTagName('head')[0].appendChild(script);
 
-    context.sendCustomMessage(namespace, event.senderId, "communication init: success");
     context.removeCustomMessageListener(namespace, initCommunications);
 
     context.addCustomMessageListener(namespace, senderMessagesDispatcher.onMessage);
