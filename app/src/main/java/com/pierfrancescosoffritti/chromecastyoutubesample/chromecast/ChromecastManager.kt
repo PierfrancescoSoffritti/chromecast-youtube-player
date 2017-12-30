@@ -18,6 +18,7 @@ class ChromecastManager(context: Context, private val chromecastContainer: Chrom
     fun onSessionStarting() = chromecastContainer.onSessionStarting()
     fun onSessionEnding() = chromecastContainer.onSessionEnding()
     fun onSessionStarted(castSession: CastSession) {
+        castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
         castSession.setMessageReceivedCallbacks(chromecastCommunicationChannel.namespace, chromecastCommunicationChannel)
 
         sendCommunicationConstants(chromecastCommunicationChannel)

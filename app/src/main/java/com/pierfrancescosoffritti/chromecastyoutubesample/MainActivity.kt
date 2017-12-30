@@ -13,11 +13,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ChromecastContainer {
 
-    private val chromeCastYouTubePlayer = ChromecastYouTubePlayer(YouTubePlayerInitListener { it.addListener(MyYouTubePlayerListener(it)) })
+    private lateinit var chromeCastYouTubePlayer : ChromecastYouTubePlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        chromeCastYouTubePlayer = ChromecastYouTubePlayer()
 
         initChromecast()
     }
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
     }
 
     override fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {
-        chromeCastYouTubePlayer.initialize(communicationChannelChromecast)
+        chromeCastYouTubePlayer.initialize(communicationChannelChromecast, YouTubePlayerInitListener { it.addListener(MyYouTubePlayerListener(it)) })
     }
 
     private fun initChromecast() {
