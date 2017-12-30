@@ -7,14 +7,10 @@ import com.google.gson.Gson
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.CastReceiverInputMessage
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 
-/**
- * This class represents the communication channel with the CastReceiver.
- * It has two responsibilities: receiving and sending messages.
- */
 class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : ChromecastCommunicationChannel {
     override val namespace get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
 
-    private val observers = HashSet<ChannelObserver>()
+    override val observers = HashSet<ChromecastCommunicationChannel.ChannelObserver>()
 
     override fun sendMessage(message: String) = try {
         sessionManager.currentCastSession
@@ -32,14 +28,6 @@ class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : C
 
     override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
         val parsedMessage = Gson().fromJson<CastReceiverInputMessage>(message, CastReceiverInputMessage::class.java)
-
         observers.forEach{ it.onMessageReceived(parsedMessage) }
-    }
-
-    fun addObserver(channelObserver: ChannelObserver) = observers.add(channelObserver)
-    fun removeObserver(channelObserver: ChannelObserver) = observers.remove(channelObserver)
-
-    interface ChannelObserver {
-        fun onMessageReceived(inputMessage: CastReceiverInputMessage)
     }
 }

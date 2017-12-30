@@ -3,8 +3,8 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast
 import android.util.Log
 import com.google.android.gms.cast.framework.*
 
-// TODO: pass an interface, not the class
-class MySessionManagerListener(private val chromecastManager: ChromecastManager) : SessionManagerListener<CastSession> {
+// TODO: consider passing an interface instead of the class ChromecastManager
+class CastSessionManagerListener(private val chromecastManager: ChromecastManager) : SessionManagerListener<CastSession> {
     override fun onSessionSuspended(castSession: CastSession, p1: Int) {}
     override fun onSessionResumeFailed(castSession: CastSession, p1: Int) {}
     override fun onSessionResuming(castSession: CastSession, p1: String) {}

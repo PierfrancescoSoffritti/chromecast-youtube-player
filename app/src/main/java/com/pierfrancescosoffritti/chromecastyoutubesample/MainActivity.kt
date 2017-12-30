@@ -3,15 +3,15 @@ package com.pierfrancescosoffritti.chromecastyoutubesample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.cast.framework.*
-import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.CastListener
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastContainer
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastManager
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.MyYouTubePlayerListener
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastYouTubeIOChannel
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), CastListener {
+class MainActivity : AppCompatActivity(), ChromecastContainer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), CastListener {
 
     }
 
-    override fun setCommunicationChannel(communicationChannelChromecast: ChromecastYouTubeIOChannel) {
+    override fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {
         // this should already exist. TODO: defer setChannel from creation
         val chromeCastYouTubePlayer = ChromecastYouTubePlayer(communicationChannelChromecast, YouTubePlayerInitListener { it.addListener(MyYouTubePlayerListener(it)) })
     }

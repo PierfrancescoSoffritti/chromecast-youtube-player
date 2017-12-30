@@ -2,10 +2,11 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast
 
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonObject
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
 // can't have an init method as in YouTubePlayerView, because communication is initialized by cast framework
-class ChromecastYouTubePlayer(private val chromecastYouTubeIOChannel: ChromecastYouTubeIOChannel, private val youTubePlayerInitListener: YouTubePlayerInitListener) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
+class ChromecastYouTubePlayer(private val chromecastCommunicationChannel: ChromecastCommunicationChannel, private val youTubePlayerInitListener: YouTubePlayerInitListener) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
     private val playerStateTracker = PlayerStateTracker()
@@ -14,7 +15,7 @@ class ChromecastYouTubePlayer(private val chromecastYouTubeIOChannel: Chromecast
         youTubePlayerListeners.clear()
         youTubePlayerListeners.add(playerStateTracker)
 
-        chromecastYouTubeIOChannel.addObserver(ChromecastYouTubeMessageDispatcher(YouTubePlayerBridge(this)))
+        chromecastCommunicationChannel.addObserver(ChromecastYouTubeMessageDispatcher(YouTubePlayerBridge(this)))
     }
 
     override fun onYouTubeIframeAPIReady() {
@@ -28,7 +29,7 @@ class ChromecastYouTubePlayer(private val chromecastYouTubeIOChannel: Chromecast
                 "startSeconds" to startSeconds
         )
 
-        chromecastYouTubeIOChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun cueVideo(videoId: String, startSeconds: Float) {
