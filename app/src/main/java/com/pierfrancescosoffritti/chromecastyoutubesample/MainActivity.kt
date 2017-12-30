@@ -12,14 +12,14 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ChromecastContainer {
+
+    private val chromeCastYouTubePlayer = ChromecastYouTubePlayer(YouTubePlayerInitListener { it.addListener(MyYouTubePlayerListener(it)) })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val chromecastManager = ChromecastManager(this, this)
-        lifecycle.addObserver(chromecastManager)
-
-        CastButtonFactory.setUpMediaRouteButton(applicationContext, media_route_button)
+        initChromecast()
     }
 
     override fun onSessionStarting() {
@@ -31,7 +31,13 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
     }
 
     override fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {
-        // this should already exist. TODO: defer setChannel from creation
-        val chromeCastYouTubePlayer = ChromecastYouTubePlayer(communicationChannelChromecast, YouTubePlayerInitListener { it.addListener(MyYouTubePlayerListener(it)) })
+        chromeCastYouTubePlayer.initialize(communicationChannelChromecast)
+    }
+
+    private fun initChromecast() {
+        val chromecastManager = ChromecastManager(this, this)
+        lifecycle.addObserver(chromecastManager)
+
+        CastButtonFactory.setUpMediaRouteButton(applicationContext, media_route_button)
     }
 }

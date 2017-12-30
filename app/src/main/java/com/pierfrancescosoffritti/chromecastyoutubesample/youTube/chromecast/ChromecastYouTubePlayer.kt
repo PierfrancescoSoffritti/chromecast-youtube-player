@@ -6,15 +6,19 @@ import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastC
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
 // can't have an init method as in YouTubePlayerView, because communication is initialized by cast framework
-class ChromecastYouTubePlayer(private val chromecastCommunicationChannel: ChromecastCommunicationChannel, private val youTubePlayerInitListener: YouTubePlayerInitListener) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
+class ChromecastYouTubePlayer(private val youTubePlayerInitListener: YouTubePlayerInitListener) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 
+    private lateinit var chromecastCommunicationChannel: ChromecastCommunicationChannel
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
     private val playerStateTracker = PlayerStateTracker()
 
     init {
         youTubePlayerListeners.clear()
         youTubePlayerListeners.add(playerStateTracker)
+    }
 
+    fun initialize(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+        this.chromecastCommunicationChannel = chromecastCommunicationChannel
         chromecastCommunicationChannel.addObserver(ChromecastYouTubeMessageDispatcher(YouTubePlayerBridge(this)))
     }
 
