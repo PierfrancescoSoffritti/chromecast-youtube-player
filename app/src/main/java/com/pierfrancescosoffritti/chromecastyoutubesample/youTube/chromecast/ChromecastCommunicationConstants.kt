@@ -1,6 +1,6 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
+package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast
 
-object Constants {
+object ChromecastCommunicationConstants {
     // receiver to sender
     val IFRAME_API_READY = "IFRAME_API_READY"
     val READY = "READY"

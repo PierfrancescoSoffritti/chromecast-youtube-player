@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample
+package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast
 
 import android.content.Context
 import com.google.android.gms.cast.framework.CastOptions
