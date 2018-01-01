@@ -1,4 +1,6 @@
-function CustomChannel() {
+import YouTubeMessage from "./YouTubeMessage.js";
+
+function CustomChannel(namespace) {
     // const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication";    
     const context = cast.framework.CastReceiverContext.getInstance();
 
@@ -28,3 +30,5 @@ function CustomChannel() {
         sendMessage: sendMessage
     }
 }
+
+export default CustomChannel;

@@ -1,13 +1,13 @@
-function YouTubePlayerRemoteBridge() {
+import YouTubeMessage from "./YouTubeMessage.js";
 
-    const channel = new CustomChannel();
+function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel) {
 
     function sendYouTubeIframeAPIReady() {
-        channel.sendMessage(new YouTubeMessage(CommunicationConstants.IFRAME_API_READY))
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.IFRAME_API_READY))
     }
 
     function sendReady() {
-        channel.sendMessage(new YouTubeMessage(CommunicationConstants.READY))
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.READY))
     }
 
     function sendPlayerStateChange(data) {
@@ -65,3 +65,5 @@ function YouTubePlayerRemoteBridge() {
         sendVideoId: sendVideoId
     }
 }
+
+export default YouTubePlayerRemoteBridge;

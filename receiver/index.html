@@ -1,19 +1,19 @@
 <html>
     <head>
         <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
-        <!-- <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script> -->
         
-        <script type="text/javascript" src="./YouTubeMessage.js"></script>
+        <script type="module" src="./main.js"></script>
 
-        <script type="text/javascript" src="./CustomChannel.js"></script>
-        <script type="text/javascript" src="./YouTubePlayerRemoteBridge.js"></script>
-        <script type="text/javascript" src="./SenderMessagesDispatcher.js"></script>
-        <script type="text/javascript" src="./youTubePlayer.js"></script>
-        <script type="text/javascript" src="./main.js"></script>
+        <script>
+            // called automatically by the IFrame APIs
+            function onYouTubeIframeAPIReady() {
+                window.main_onYouTubeIframeAPIReady();
+            }
+        </script>
 
         <link rel="stylesheet" href="./styles.css"> 
 
-        <title>ChromeCastYouTubeSample</title>
+        <title>ChromecastYouTubeSample</title>
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     </head>

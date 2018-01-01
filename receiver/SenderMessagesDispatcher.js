@@ -1,20 +1,15 @@
-function SenderMessagesDispatcher() {
-
-    let callbacks;
-
-    function setCallbacks(c) {
-        callbacks = c;
-    }
+function SenderMessagesDispatcher(communicationConstants, callbacks) {
 
     function onMessage(event) {
         console.log(event.data)
 
-        if(event.data.command === CommunicationConstants.LOAD)
+        if(event.data.command === communicationConstants.LOAD)
             callbacks.loadVideo(event.data.videoId, Number(event.data.startSeconds))
     }
 
     return {
-        setCallbacks,
         onMessage
     }
 }
+
+export default SenderMessagesDispatcher;
