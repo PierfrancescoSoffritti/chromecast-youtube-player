@@ -1,5 +1,13 @@
-function YouTubeMessage(type="", data = "") {
+export function YouTubeMessage(type="", data = "") {
     return { type, data }
 }
 
-export default YouTubeMessage;
+export function isMessagePoperlyFormatted(message) {
+    const sampleMessage = new YouTubeMessage();
+
+    for (const key in sampleMessage) 
+        if (!data.hasOwnProperty(key))
+            return false;
+
+    return true;
+}

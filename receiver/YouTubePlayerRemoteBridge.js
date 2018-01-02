@@ -1,4 +1,4 @@
-import YouTubeMessage from "./YouTubeMessage.js";
+import { YouTubeMessage } from "./YouTubeMessage.js";
 
 function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel) {
 
