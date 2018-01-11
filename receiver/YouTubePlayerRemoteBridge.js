@@ -10,54 +10,54 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
         communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.READY))
     }
 
-    function sendPlaybackQualityChange(data) {
-
-    }
-
-    function sendPlaybackRateChange(data) {
-
-    }
-
-    function sendError(data) {
-
-    }
-
-    function sendApiChange() {
-
-    }
-
-    function sendVideoCurrentTime(data) {
-
-    }
-
-    function sendVideoDuration(data) {
-
-    }
-
     function sendStateChange(data) {
         communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.STATE_CHANGED, data))
     }
 
-    function sendMessage(data) {
-
+    function sendPlaybackQualityChange(data) {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.PLAYBACK_QUALITY_CHANGED, data))
     }
 
+    function sendPlaybackRateChange(data) {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.PLAYBACK_RATE_CHANGED, data))
+    }
+
+    function sendError(data) {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.ERROR, data))
+    }
+
+    function sendApiChange() {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.API_CHANGED))
+    }
+
+    function sendVideoCurrentTime(data) {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.VIDEO_CURRENT_TIME, data))
+    }
+
+    function sendVideoDuration(data) {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.VIDEO_DURATION, data))
+    }
+    
     function sendVideoId(data) {
-        
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.VIDEO_ID, data))
+    }
+
+    function sendMessage(data) {
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.MESSAGE, data))
     }
 
     return {
         sendYouTubeIframeAPIReady: sendYouTubeIframeAPIReady,
         sendReady: sendReady,
+        sendStateChange: sendStateChange,
         sendPlaybackQualityChange: sendPlaybackQualityChange,
         sendPlaybackRateChange: sendPlaybackRateChange,
         sendError: sendError,
         sendApiChange: sendApiChange,
         sendVideoCurrentTime: sendVideoCurrentTime,
         sendVideoDuration: sendVideoDuration,
-        sendStateChange: sendStateChange,
-        sendMessage: sendMessage,
-        sendVideoId: sendVideoId
+        sendVideoId: sendVideoId,
+        sendMessage: sendMessage
     }
 }
 

@@ -16,6 +16,14 @@ class ChromecastYouTubeMessageDispatcher(private val bridge: YouTubePlayerBridge
             ChromecastCommunicationConstants.IFRAME_API_READY -> bridge.sendYouTubeIframeAPIReady()
             ChromecastCommunicationConstants.READY -> bridge.sendReady()
             ChromecastCommunicationConstants.STATE_CHANGED -> bridge.sendStateChange(message.data)
+            ChromecastCommunicationConstants.PLAYBACK_QUALITY_CHANGED -> bridge.sendPlaybackQualityChange(message.data)
+            ChromecastCommunicationConstants.PLAYBACK_RATE_CHANGED -> bridge.sendPlaybackRateChange(message.data)
+            ChromecastCommunicationConstants.ERROR -> bridge.sendError(message.data)
+            ChromecastCommunicationConstants.API_CHANGED -> bridge.sendApiChange()
+            ChromecastCommunicationConstants.VIDEO_CURRENT_TIME -> bridge.sendVideoCurrentTime(message.data)
+            ChromecastCommunicationConstants.VIDEO_DURATION -> bridge.sendVideoDuration(message.data)
+            ChromecastCommunicationConstants.VIDEO_ID -> bridge.sendVideoId(message.data)
+            ChromecastCommunicationConstants.MESSAGE -> bridge.sendMessage(message.data)
         }
     }
 }

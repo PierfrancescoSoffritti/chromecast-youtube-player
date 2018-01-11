@@ -14,7 +14,7 @@ class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTub
     }
 
     override fun onCurrentSecond(second: Float) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(javaClass.simpleName, "current second: " +second)
     }
 
     override fun onReady() {

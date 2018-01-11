@@ -11,6 +11,14 @@ object ChromecastCommunicationConstants {
     val IFRAME_API_READY = "IFRAME_API_READY"
     val READY = "READY"
     val STATE_CHANGED = "STATE_CHANGED"
+    val PLAYBACK_QUALITY_CHANGED = "PLAYBACK_QUALITY_CHANGED"
+    val PLAYBACK_RATE_CHANGED = "PLAYBACK_RATE_CHANGED"
+    val ERROR = "ERROR"
+    val API_CHANGED = "API_CHANGED"
+    val VIDEO_CURRENT_TIME = "VIDEO_CURRENT_TIME"
+    val VIDEO_DURATION = "VIDEO_DURATION"
+    val VIDEO_ID = "VIDEO_ID"
+    val MESSAGE = "MESSAGE"
 
     // sender to receiver
     val LOAD = "LOAD"
