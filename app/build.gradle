@@ -34,7 +34,6 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
 
     implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support:mediarouter-v7:27.0.2'
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
