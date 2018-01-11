@@ -43,9 +43,19 @@ class ChromecastYouTubePlayer() : YouTubePlayer, YouTubePlayerBridge.YouTubePlay
     }
 
     override fun play() {
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.PLAY
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun pause() {
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.PAUSE
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun mute() {

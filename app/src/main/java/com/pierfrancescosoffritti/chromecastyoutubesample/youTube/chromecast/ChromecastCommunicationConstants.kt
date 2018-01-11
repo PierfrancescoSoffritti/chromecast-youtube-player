@@ -22,12 +22,26 @@ object ChromecastCommunicationConstants {
 
     // sender to receiver
     val LOAD = "LOAD"
+    val PLAY = "PLAY"
+    val PAUSE = "PAUSE"
 
     fun asJson() : JsonObject {
         return jsonObject(
                 IFRAME_API_READY to IFRAME_API_READY,
                 READY to READY,
-                LOAD to LOAD
+                STATE_CHANGED to STATE_CHANGED,
+                PLAYBACK_QUALITY_CHANGED to PLAYBACK_QUALITY_CHANGED,
+                PLAYBACK_RATE_CHANGED to PLAYBACK_RATE_CHANGED,
+                ERROR to ERROR,
+                API_CHANGED to API_CHANGED,
+                VIDEO_CURRENT_TIME to VIDEO_CURRENT_TIME,
+                VIDEO_DURATION to VIDEO_DURATION,
+                VIDEO_ID to VIDEO_ID,
+                MESSAGE to MESSAGE,
+
+                LOAD to LOAD,
+                PLAY to PLAY,
+                PAUSE to PAUSE
         )
     }
 }

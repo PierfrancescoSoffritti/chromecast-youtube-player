@@ -22,6 +22,13 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         chromeCastYouTubePlayer = ChromecastYouTubePlayer()
 
         initChromecast()
+
+        initUI()
+    }
+
+    private fun initUI() {
+        play_button.setOnClickListener({chromeCastYouTubePlayer.play()})
+        pause_button.setOnClickListener({chromeCastYouTubePlayer.pause()})
     }
 
     override fun onSessionStarting() {

@@ -5,12 +5,13 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
 class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTubePlayerListener {
-    override fun onPlaybackQualityChange(playbackQuality: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override fun onPlaybackQualityChange(playbackQuality: String) {
+        Log.d(javaClass.simpleName, "onPlaybackQualityChange: " +playbackQuality)
     }
 
     override fun onVideoDuration(duration: Float) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(javaClass.simpleName, "onVideoDuration: " +duration)
     }
 
     override fun onCurrentSecond(second: Float) {
@@ -22,16 +23,16 @@ class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTub
         youTubePlayer.loadVideo("6JYIGclVQdw", 0f)
     }
 
-    override fun onPlaybackRateChange(playbackRate: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onPlaybackRateChange(playbackRate: String) {
+        Log.d(javaClass.simpleName, "onPlaybackRateChange: " +playbackRate)
     }
 
-    override fun onVideoId(videoId: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onVideoId(videoId: String) {
+        Log.d(javaClass.simpleName, "video Id: " +videoId)
     }
 
     override fun onApiChange() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(javaClass.simpleName, "onApiChange")
     }
 
     override fun onMessage(log: String?) {
