@@ -43,6 +43,6 @@ class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTub
     }
 
     override fun onStateChange(state: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(javaClass.simpleName, "state changed: " +state)
     }
 }

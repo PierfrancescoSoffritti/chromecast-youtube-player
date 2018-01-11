@@ -6,7 +6,7 @@ export function isMessagePoperlyFormatted(message) {
     const sampleMessage = new YouTubeMessage();
 
     for (const key in sampleMessage) 
-        if (!data.hasOwnProperty(key))
+        if (!message.hasOwnProperty(key))
             return false;
 
     return true;

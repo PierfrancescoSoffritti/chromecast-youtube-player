@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
     }
 
     override fun onSessionStarting() {
-
+        // update UI
     }
 
     override fun onSessionEnding() {
-
+        // update UI
     }
 
     override fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {

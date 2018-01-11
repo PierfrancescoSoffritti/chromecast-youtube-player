@@ -10,10 +10,6 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
         communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.READY))
     }
 
-    function sendPlayerStateChange(data) {
-
-    }
-
     function sendPlaybackQualityChange(data) {
 
     }
@@ -39,7 +35,7 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
     }
 
     function sendStateChange(data) {
-        
+        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.STATE_CHANGED, data))
     }
 
     function sendMessage(data) {
@@ -53,7 +49,6 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
     return {
         sendYouTubeIframeAPIReady: sendYouTubeIframeAPIReady,
         sendReady: sendReady,
-        sendPlayerStateChange: sendPlayerStateChange,
         sendPlaybackQualityChange: sendPlaybackQualityChange,
         sendPlaybackRateChange: sendPlaybackRateChange,
         sendError: sendError,
