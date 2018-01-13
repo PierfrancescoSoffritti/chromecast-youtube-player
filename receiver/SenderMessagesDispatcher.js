@@ -9,6 +9,15 @@ function SenderMessagesDispatcher(communicationConstants, callbacks) {
             callbacks.playVideo()
         else if(event.data.command === communicationConstants.PAUSE)
             callbacks.pauseVideo()
+        
+        else if(event.data.command === communicationConstants.MUTE)
+            callbacks.mute()
+        else if(event.data.command === communicationConstants.UNMUTE)
+            callbacks.unMute()
+        else if(event.data.command === communicationConstants.SET_VOLUME)
+            callbacks.setVolume(Number(event.data.volumePercent))
+        else if(event.data.command === communicationConstants.SEEK_TO)
+            callbacks.seekTo(Number(event.data.time))
     }
 
     return {

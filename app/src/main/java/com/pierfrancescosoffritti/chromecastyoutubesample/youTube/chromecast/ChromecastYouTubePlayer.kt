@@ -59,15 +59,37 @@ class ChromecastYouTubePlayer() : YouTubePlayer, YouTubePlayerBridge.YouTubePlay
     }
 
     override fun mute() {
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.MUTE
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun unMute() {
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.UNMUTE
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun setVolume(volumePercent: Int) {
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.SET_VOLUME,
+                "volumePercent" to volumePercent
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun seekTo(time: Int) {
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.SEEK_TO,
+                "time" to time
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     override fun getCurrentState(): Int = playerStateTracker.currentState

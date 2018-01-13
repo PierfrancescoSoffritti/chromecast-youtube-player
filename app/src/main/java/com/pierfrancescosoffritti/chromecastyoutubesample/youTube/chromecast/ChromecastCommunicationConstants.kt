@@ -24,6 +24,10 @@ object ChromecastCommunicationConstants {
     val LOAD = "LOAD"
     val PLAY = "PLAY"
     val PAUSE = "PAUSE"
+    val MUTE = "MUTE"
+    val UNMUTE = "UNMUTE"
+    val SET_VOLUME = "SET_VOLUME"
+    val SEEK_TO = "SEEK_TO"
 
     fun asJson() : JsonObject {
         return jsonObject(
@@ -41,7 +45,11 @@ object ChromecastCommunicationConstants {
 
                 LOAD to LOAD,
                 PLAY to PLAY,
-                PAUSE to PAUSE
+                PAUSE to PAUSE,
+                MUTE to MUTE,
+                UNMUTE to UNMUTE,
+                SET_VOLUME to SET_VOLUME,
+                SEEK_TO to SEEK_TO
         )
     }
 }
