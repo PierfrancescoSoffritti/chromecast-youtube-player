@@ -1,23 +1,28 @@
-function SenderMessagesDispatcher(communicationConstants, callbacks) {
+const INIT_COMMUNICATION_CONSTANTS = "INIT_COMMUNICATION_CONSTANTS";
 
-    function onMessage(event) {
-        console.log(event.data)
+function SenderMessagesDispatcher(communicationConstants, callbacks, initMessageReceived) {
 
-        if(event.data.command === communicationConstants.LOAD)
-            callbacks.loadVideo(event.data.videoId, Number(event.data.startSeconds))
-        else if(event.data.command === communicationConstants.PLAY)
+    function onMessage(message) {
+        console.log(message.data)
+
+        if(message.data.command === INIT_COMMUNICATION_CONSTANTS)    
+            callbacks.onInitMessageReceived(message.data.communicationConstants);
+            
+        else if(message.data.command === communicationConstants.LOAD)
+            callbacks.loadVideo(message.data.videoId, Number(message.data.startSeconds))
+        else if(message.data.command === communicationConstants.PLAY)
             callbacks.playVideo()
-        else if(event.data.command === communicationConstants.PAUSE)
+        else if(message.data.command === communicationConstants.PAUSE)
             callbacks.pauseVideo()
         
-        else if(event.data.command === communicationConstants.MUTE)
+        else if(message.data.command === communicationConstants.MUTE)
             callbacks.mute()
-        else if(event.data.command === communicationConstants.UNMUTE)
+        else if(message.data.command === communicationConstants.UNMUTE)
             callbacks.unMute()
-        else if(event.data.command === communicationConstants.SET_VOLUME)
-            callbacks.setVolume(Number(event.data.volumePercent))
-        else if(event.data.command === communicationConstants.SEEK_TO)
-            callbacks.seekTo(Number(event.data.time))
+        else if(message.data.command === communicationConstants.SET_VOLUME)
+            callbacks.setVolume(Number(message.data.volumePercent))
+        else if(message.data.command === communicationConstants.SEEK_TO)
+            callbacks.seekTo(Number(message.data.time))
     }
 
     return {

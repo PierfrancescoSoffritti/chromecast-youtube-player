@@ -9,22 +9,27 @@ const context = cast.framework.CastReceiverContext.getInstance();
 
 const communicationChannel = new CustomChannel(namespace);
 const youTubePlayer = new YouTubePlayer(communicationConstants, communicationChannel);
-const senderMessagesDispatcher = new SenderMessagesDispatcher(communicationConstants, youTubePlayer.getActions());
+const senderMessagesDispatcher = new SenderMessagesDispatcher(communicationConstants, { ...youTubePlayer.getActions(), onInitMessageReceived });
 
-context.addCustomMessageListener(namespace, initCommunications);
+let receiverReady = false;
+
+context.addCustomMessageListener(namespace, senderMessagesDispatcher.onMessage);
 context.start();
 
-function initCommunications(event) {
-    console.log("INIT MESSAGE RECEIVED!!");
+// context.addEventListener(cast.framework.system.EventType.SENDER_CONNECTED, () => {
+// })
 
-    initializeCommunicationConstants(event);
-    loadYouTubeIFrameAPIs();
-    setupSenderMessagesDispatcher();
+function onInitMessageReceived(parsedCommunicationConstants) {
+    if(!receiverReady) {
+        initCommunicationConstants(parsedCommunicationConstants);
+        loadYouTubeIFrameAPIs();
+    } else
+        youTubePlayer.restoreCommunication();
 }
 
-function initializeCommunicationConstants(event) {
-    for (let key in event.data)
-        communicationConstants[key] = event.data[key];
+function initCommunicationConstants(parsedCommunicationConstants) {
+    for (let key in parsedCommunicationConstants)
+        communicationConstants[key] = parsedCommunicationConstants[key];
 }
 
 function loadYouTubeIFrameAPIs() {
@@ -33,13 +38,9 @@ function loadYouTubeIFrameAPIs() {
     document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-function setupSenderMessagesDispatcher() {
-    context.removeCustomMessageListener(namespace, initCommunications);
-    context.addCustomMessageListener(namespace, senderMessagesDispatcher.onMessage);
-}
-
 // called automatically by the IFrame APIs
 function onYouTubeIframeAPIReady() {
+    receiverReady = true;
     youTubePlayer.initialize();
 }
 
