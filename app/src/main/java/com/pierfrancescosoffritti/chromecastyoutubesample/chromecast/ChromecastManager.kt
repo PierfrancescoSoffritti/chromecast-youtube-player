@@ -4,9 +4,11 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
+import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastYouTubeIOChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastCommunicationConstants
 
@@ -15,23 +17,30 @@ class ChromecastManager(context: Context, private val chromecastContainer: Chrom
     private val chromecastCommunicationChannel: ChromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener: CastSessionManagerListener = CastSessionManagerListener(this)
 
-    fun onSessionStarting() = chromecastContainer.onSessionStarting()
-    fun onSessionEnding() = chromecastContainer.onSessionEnding()
-    fun onSessionStarted(castSession: CastSession) {
+    fun onApplicationConnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
         castSession.setMessageReceivedCallbacks(chromecastCommunicationChannel.namespace, chromecastCommunicationChannel)
 
         sendCommunicationConstants(chromecastCommunicationChannel)
-        chromecastContainer.setCommunicationChannel(chromecastCommunicationChannel)
+
+        chromecastContainer.onApplicationConnected(chromecastCommunicationChannel)
     }
 
-    fun onSessionResuming(castSession: CastSession) {
-        chromecastContainer.onSessionResuming()
+    fun onApplicationDisconnected(castSession: CastSession) {
+        castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
+
+        chromecastContainer.onApplicationDisconnected()
     }
 
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         val communicationConstants = ChromecastCommunicationConstants.asJson()
-        chromecastCommunicationChannel.sendMessage(communicationConstants.toString())
+
+        val message: JsonObject = jsonObject(
+                "command" to ChromecastCommunicationConstants.INIT_COMMUNICATION_CONSTANTS,
+                "communicationConstants" to communicationConstants
+        )
+
+        chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

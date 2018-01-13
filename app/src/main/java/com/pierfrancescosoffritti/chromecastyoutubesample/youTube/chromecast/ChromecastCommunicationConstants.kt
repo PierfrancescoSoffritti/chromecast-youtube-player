@@ -8,6 +8,8 @@ import com.google.gson.JsonObject
  */
 object ChromecastCommunicationConstants {
     // receiver to sender
+    val INIT_COMMUNICATION_CONSTANTS = "INIT_COMMUNICATION_CONSTANTS"
+
     val IFRAME_API_READY = "IFRAME_API_READY"
     val READY = "READY"
     val STATE_CHANGED = "STATE_CHANGED"

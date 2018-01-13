@@ -20,7 +20,6 @@ import android.view.ContextThemeWrapper
 
 
 class MainActivity : AppCompatActivity(), ChromecastContainer {
-
     private lateinit var chromeCastYouTubePlayer : ChromecastYouTubePlayer
     private lateinit var mediaRouterButton : MediaRouteButton
 
@@ -33,12 +32,9 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         mediaRouterButton = initChromecast()
     }
 
-    override fun onSessionResuming() {
-        Log.d(javaClass.simpleName, "resuming")
-        onSessionStarting()
-    }
+    override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+        setCommunicationChannel(chromecastCommunicationChannel)
 
-    override fun onSessionStarting() {
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.black)
 
         youtube_player_view.playerUIController.removeView(mediaRouterButton)
@@ -48,7 +44,7 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         chromecast_controls.visibility = View.VISIBLE
     }
 
-    override fun onSessionEnding() {
+    override fun onApplicationDisconnected() {
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
 
         chromecast_controls.removeView(mediaRouterButton)
@@ -58,7 +54,7 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         chromecast_controls.visibility = View.GONE
     }
 
-    override fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {
+    private fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {
         chromeCastYouTubePlayer.initialize(communicationChannelChromecast, YouTubePlayerInitListener { it.addListener(MyYouTubePlayerListener(it)) })
     }
 

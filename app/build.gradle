@@ -36,9 +36,9 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support:mediarouter-v7:27.0.2'
 
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-
     implementation 'com.google.android.gms:play-services-cast-framework:11.8.0'
+
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     implementation 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:4.1.1-dev'

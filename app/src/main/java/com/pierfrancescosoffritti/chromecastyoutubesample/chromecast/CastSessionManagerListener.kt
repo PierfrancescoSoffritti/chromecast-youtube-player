@@ -5,26 +5,16 @@ import com.google.android.gms.cast.framework.*
 
 // TODO: consider passing an interface instead of the class ChromecastManager
 class CastSessionManagerListener(private val chromecastManager: ChromecastManager) : SessionManagerListener<CastSession> {
-    override fun onSessionSuspended(castSession: CastSession, p1: Int) { Log.d(javaClass.simpleName, "session suspended") }
-    override fun onSessionResumeFailed(castSession: CastSession, p1: Int) {}
-    override fun onSessionStartFailed(castSession: CastSession, p1: Int) {}
 
+    override fun onSessionStarting(p0: CastSession?) { Log.d(javaClass.simpleName, "session starting, NOP") }
+    override fun onSessionEnding(castSession: CastSession) { Log.d(javaClass.simpleName, "session ending, NOP") }
+    override fun onSessionResuming(castSession: CastSession, p1: String) { Log.d(javaClass.simpleName, "session resuming, NOP") }
+    override fun onSessionSuspended(castSession: CastSession, p1: Int) { Log.d(javaClass.simpleName, "session suspended, NOP") }
 
-    override fun onSessionStarting(castSession: CastSession) = chromecastManager.onSessionStarting()
-    override fun onSessionStarted(castSession: CastSession, sessionId: String) = chromecastManager.onSessionStarted(castSession)
-    override fun onSessionResuming(castSession: CastSession, p1: String) = chromecastManager.onSessionResuming(castSession)
-    override fun onSessionEnding(castSession: CastSession) = chromecastManager.onSessionEnding()
+    override fun onSessionEnded(castSession: CastSession, error: Int) = chromecastManager.onApplicationDisconnected(castSession)
+    override fun onSessionResumed(castSession: CastSession, wasSuspended: Boolean) = chromecastManager.onApplicationConnected(castSession)
+    override fun onSessionResumeFailed(castSession: CastSession, p1: Int) = chromecastManager.onApplicationDisconnected(castSession)
+    override fun onSessionStarted(castSession: CastSession, sessionId: String) = chromecastManager.onApplicationConnected(castSession)
+    override fun onSessionStartFailed(castSession: CastSession, p1: Int) = chromecastManager.onApplicationConnected(castSession)
 
-//    override fun onSessionStarting(castSession: CastSession) { Log.d(javaClass.simpleName, "session starting") }
-//    override fun onSessionStarted(castSession: CastSession, sessionId: String) { Log.d(javaClass.simpleName, "session started") }
-//    override fun onSessionResuming(castSession: CastSession, p1: String) { Log.d(javaClass.simpleName, "session resuming") }
-//    override fun onSessionEnding(castSession: CastSession) { Log.d(javaClass.simpleName, "session ending") }
-
-    override fun onSessionResumed(castSession: CastSession, wasSuspended: Boolean) {
-        Log.d(javaClass.simpleName, "session resumed")
-    }
-
-    override fun onSessionEnded(castSession: CastSession, error: Int) {
-        Log.d(javaClass.simpleName, "session ended")
-    }
 }
