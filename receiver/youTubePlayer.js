@@ -43,6 +43,10 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
         });
     }
 
+    function restoreCommunication() {
+        YouTubePlayerBridge.sendYouTubeIframeAPIReady();
+    }
+
     function sendPlayerStateChange(playerState) {
         var timerTaskId;
         clearTimeout(timerTaskId);
@@ -133,6 +137,7 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
     
     return {
         initialize,
+        restoreCommunication,
         getActions
     }
 }
