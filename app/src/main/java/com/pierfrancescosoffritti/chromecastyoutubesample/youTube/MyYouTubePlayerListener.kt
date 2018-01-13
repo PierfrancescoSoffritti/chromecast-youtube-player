@@ -15,7 +15,7 @@ class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTub
     }
 
     override fun onCurrentSecond(second: Float) {
-        Log.d(javaClass.simpleName, "current second: " +second)
+//        Log.d(javaClass.simpleName, "current second: " +second)
     }
 
     override fun onReady() {

@@ -1,0 +1,140 @@
+package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
+
+import android.support.constraint.ConstraintLayout
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.MediaRouteButton
+import android.util.Log
+import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.TextView
+import com.pierfrancescosoffritti.chromecastyoutubesample.R
+import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
+import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
+import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
+import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
+
+class ChromecastUIController(private val chromecast_controls: ConstraintLayout, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
+
+    private var isPlaying = false
+    private var showPlayPauseButton = true
+
+    private val progressBar = chromecast_controls.findViewById<View>(R.id.progress_bar)
+    private val playPauseButton = chromecast_controls.findViewById<ImageView>(R.id.play_pause_button)
+    private val currentTimeTextView = chromecast_controls.findViewById<TextView>(R.id.current_time_text_view)
+    private val totalTimeTextView = chromecast_controls.findViewById<TextView>(R.id.total_time_text_view)
+    private val seekBar = chromecast_controls.findViewById<SeekBar>(R.id.seek_bar)
+    private val youTubeButton = chromecast_controls.findViewById<ImageView>(R.id.youtube_button)
+
+    init {
+        seekBar.setOnSeekBarChangeListener(this)
+    }
+
+    override fun onStateChange(state: Int) {
+        newSeekBarProgress = -1
+
+        updateControlsState(state)
+
+        if (state == PlayerConstants.PlayerState.PLAYING || state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.VIDEO_CUED) {
+            progressBar.visibility = View.GONE
+
+            if (showPlayPauseButton) playPauseButton.visibility = View.VISIBLE
+
+            val playing = state == PlayerConstants.PlayerState.PLAYING
+            updatePlayPauseButtonIcon(playing)
+
+        } else {
+            updatePlayPauseButtonIcon(false)
+
+            if (state == PlayerConstants.PlayerState.BUFFERING)
+                if (showPlayPauseButton) playPauseButton.visibility = View.INVISIBLE
+
+            if (state == PlayerConstants.PlayerState.UNSTARTED) {
+                progressBar.visibility = View.GONE
+                if (showPlayPauseButton) playPauseButton.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun onVideoDuration(duration: Float) {
+        totalTimeTextView.text = Utils.formatTime(duration)
+        seekBar.max = duration.toInt()
+    }
+
+    override fun onCurrentSecond(second: Float) {
+        // ignore if the user is currently moving the SeekBar
+        if (seekBarTouchStarted)
+            return
+        // ignore if the current time is older than what the user selected with the SeekBar
+        if (newSeekBarProgress > 0 && Utils.formatTime(second) != Utils.formatTime(newSeekBarProgress.toFloat()))
+            return
+
+        newSeekBarProgress = -1
+
+        seekBar.progress = second.toInt()
+    }
+
+    // SeekBar callbacks
+
+    private var seekBarTouchStarted = false
+    // I need this variable because onCurrentSecond gets called every 100 mils, so without the proper checks on this variable in onCurrentSeconds the seek bar glitches when touched.
+    private var newSeekBarProgress = -1
+
+    override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+        currentTimeTextView.text = Utils.formatTime(i.toFloat())
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar) {
+        seekBarTouchStarted = true
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar) {
+        if (isPlaying)
+            newSeekBarProgress = seekBar.progress
+
+        youtubePlayer.seekTo(seekBar.progress)
+        seekBarTouchStarted = false
+    }
+
+    fun addMediaRouterButton(mediaRouterButton: MediaRouteButton) {
+        chromecast_controls.addView(mediaRouterButton)
+    }
+
+    fun removeMediaRouterButton(mediaRouterButton: MediaRouteButton) {
+        chromecast_controls.removeView(mediaRouterButton)
+    }
+
+    private fun updateControlsState(state: Int) {
+        when (state) {
+            PlayerConstants.PlayerState.ENDED -> isPlaying = false
+            PlayerConstants.PlayerState.PAUSED -> isPlaying = false
+            PlayerConstants.PlayerState.PLAYING -> isPlaying = true
+            PlayerConstants.PlayerState.UNSTARTED -> resetUI()
+            else -> {
+            }
+        }
+
+        updatePlayPauseButtonIcon(!isPlaying)
+    }
+
+    private fun resetUI() {
+        seekBar.progress = 0
+        seekBar.max = 0
+        totalTimeTextView.post({ totalTimeTextView.text = "" })
+        youTubeButton.setOnClickListener(null)
+    }
+
+    private fun updatePlayPauseButtonIcon(playing: Boolean) {
+        val img = if (playing) com.pierfrancescosoffritti.youtubeplayer.R.drawable.ic_pause_36dp else com.pierfrancescosoffritti.youtubeplayer.R.drawable.ic_play_36dp
+        playPauseButton.setImageResource(img)
+    }
+
+    override fun onReady() { }
+    override fun onPlaybackQualityChange(playbackQuality: String?) { }
+    override fun onPlaybackRateChange(playbackRate: String?) { }
+    override fun onVideoId(videoId: String?) { }
+    override fun onApiChange() { }
+    override fun onMessage(log: String?) { }
+    override fun onError(error: Int) { }
+}
