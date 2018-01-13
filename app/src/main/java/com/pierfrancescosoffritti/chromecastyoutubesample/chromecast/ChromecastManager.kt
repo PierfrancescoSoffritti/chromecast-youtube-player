@@ -25,6 +25,10 @@ class ChromecastManager(context: Context, private val chromecastContainer: Chrom
         chromecastContainer.setCommunicationChannel(chromecastCommunicationChannel)
     }
 
+    fun onSessionResuming(castSession: CastSession) {
+        chromecastContainer.onSessionResuming()
+    }
+
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         val communicationConstants = ChromecastCommunicationConstants.asJson()
         chromecastCommunicationChannel.sendMessage(communicationConstants.toString())
