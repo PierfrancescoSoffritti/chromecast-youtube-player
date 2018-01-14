@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
         initChromecast()
     }
 
+    fun onLocalPlayerReady() {
+        setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
+        youtube_player_view.playerUIController.addView(mediaRouterButton)
+    }
+
     override fun onApplicationConnecting() {
         youTubePlayersManager.onApplicationConnecting()
     }
@@ -65,10 +70,6 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
     private fun initMediaRouterButton() {
         mediaRouterButton = MediaRouteButton(this)
-
-        setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
-        youtube_player_view.playerUIController.addView(mediaRouterButton)
-
         CastButtonFactory.setUpMediaRouteButton(this, mediaRouterButton)
     }
 
