@@ -1,11 +1,10 @@
 package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
 
+import android.content.Intent
+import android.net.Uri
 import android.support.constraint.ConstraintLayout
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.MediaRouteButton
-import android.util.Log
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -29,6 +28,7 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
 
     init {
         seekBar.setOnSeekBarChangeListener(this)
+        playPauseButton.setOnClickListener({ onPlayButtonPressed() })
     }
 
     override fun onStateChange(state: Int) {
@@ -73,6 +73,13 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         newSeekBarProgress = -1
 
         seekBar.progress = second.toInt()
+    }
+
+    override fun onVideoId(videoId: String?) {
+        youTubeButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoId))
+            chromecast_controls.context.startActivity(intent)
+        }
     }
 
     // SeekBar callbacks
@@ -130,10 +137,16 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         playPauseButton.setImageResource(img)
     }
 
+    private fun onPlayButtonPressed() {
+        if (isPlaying)
+            youtubePlayer.pause()
+        else
+            youtubePlayer.play()
+    }
+
     override fun onReady() { }
     override fun onPlaybackQualityChange(playbackQuality: String?) { }
     override fun onPlaybackRateChange(playbackRate: String?) { }
-    override fun onVideoId(videoId: String?) { }
     override fun onApiChange() { }
     override fun onMessage(log: String?) { }
     override fun onError(error: Int) { }

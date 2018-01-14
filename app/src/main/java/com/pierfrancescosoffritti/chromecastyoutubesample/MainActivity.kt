@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.black)
 
         youtube_player_view.playerUIController.removeView(mediaRouterButton)
+        chromecastUIController.removeMediaRouterButton(mediaRouterButton)
         chromecastUIController.addMediaRouterButton(mediaRouterButton)
 
         youtube_player_view.visibility = View.GONE
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
     override fun onApplicationDisconnected() {
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
 
+        youtube_player_view.playerUIController.removeView(mediaRouterButton)
         chromecastUIController.removeMediaRouterButton(mediaRouterButton)
         youtube_player_view.playerUIController.addView(mediaRouterButton)
 
