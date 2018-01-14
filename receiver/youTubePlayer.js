@@ -11,6 +11,8 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
     const YouTubePlayerBridge = new YouTubePlayerRemoteBridge(communicationConstants, communicationChannel);
 
     let player;
+    let lastState;
+    let lastVideoId;
 
     function initialize() {        
         YouTubePlayerBridge.sendYouTubeIframeAPIReady();
@@ -45,10 +47,14 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
 
     function restoreCommunication() {
         YouTubePlayerBridge.sendYouTubeIframeAPIReady();
+        sendPlayerStateChange(lastState);
+        YouTubePlayerBridge.sendVideoId(lastVideoId);
     }
 
     function sendPlayerStateChange(playerState) {
-        var timerTaskId;
+        lastState = playerState;
+
+        let timerTaskId;
         clearTimeout(timerTaskId);
 
         switch (playerState) {
@@ -108,11 +114,15 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
     }
 
     function loadVideo(videoId, startSeconds) {
+        lastVideoId = videoId;
+
         player.loadVideoById(videoId, startSeconds);
         YouTubePlayerBridge.sendVideoId(videoId);
     }
 
     function cueVideo(videoId, startSeconds) {
+        lastVideoId = videoId;
+
         player.cueVideoById(videoId, startSeconds);
         YouTubePlayerBridge.sendVideoId(videoId);
     }

@@ -47,8 +47,10 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         } else {
             updatePlayPauseButtonIcon(false)
 
-            if (state == PlayerConstants.PlayerState.BUFFERING)
+            if (state == PlayerConstants.PlayerState.BUFFERING) {
                 if (showPlayPauseButton) playPauseButton.visibility = View.INVISIBLE
+                progressBar.visibility = View.VISIBLE
+            }
 
             if (state == PlayerConstants.PlayerState.UNSTARTED) {
                 progressBar.visibility = View.GONE

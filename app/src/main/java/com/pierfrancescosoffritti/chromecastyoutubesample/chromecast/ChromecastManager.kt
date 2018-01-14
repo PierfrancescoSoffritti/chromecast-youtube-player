@@ -12,7 +12,7 @@ import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastYouTubeIOChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastCommunicationConstants
 
-class ChromecastManager(context: Context, private val chromecastContainer: ChromecastContainer) : LifecycleObserver {
+class ChromecastManager(private val context: Context, private val chromecastContainer: ChromecastContainer) : LifecycleObserver {
     private val sessionManager: SessionManager = CastContext.getSharedInstance(context).sessionManager
     private val chromecastCommunicationChannel: ChromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener: CastSessionManagerListener = CastSessionManagerListener(this)
@@ -41,6 +41,13 @@ class ChromecastManager(context: Context, private val chromecastContainer: Chrom
         )
 
         chromecastCommunicationChannel.sendMessage(message.toString())
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun restoreSession() {
+        val currentCastSessions = CastContext.getSharedInstance(context).sessionManager.currentCastSession
+        if(currentCastSessions != null)
+            onApplicationConnected(currentCastSessions)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

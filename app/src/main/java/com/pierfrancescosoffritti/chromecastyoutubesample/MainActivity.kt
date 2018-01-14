@@ -15,6 +15,7 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 import kotlinx.android.synthetic.main.activity_main.*
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.util.Log
 import android.view.ContextThemeWrapper
 import com.google.android.gms.cast.framework.media.uicontroller.UIController
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.ChromecastUIController
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
     }
 
     override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+        Log.d(javaClass.simpleName, "onConnected")
+
         setCommunicationChannel(chromecastCommunicationChannel)
 
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.black)
@@ -48,6 +51,8 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
     }
 
     override fun onApplicationDisconnected() {
+        Log.d(javaClass.simpleName, "onDisconnected")
+
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
 
         youtube_player_view.playerUIController.removeView(mediaRouterButton)
@@ -101,16 +106,17 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         mediaRouterButton = MediaRouteButton(this)
 
         setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
-
         youtube_player_view.playerUIController.addView(mediaRouterButton)
-        CastButtonFactory.setUpMediaRouteButton(applicationContext, mediaRouterButton)
+
+        CastButtonFactory.setUpMediaRouteButton(this, mediaRouterButton)
     }
 
     private fun setMediaRouterButtonTint(mediaRouterButton: MediaRouteButton, color: Int) {
         val castContext = ContextThemeWrapper(this, android.support.v7.mediarouter.R.style.Theme_MediaRouter)
-        val a = castContext.obtainStyledAttributes(null, android.support.v7.mediarouter.R.styleable.MediaRouteButton, android.support.v7.mediarouter.R.attr.mediaRouteButtonStyle, 0)
-        val drawable = a.getDrawable(android.support.v7.mediarouter.R.styleable.MediaRouteButton_externalRouteEnabledDrawable)
-        a.recycle()
+        val styledAttributes = castContext.obtainStyledAttributes(null, android.support.v7.mediarouter.R.styleable.MediaRouteButton, android.support.v7.mediarouter.R.attr.mediaRouteButtonStyle, 0)
+        val drawable = styledAttributes.getDrawable(android.support.v7.mediarouter.R.styleable.MediaRouteButton_externalRouteEnabledDrawable)
+
+        styledAttributes.recycle()
         DrawableCompat.setTint(drawable, ContextCompat.getColor(this, color))
 
         mediaRouterButton.setRemoteIndicatorDrawable(drawable)
