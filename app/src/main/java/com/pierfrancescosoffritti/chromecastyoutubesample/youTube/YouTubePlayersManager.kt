@@ -1,11 +1,11 @@
 package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
 
-import android.view.View
 import com.pierfrancescosoffritti.chromecastyoutubesample.MainActivity
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,29 +14,32 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     private val chromeCastYouTubePlayer = ChromecastYouTubePlayer()
     val chromecastUIController = ChromecastUIController(mainActivity.chromecast_controls_root, chromeCastYouTubePlayer)
 
-    private lateinit var initializedLocalYouTubePlayer: YouTubePlayer
+//    private lateinit var initializedLocalYouTubePlayer: YouTubePlayer
 
-    private var currentSecond: Float = 0f
+//    private var currentSecond: Float = 0f
 
     init {
         initLocalYouTube()
     }
 
     override fun onApplicationConnecting() {
-        initializedLocalYouTubePlayer.pause()
+//        if(this::initializedLocalYouTubePlayer.isInitialized)
+//            initializedLocalYouTubePlayer.pause()
     }
 
     override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         initializeCastPlayer(chromecastCommunicationChannel)
-
-        mainActivity.youtube_player_view.visibility = View.GONE
-        mainActivity.chromecast_controls_root.visibility = View.VISIBLE
     }
 
     override fun onApplicationDisconnected() {
-
-        mainActivity.youtube_player_view.visibility = View.VISIBLE
-        mainActivity.chromecast_controls_root.visibility = View.GONE
+//        val lastVideoId = chromeCastYouTubePlayer.getLastVideoId()
+//        val currentTime = chromeCastYouTubePlayer.getCurrentTime()
+//
+//        when (chromeCastYouTubePlayer.currentState) {
+//            PlayerConstants.PlayerState.PLAYING -> initializedLocalYouTubePlayer.loadVideo(lastVideoId, currentTime)
+//            PlayerConstants.PlayerState.PAUSED -> initializedLocalYouTubePlayer.cueVideo(lastVideoId, currentTime)
+//            PlayerConstants.PlayerState.ENDED -> initializedLocalYouTubePlayer.cueVideo(lastVideoId, currentTime)
+//        }
     }
 
     private fun initLocalYouTube() {
@@ -44,7 +47,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
 
         mainActivity.youtube_player_view.initialize({ initializedYouTubePlayer ->
 
-            initializedLocalYouTubePlayer = initializedYouTubePlayer
+//            initializedLocalYouTubePlayer = initializedYouTubePlayer
 
             initializedYouTubePlayer.addListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady() {
@@ -56,7 +59,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
 
                 override fun onCurrentSecond(second: Float) {
                     super.onCurrentSecond(second)
-                    currentSecond = second
+//                    currentSecond = second
                 }
             })
 
@@ -72,7 +75,8 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
             chromeCastYouTubePlayer.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
                     super.onReady()
-                    chromeCastYouTubePlayer.loadVideo("6JYIGclVQdw", currentSecond)
+//                    chromeCastYouTubePlayer.loadVideo("6JYIGclVQdw", currentSecond)
+                    chromeCastYouTubePlayer.loadVideo("6JYIGclVQdw", 0f)
                 }
             })
         })
