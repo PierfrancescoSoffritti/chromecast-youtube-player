@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
 
         setCommunicationChannel(chromecastCommunicationChannel)
 
-        setMediaRouterButtonTint(mediaRouterButton, android.R.color.black)
+        setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
 
         youtube_player_view.playerUIController.removeView(mediaRouterButton)
         chromecastUIController.removeMediaRouterButton(mediaRouterButton)

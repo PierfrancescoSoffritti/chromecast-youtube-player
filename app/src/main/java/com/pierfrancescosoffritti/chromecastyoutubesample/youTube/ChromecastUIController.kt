@@ -5,6 +5,7 @@ import android.net.Uri
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.MediaRouteButton
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -26,6 +27,8 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
     private val seekBar = chromecast_controls.findViewById<SeekBar>(R.id.seek_bar)
     private val youTubeButton = chromecast_controls.findViewById<ImageView>(R.id.youtube_button)
 
+    private val castButtonContainer = chromecast_controls.findViewById<FrameLayout>(R.id.cast_button_container)
+
     init {
         seekBar.setOnSeekBarChangeListener(this)
         playPauseButton.setOnClickListener({ onPlayButtonPressed() })
@@ -37,7 +40,7 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         updateControlsState(state)
 
         if (state == PlayerConstants.PlayerState.PLAYING || state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.VIDEO_CUED) {
-            progressBar.visibility = View.GONE
+            progressBar.visibility = View.INVISIBLE
 
             if (showPlayPauseButton) playPauseButton.visibility = View.VISIBLE
 
@@ -53,7 +56,7 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
             }
 
             if (state == PlayerConstants.PlayerState.UNSTARTED) {
-                progressBar.visibility = View.GONE
+                progressBar.visibility = View.INVISIBLE
                 if (showPlayPauseButton) playPauseButton.visibility = View.VISIBLE
             }
         }
@@ -107,11 +110,11 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
     }
 
     fun addMediaRouterButton(mediaRouterButton: MediaRouteButton) {
-        chromecast_controls.addView(mediaRouterButton)
+        castButtonContainer.addView(mediaRouterButton)
     }
 
     fun removeMediaRouterButton(mediaRouterButton: MediaRouteButton) {
-        chromecast_controls.removeView(mediaRouterButton)
+        castButtonContainer.removeView(mediaRouterButton)
     }
 
     private fun updateControlsState(state: Int) {
