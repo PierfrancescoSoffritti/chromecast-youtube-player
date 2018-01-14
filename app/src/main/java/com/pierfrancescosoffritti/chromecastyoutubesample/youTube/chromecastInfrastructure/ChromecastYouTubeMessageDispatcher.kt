@@ -1,6 +1,5 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast
+package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure
 
-import android.util.Log
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.CastReceiverInputMessage
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerBridge

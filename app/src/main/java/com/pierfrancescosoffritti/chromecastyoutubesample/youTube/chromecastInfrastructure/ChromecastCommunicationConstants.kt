@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast
+package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure
 
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonObject

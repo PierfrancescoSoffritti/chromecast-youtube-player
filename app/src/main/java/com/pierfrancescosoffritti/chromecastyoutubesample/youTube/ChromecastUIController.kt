@@ -3,7 +3,6 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
 import android.content.Intent
 import android.net.Uri
 import android.support.constraint.ConstraintLayout
-import android.support.v7.app.MediaRouteButton
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -15,8 +14,7 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
-class ChromecastUIController(private val chromecast_controls: ConstraintLayout, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
-
+class ChromecastUIController(private val chromecast_controls: ConstraintLayout, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener, DumbPlayerUI() {
     private var isPlaying = false
     private var showPlayPauseButton = true
 
@@ -87,6 +85,14 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         }
     }
 
+    override fun addView(view: View) {
+        castButtonContainer.addView(view)
+    }
+
+    override fun removeView(view: View) {
+        castButtonContainer.removeView(view)
+    }
+
     // SeekBar callbacks
 
     private var seekBarTouchStarted = false
@@ -107,14 +113,6 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
 
         youtubePlayer.seekTo(seekBar.progress)
         seekBarTouchStarted = false
-    }
-
-    fun addMediaRouterButton(mediaRouterButton: MediaRouteButton) {
-        castButtonContainer.addView(mediaRouterButton)
-    }
-
-    fun removeMediaRouterButton(mediaRouterButton: MediaRouteButton) {
-        castButtonContainer.removeView(mediaRouterButton)
     }
 
     private fun updateControlsState(state: Int) {

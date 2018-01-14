@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast
+package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure
 
 import android.util.Log
 import com.google.android.gms.cast.CastDevice

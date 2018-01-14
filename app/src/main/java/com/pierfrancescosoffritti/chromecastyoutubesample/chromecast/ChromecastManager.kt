@@ -9,13 +9,17 @@ import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
 import com.google.gson.JsonObject
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastYouTubeIOChannel
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastCommunicationConstants
+import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure.ChromecastYouTubeIOChannel
+import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure.ChromecastCommunicationConstants
 
-class ChromecastManager(private val context: Context, private val chromecastContainer: ChromecastContainer) : LifecycleObserver {
+class ChromecastManager(private val context: Context, private val chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver {
     private val sessionManager: SessionManager = CastContext.getSharedInstance(context).sessionManager
     private val chromecastCommunicationChannel: ChromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener: CastSessionManagerListener = CastSessionManagerListener(this)
+
+    fun onApplicationConnecting() {
+        chromecastConnectionListener.onApplicationConnecting()
+    }
 
     fun onApplicationConnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
@@ -23,13 +27,13 @@ class ChromecastManager(private val context: Context, private val chromecastCont
 
         sendCommunicationConstants(chromecastCommunicationChannel)
 
-        chromecastContainer.onApplicationConnected(chromecastCommunicationChannel)
+        chromecastConnectionListener.onApplicationConnected(chromecastCommunicationChannel)
     }
 
     fun onApplicationDisconnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
 
-        chromecastContainer.onApplicationDisconnected()
+        chromecastConnectionListener.onApplicationDisconnected()
     }
 
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {

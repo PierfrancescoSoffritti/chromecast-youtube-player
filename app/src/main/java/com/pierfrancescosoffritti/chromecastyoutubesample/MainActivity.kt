@@ -2,28 +2,22 @@ package com.pierfrancescosoffritti.chromecastyoutubesample
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
-import android.view.View
-import com.google.android.gms.cast.framework.*
-import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastContainer
-import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
-import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastManager
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecast.ChromecastYouTubePlayer
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.MyYouTubePlayerListener
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
-import kotlinx.android.synthetic.main.activity_main.*
-import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.Log
 import android.view.ContextThemeWrapper
-import com.google.android.gms.cast.framework.media.uicontroller.UIController
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.ChromecastUIController
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastManager
+import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.YouTubePlayersManager
+import com.pierfrancescosoffritti.youtubeplayer.ui.PlayerUIController
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), ChromecastContainer {
-    private lateinit var chromeCastYouTubePlayer : ChromecastYouTubePlayer
-    private lateinit var chromecastUIController : ChromecastUIController
+class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
+    private lateinit var youTubePlayersManager: YouTubePlayersManager
 
     private lateinit var mediaRouterButton : MediaRouteButton
 
@@ -31,68 +25,35 @@ class MainActivity : AppCompatActivity(), ChromecastContainer {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initYouTubePlayers()
+        youTubePlayersManager = YouTubePlayersManager(this)
+
         initChromecast()
+    }
+
+    override fun onApplicationConnecting() {
+        youTubePlayersManager.onApplicationConnecting()
     }
 
     override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         Log.d(javaClass.simpleName, "onConnected")
 
-        setCommunicationChannel(chromecastCommunicationChannel)
+        youTubePlayersManager.onApplicationConnected(chromecastCommunicationChannel)
 
-        setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
-
-        youtube_player_view.playerUIController.removeView(mediaRouterButton)
-        chromecastUIController.removeMediaRouterButton(mediaRouterButton)
-        chromecastUIController.addMediaRouterButton(mediaRouterButton)
-
-        youtube_player_view.visibility = View.GONE
-        chromecast_controls_root.visibility = View.VISIBLE
+        setMediaRouterButton(mediaRouterButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
     }
 
     override fun onApplicationDisconnected() {
         Log.d(javaClass.simpleName, "onDisconnected")
 
-        setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
+        youTubePlayersManager.onApplicationDisconnected()
 
-        youtube_player_view.playerUIController.removeView(mediaRouterButton)
-        chromecastUIController.removeMediaRouterButton(mediaRouterButton)
-        youtube_player_view.playerUIController.addView(mediaRouterButton)
-
-        youtube_player_view.visibility = View.VISIBLE
-        chromecast_controls_root.visibility = View.GONE
+        setMediaRouterButton(mediaRouterButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
     }
 
-    private fun setCommunicationChannel(communicationChannelChromecast: ChromecastCommunicationChannel) {
-        chromeCastYouTubePlayer.initialize(communicationChannelChromecast, YouTubePlayerInitListener {
-            chromeCastYouTubePlayer.addListener(MyYouTubePlayerListener(chromeCastYouTubePlayer))
-            chromeCastYouTubePlayer.addListener(chromecastUIController)
-        })
-    }
-
-    private fun initYouTubePlayers() {
-        initChromecastYouTubePlayer()
-        initLocalYouTube()
-    }
-
-    private fun initChromecastYouTubePlayer() {
-        chromeCastYouTubePlayer = ChromecastYouTubePlayer()
-        chromecastUIController = ChromecastUIController(chromecast_controls_root, chromeCastYouTubePlayer)
-    }
-
-    private fun initLocalYouTube() {
-        this.lifecycle.addObserver(youtube_player_view)
-
-        youtube_player_view.initialize({ youTubePlayer ->
-
-            youTubePlayer.addListener(object : AbstractYouTubePlayerListener() {
-                override fun onReady() {
-                    val videoId = "6JYIGclVQdw"
-                    youTubePlayer.loadVideo(videoId, 0f)
-                }
-            })
-
-        }, true)
+    private fun setMediaRouterButton(mediaRouterButton: MediaRouteButton, tintColor: Int, playerUIControllerStart: PlayerUIController, playerUIControllerEnd: PlayerUIController) {
+        setMediaRouterButtonTint(mediaRouterButton, tintColor)
+        playerUIControllerStart.removeView(mediaRouterButton)
+        playerUIControllerEnd.addView(mediaRouterButton)
     }
 
     private fun initChromecast() {

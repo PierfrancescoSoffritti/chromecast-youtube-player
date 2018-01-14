@@ -4,7 +4,7 @@ import android.util.Log
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
-class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTubePlayerListener {
+class LoggerYouTubePlayerListener : YouTubePlayerListener {
 
     override fun onPlaybackQualityChange(playbackQuality: String) {
         Log.d(javaClass.simpleName, "onPlaybackQualityChange: " +playbackQuality)
@@ -20,7 +20,6 @@ class MyYouTubePlayerListener(private val youTubePlayer: YouTubePlayer) : YouTub
 
     override fun onReady() {
         Log.d("listener", "ready")
-        youTubePlayer.loadVideo("6JYIGclVQdw", 0f)
     }
 
     override fun onPlaybackRateChange(playbackRate: String) {
