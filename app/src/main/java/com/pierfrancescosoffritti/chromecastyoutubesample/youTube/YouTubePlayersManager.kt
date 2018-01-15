@@ -17,14 +17,13 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
 
     private var playingRemotely = false
 
-    private lateinit var localYouTubePlayerBehaviour: LocalPlaybackBehaviour
+    private val localYouTubePlayerBehaviour = LocalPlaybackBehaviour()
 
     init {
         initLocalYouTube()
     }
 
     override fun onApplicationConnecting() {
-        // how to be sure than this is initialized at this point?
         localYouTubePlayerBehaviour.onApplicationConnecting()
     }
 
@@ -35,7 +34,6 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     }
 
     override fun onApplicationDisconnected() {
-        // how to be sure than this is initialized at this point?
         localYouTubePlayerBehaviour.onApplicationDisconnected(chromeCastYouTubePlayer.currentState, lastVideoId, currentSecond)
 
         playingRemotely = false
@@ -46,7 +44,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
 
         mainActivity.youtube_player_view.initialize({ initializedYouTubePlayer ->
 
-            localYouTubePlayerBehaviour = LocalPlaybackBehaviour(initializedYouTubePlayer)
+            localYouTubePlayerBehaviour.youTubePlayer = initializedYouTubePlayer
 
             initializedYouTubePlayer.addListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady() {
