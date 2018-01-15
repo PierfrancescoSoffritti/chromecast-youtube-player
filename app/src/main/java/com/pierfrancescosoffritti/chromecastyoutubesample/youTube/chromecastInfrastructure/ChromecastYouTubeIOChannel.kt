@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.framework.SessionManager
 import com.google.gson.Gson
-import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.CastReceiverInputMessage
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.CastMessageFromReceiver
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 
 class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : ChromecastCommunicationChannel {
@@ -27,7 +27,7 @@ class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : C
     }
 
     override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
-        val parsedMessage = Gson().fromJson<CastReceiverInputMessage>(message, CastReceiverInputMessage::class.java)
+        val parsedMessage = Gson().fromJson<CastMessageFromReceiver>(message, CastMessageFromReceiver::class.java)
         observers.forEach{ it.onMessageReceived(parsedMessage) }
     }
 }

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
         youTubePlayersManager.onApplicationConnected(chromecastCommunicationChannel)
 
-        setMediaRouterButton(mediaRouterButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
+        addMediaRouterButtonToPlayerUI(mediaRouterButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
 
         youtube_player_view.visibility = View.GONE
         chromecast_controls_root.visibility = View.VISIBLE
@@ -59,13 +59,13 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
         youTubePlayersManager.onApplicationDisconnected()
 
-        setMediaRouterButton(mediaRouterButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
+        addMediaRouterButtonToPlayerUI(mediaRouterButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
 
         youtube_player_view.visibility = View.VISIBLE
         chromecast_controls_root.visibility = View.GONE
     }
 
-    private fun setMediaRouterButton(mediaRouterButton: MediaRouteButton, tintColor: Int, playerUIControllerStart: PlayerUIController, playerUIControllerEnd: PlayerUIController) {
+    private fun addMediaRouterButtonToPlayerUI(mediaRouterButton: MediaRouteButton, tintColor: Int, playerUIControllerStart: PlayerUIController, playerUIControllerEnd: PlayerUIController) {
         setMediaRouterButtonTint(mediaRouterButton, tintColor)
         playerUIControllerStart.removeView(mediaRouterButton)
         playerUIControllerEnd.addView(mediaRouterButton)

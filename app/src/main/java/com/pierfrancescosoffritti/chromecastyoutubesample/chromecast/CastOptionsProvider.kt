@@ -6,7 +6,7 @@ import com.google.android.gms.cast.framework.SessionProvider
 import com.google.android.gms.cast.framework.OptionsProvider
 
 /**
- * Class providing setup info to the Chromecast framework
+ * Class providing setup info to the Chromecast framework, declared in manifest file
  */
 internal class CastOptionsProvider : OptionsProvider {
     private val APP_ID = "C5CBE8CA"

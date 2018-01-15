@@ -3,4 +3,4 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast
 /**
  * Message received from a cast receiver
  */
-data class CastReceiverInputMessage(val type: String, val data: String)
+data class CastMessageFromReceiver(val type: String, val data: String)

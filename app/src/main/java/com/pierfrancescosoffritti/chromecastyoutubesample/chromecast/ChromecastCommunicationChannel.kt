@@ -18,6 +18,6 @@ interface ChromecastCommunicationChannel : Cast.MessageReceivedCallback {
     fun removeObserver(channelObserver: ChannelObserver) = observers.remove(channelObserver)
 
     interface ChannelObserver {
-        fun onMessageReceived(message: CastReceiverInputMessage)
+        fun onMessageReceived(messageFromReceiver: CastMessageFromReceiver)
     }
 }
