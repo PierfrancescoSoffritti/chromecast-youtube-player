@@ -12,14 +12,13 @@ import com.google.android.gms.cast.framework.CastButtonFactory
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastManager
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.YouTubePlayersManager
+import com.pierfrancescosoffritti.chromecastyoutubesample.app.YouTubePlayersManager
 import com.pierfrancescosoffritti.youtubeplayer.ui.PlayerUIController
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
     private lateinit var youTubePlayersManager: YouTubePlayersManager
-
     private lateinit var mediaRouterButton : MediaRouteButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,31 +43,31 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
     }
 
     override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        Log.d(javaClass.simpleName, "onConnected")
+        Log.d(javaClass.simpleName, "onApplicationConnected to Chromecast")
 
         youTubePlayersManager.onApplicationConnected(chromecastCommunicationChannel)
 
-        addMediaRouterButtonToPlayerUI(mediaRouterButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
+        addMediaRouterButtonToActivePlayerUI(mediaRouterButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
 
         youtube_player_view.visibility = View.GONE
         chromecast_controls_root.visibility = View.VISIBLE
     }
 
     override fun onApplicationDisconnected() {
-        Log.d(javaClass.simpleName, "onDisconnected")
+        Log.d(javaClass.simpleName, "onApplicationDisconnected from Chromecast")
 
         youTubePlayersManager.onApplicationDisconnected()
 
-        addMediaRouterButtonToPlayerUI(mediaRouterButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
+        addMediaRouterButtonToActivePlayerUI(mediaRouterButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
 
         youtube_player_view.visibility = View.VISIBLE
         chromecast_controls_root.visibility = View.GONE
     }
 
-    private fun addMediaRouterButtonToPlayerUI(mediaRouterButton: MediaRouteButton, tintColor: Int, playerUIControllerStart: PlayerUIController, playerUIControllerEnd: PlayerUIController) {
+    private fun addMediaRouterButtonToActivePlayerUI(mediaRouterButton: MediaRouteButton, tintColor: Int, playerUIControllerDisabled: PlayerUIController, playerUIControllerActivated: PlayerUIController) {
         setMediaRouterButtonTint(mediaRouterButton, tintColor)
-        playerUIControllerStart.removeView(mediaRouterButton)
-        playerUIControllerEnd.addView(mediaRouterButton)
+        playerUIControllerDisabled.removeView(mediaRouterButton)
+        playerUIControllerActivated.addView(mediaRouterButton)
     }
 
     private fun initChromecast() {

@@ -1,7 +1,6 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
+package com.pierfrancescosoffritti.chromecastyoutubesample.app
 
 import android.util.Log
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
 class LoggerYouTubePlayerListener : YouTubePlayerListener {

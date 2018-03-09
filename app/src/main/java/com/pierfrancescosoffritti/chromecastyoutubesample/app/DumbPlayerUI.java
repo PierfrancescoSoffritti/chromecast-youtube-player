@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube;
+package com.pierfrancescosoffritti.chromecastyoutubesample.app;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;

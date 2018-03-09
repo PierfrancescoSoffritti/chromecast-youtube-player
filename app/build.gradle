@@ -30,11 +30,11 @@ dependencies {
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    implementation "android.arch.lifecycle:runtime:1.0.3"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
+    implementation "android.arch.lifecycle:runtime:1.1.0"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:mediarouter-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:mediarouter-v7:27.1.0'
 
     implementation 'com.google.android.gms:play-services-cast-framework:11.8.0'
 

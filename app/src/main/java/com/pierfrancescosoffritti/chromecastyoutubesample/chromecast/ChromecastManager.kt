@@ -9,8 +9,8 @@ import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
 import com.google.gson.JsonObject
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure.ChromecastYouTubeIOChannel
-import com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure.ChromecastCommunicationConstants
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastYouTubeIOChannel
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastCommunicationConstants
 
 class ChromecastManager(private val context: Context, private val chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver {
     private val sessionManager: SessionManager = CastContext.getSharedInstance(context).sessionManager

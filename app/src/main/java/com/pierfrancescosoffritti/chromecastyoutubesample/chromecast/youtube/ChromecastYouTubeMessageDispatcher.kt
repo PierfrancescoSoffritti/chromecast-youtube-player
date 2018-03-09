@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube.chromecastInfrastructure
+package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube
 
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.CastMessageFromReceiver
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel

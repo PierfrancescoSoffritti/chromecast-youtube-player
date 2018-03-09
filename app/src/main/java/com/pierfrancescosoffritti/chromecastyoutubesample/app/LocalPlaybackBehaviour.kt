@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubesample.youTube
+package com.pierfrancescosoffritti.chromecastyoutubesample.app
 
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
