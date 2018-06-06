@@ -10,9 +10,8 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
 
     const YouTubePlayerBridge = new YouTubePlayerRemoteBridge(communicationConstants, communicationChannel);
 
-    let player;
-    let lastState;
-    let lastVideoId;
+    let player, lastState, lastVideoId;
+    let timerId;
 
     function initialize() {        
         YouTubePlayerBridge.sendYouTubeIframeAPIReady();
@@ -54,8 +53,7 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
     function sendPlayerStateChange(playerState) {
         lastState = playerState;
 
-        let timerTaskId;
-        clearTimeout(timerTaskId);
+        clearTimeout(timerId);
 
         switch (playerState) {
             case YT.PlayerState.UNSTARTED:
@@ -68,7 +66,8 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
 
             case YT.PlayerState.PLAYING:
                 sendStateChange(PLAYING);
-                timerTaskId = setInterval( () => YouTubePlayerBridge.sendVideoCurrentTime( player.getCurrentTime() ) , 100 );
+                
+                startSendCurrentTimeInterval();
                 sendVideoData(player);
                 return;
 
@@ -86,18 +85,20 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
         }
 
         function sendVideoData(player) {
-            const videoDuration = player.getDuration();
+            var videoDuration = player.getDuration();
             YouTubePlayerBridge.sendVideoDuration(videoDuration);
         }
 
         function sendStateChange(newState) {
             YouTubePlayerBridge.sendStateChange(newState)
         }
-    }
 
-    // WEB to JAVA functions
-    function sendMessage(msg) {
-        YouTubePlayerBridge.sendMessage(msg);
+        function startSendCurrentTimeInterval() {
+            timerId = setInterval( () => {
+                YouTubePlayerBridge.sendVideoCurrentTime( player.getCurrentTime() )
+                // YouTubePlayerBridge.sendVideoLoadedFraction( player.getVideoLoadedFraction() )
+            }, 100 );
+        }
     }
 
     // JAVA to WEB functions
@@ -127,14 +128,6 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
         YouTubePlayerBridge.sendVideoId(videoId);
     }
 
-    function mute() {
-        player.mute();
-    }
-
-    function unMute() {
-        player.unMute();
-    }
-
     function setVolume(volumePercent) {
         player.setVolume(volumePercent);
     }
@@ -143,7 +136,7 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
         return actions;
     }
 
-    const actions = { seekTo, pauseVideo, playVideo, loadVideo, cueVideo, mute, unMute, setVolume }
+    const actions = { seekTo, pauseVideo, playVideo, loadVideo, cueVideo, setVolume }
     
     return {
         initialize,

@@ -15,10 +15,6 @@ function SenderMessagesDispatcher(communicationConstants, callbacks, initMessage
         else if(message.data.command === communicationConstants.PAUSE)
             callbacks.pauseVideo()
         
-        else if(message.data.command === communicationConstants.MUTE)
-            callbacks.mute()
-        else if(message.data.command === communicationConstants.UNMUTE)
-            callbacks.unMute()
         else if(message.data.command === communicationConstants.SET_VOLUME)
             callbacks.setVolume(Number(message.data.volumePercent))
         else if(message.data.command === communicationConstants.SEEK_TO)

@@ -42,10 +42,6 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
         communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.VIDEO_ID, data))
     }
 
-    function sendMessage(data) {
-        communicationChannel.sendMessage(new YouTubeMessage(communicationConstants.MESSAGE, data))
-    }
-
     return {
         sendYouTubeIframeAPIReady: sendYouTubeIframeAPIReady,
         sendReady: sendReady,
@@ -57,7 +53,6 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
         sendVideoCurrentTime: sendVideoCurrentTime,
         sendVideoDuration: sendVideoDuration,
         sendVideoId: sendVideoId,
-        sendMessage: sendMessage
     }
 }
 
