@@ -22,7 +22,6 @@ class ChromecastYouTubeMessageDispatcher(private val bridge: YouTubePlayerBridge
             ChromecastCommunicationConstants.VIDEO_CURRENT_TIME -> bridge.sendVideoCurrentTime(messageFromReceiver.data)
             ChromecastCommunicationConstants.VIDEO_DURATION -> bridge.sendVideoDuration(messageFromReceiver.data)
             ChromecastCommunicationConstants.VIDEO_ID -> bridge.sendVideoId(messageFromReceiver.data)
-            ChromecastCommunicationConstants.MESSAGE -> bridge.sendMessage(messageFromReceiver.data)
         }
     }
 }

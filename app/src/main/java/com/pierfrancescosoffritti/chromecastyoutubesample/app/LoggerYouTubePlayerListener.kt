@@ -4,6 +4,9 @@ import android.util.Log
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
 class LoggerYouTubePlayerListener : YouTubePlayerListener {
+    override fun onVideoLoadedFraction(loadedFraction: Float) {
+
+    }
 
     override fun onPlaybackQualityChange(playbackQuality: String) {
         Log.d(javaClass.simpleName, "onPlaybackQualityChange: " +playbackQuality)
@@ -31,10 +34,6 @@ class LoggerYouTubePlayerListener : YouTubePlayerListener {
 
     override fun onApiChange() {
         Log.d(javaClass.simpleName, "onApiChange")
-    }
-
-    override fun onMessage(log: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onError(error: Int) {

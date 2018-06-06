@@ -6,11 +6,14 @@ import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastC
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
+import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 import kotlinx.android.synthetic.main.activity_main.*
 
 class YouTubePlayersManager(private val mainActivity: MainActivity) : ChromecastConnectionListener {
     private val chromeCastYouTubePlayer = ChromecastYouTubePlayer()
     val chromecastUIController = ChromecastUIController(mainActivity.chromecast_controls_root, chromeCastYouTubePlayer)
+
+    private val chromecastPlayerTracker = YouTubePlayerStateTracker()
 
     private var currentSecond: Float = 0f
     private lateinit var lastVideoId: String
@@ -20,6 +23,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     private val localYouTubePlayerBehaviour = LocalPlaybackBehaviour()
 
     init {
+        chromeCastYouTubePlayer.addListener(chromecastPlayerTracker)
         initLocalYouTube()
     }
 
@@ -34,7 +38,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     }
 
     override fun onApplicationDisconnected() {
-        localYouTubePlayerBehaviour.onApplicationDisconnected(chromeCastYouTubePlayer.currentState, lastVideoId, currentSecond)
+        localYouTubePlayerBehaviour.onApplicationDisconnected(chromecastPlayerTracker.currentState, lastVideoId, currentSecond)
 
         playingRemotely = false
     }

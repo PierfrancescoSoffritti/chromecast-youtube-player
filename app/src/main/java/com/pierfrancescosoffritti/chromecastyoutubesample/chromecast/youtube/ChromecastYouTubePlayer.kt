@@ -5,7 +5,7 @@ import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
-class ChromecastYouTubePlayer() : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
+class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 
     private lateinit var chromecastCommunicationChannel: ChromecastCommunicationChannel
     private lateinit var youTubePlayerInitListener: YouTubePlayerInitListener
@@ -58,22 +58,6 @@ class ChromecastYouTubePlayer() : YouTubePlayer, YouTubePlayerBridge.YouTubePlay
         chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
-    override fun mute() {
-        val message: JsonObject = jsonObject(
-                "command" to ChromecastCommunicationConstants.MUTE
-        )
-
-        chromecastCommunicationChannel.sendMessage(message.toString())
-    }
-
-    override fun unMute() {
-        val message: JsonObject = jsonObject(
-                "command" to ChromecastCommunicationConstants.UNMUTE
-        )
-
-        chromecastCommunicationChannel.sendMessage(message.toString())
-    }
-
     override fun setVolume(volumePercent: Int) {
         val message: JsonObject = jsonObject(
                 "command" to ChromecastCommunicationConstants.SET_VOLUME,
@@ -83,7 +67,7 @@ class ChromecastYouTubePlayer() : YouTubePlayer, YouTubePlayerBridge.YouTubePlay
         chromecastCommunicationChannel.sendMessage(message.toString())
     }
 
-    override fun seekTo(time: Int) {
+    override fun seekTo(time: Float) {
         val message: JsonObject = jsonObject(
                 "command" to ChromecastCommunicationConstants.SEEK_TO,
                 "time" to time
@@ -91,8 +75,6 @@ class ChromecastYouTubePlayer() : YouTubePlayer, YouTubePlayerBridge.YouTubePlay
 
         chromecastCommunicationChannel.sendMessage(message.toString())
     }
-
-    override fun getCurrentState(): Int = playerStateTracker.currentState
 
     override fun addListener(listener: YouTubePlayerListener): Boolean = youTubePlayerListeners.add(listener)
 

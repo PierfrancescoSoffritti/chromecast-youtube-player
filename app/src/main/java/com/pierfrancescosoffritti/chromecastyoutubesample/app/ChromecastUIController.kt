@@ -15,6 +15,26 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 class ChromecastUIController(private val chromecast_controls: ConstraintLayout, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener, DumbPlayerUI() {
+    override fun showCurrentTime(show: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showYouTubeButton(show: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showBufferingProgress(show: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showSeekBar(show: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showDuration(show: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private var isPlaying = false
     private var showPlayPauseButton = true
 
@@ -78,7 +98,11 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         seekBar.progress = second.toInt()
     }
 
-    override fun onVideoId(videoId: String?) {
+    override fun onVideoLoadedFraction(loadedFraction: Float) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onVideoId(videoId: String) {
         youTubeButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoId))
             chromecast_controls.context.startActivity(intent)
@@ -111,7 +135,7 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
         if (isPlaying)
             newSeekBarProgress = seekBar.progress
 
-        youtubePlayer.seekTo(seekBar.progress)
+        youtubePlayer.seekTo(seekBar.progress.toFloat())
         seekBarTouchStarted = false
     }
 
@@ -148,9 +172,8 @@ class ChromecastUIController(private val chromecast_controls: ConstraintLayout, 
     }
 
     override fun onReady() { }
-    override fun onPlaybackQualityChange(playbackQuality: String?) { }
-    override fun onPlaybackRateChange(playbackRate: String?) { }
+    override fun onPlaybackQualityChange(playbackQuality: String) { }
+    override fun onPlaybackRateChange(playbackRate: String) { }
     override fun onApiChange() { }
-    override fun onMessage(log: String?) { }
     override fun onError(error: Int) { }
 }
