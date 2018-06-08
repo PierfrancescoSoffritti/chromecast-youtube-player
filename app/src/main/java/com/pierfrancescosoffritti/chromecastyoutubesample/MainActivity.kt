@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
     private lateinit var youTubePlayersManager: YouTubePlayersManager
-    private lateinit var mediaRouterButton : MediaRouteButton
+    private lateinit var mediaRouteButton : MediaRouteButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +27,16 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
         youTubePlayersManager = YouTubePlayersManager(this)
 
-        initChromecast()
+        initChromecastManager()
+        initMediaRouteButton()
     }
 
     fun onLocalPlayerReady() {
-        if(mediaRouterButton.parent != null)
+        if(mediaRouteButton.parent != null)
             return
 
-        setMediaRouterButtonTint(mediaRouterButton, android.R.color.white)
-        youtube_player_view.playerUIController.addView(mediaRouterButton)
+        setMediaRouterButtonTint(mediaRouteButton, android.R.color.white)
+        youtube_player_view.playerUIController.addView(mediaRouteButton)
     }
 
     override fun onApplicationConnecting() {
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
         youTubePlayersManager.onApplicationConnected(chromecastCommunicationChannel)
 
-        addMediaRouterButtonToActivePlayerUI(mediaRouterButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
+        addMediaRouteButtonToPlayerUI(mediaRouteButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
 
         youtube_player_view.visibility = View.GONE
         chromecast_controls_root.visibility = View.VISIBLE
@@ -58,28 +59,26 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
         youTubePlayersManager.onApplicationDisconnected()
 
-        addMediaRouterButtonToActivePlayerUI(mediaRouterButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
+        addMediaRouteButtonToPlayerUI(mediaRouteButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
 
         youtube_player_view.visibility = View.VISIBLE
         chromecast_controls_root.visibility = View.GONE
     }
 
-    private fun addMediaRouterButtonToActivePlayerUI(mediaRouterButton: MediaRouteButton, tintColor: Int, playerUIControllerDisabled: PlayerUIController, playerUIControllerActivated: PlayerUIController) {
-        setMediaRouterButtonTint(mediaRouterButton, tintColor)
-        playerUIControllerDisabled.removeView(mediaRouterButton)
-        playerUIControllerActivated.addView(mediaRouterButton)
+    private fun addMediaRouteButtonToPlayerUI(mediaRouteButton: MediaRouteButton, tintColor: Int, playerUIControllerDisabled: PlayerUIController, playerUIControllerActivated: PlayerUIController) {
+        setMediaRouterButtonTint(mediaRouteButton, tintColor)
+        playerUIControllerDisabled.removeView(mediaRouteButton)
+        playerUIControllerActivated.addView(mediaRouteButton)
     }
 
-    private fun initChromecast() {
+    private fun initChromecastManager() {
         val chromecastManager = ChromecastManager(this, this)
         lifecycle.addObserver(chromecastManager)
-
-        initMediaRouterButton()
     }
 
-    private fun initMediaRouterButton() {
-        mediaRouterButton = MediaRouteButton(this)
-        CastButtonFactory.setUpMediaRouteButton(this, mediaRouterButton)
+    private fun initMediaRouteButton() {
+        mediaRouteButton = MediaRouteButton(this)
+        CastButtonFactory.setUpMediaRouteButton(this, mediaRouteButton)
     }
 
     private fun setMediaRouterButtonTint(mediaRouterButton: MediaRouteButton, color: Int) {
