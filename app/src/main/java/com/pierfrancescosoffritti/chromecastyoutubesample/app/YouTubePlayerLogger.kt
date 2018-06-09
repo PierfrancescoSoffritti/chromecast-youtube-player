@@ -5,31 +5,31 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
 class YouTubePlayerLogger : YouTubePlayerListener {
     override fun onVideoLoadedFraction(loadedFraction: Float) {
-
+        Log.d(javaClass.simpleName, "onVideoLoadedFraction: $loadedFraction")
     }
 
     override fun onPlaybackQualityChange(playbackQuality: String) {
-        Log.d(javaClass.simpleName, "onPlaybackQualityChange: " +playbackQuality)
+        Log.d(javaClass.simpleName, "onPlaybackQualityChange: $playbackQuality")
     }
 
     override fun onVideoDuration(duration: Float) {
-        Log.d(javaClass.simpleName, "onVideoDuration: " +duration)
+        Log.d(javaClass.simpleName, "onVideoDuration: $duration")
     }
 
     override fun onCurrentSecond(second: Float) {
-//        Log.d(javaClass.simpleName, "current second: " +second)
+//        Log.d(javaClass.simpleName, "onCurrentSecond: $second")
     }
 
     override fun onReady() {
-        Log.d("listener", "ready")
+        Log.d("listener", "onReady")
     }
 
     override fun onPlaybackRateChange(playbackRate: String) {
-        Log.d(javaClass.simpleName, "onPlaybackRateChange: " +playbackRate)
+        Log.d(javaClass.simpleName, "onPlaybackRateChange: $playbackRate")
     }
 
     override fun onVideoId(videoId: String) {
-        Log.d(javaClass.simpleName, "video Id: " +videoId)
+        Log.d(javaClass.simpleName, "onVideoId: $videoId")
     }
 
     override fun onApiChange() {
@@ -37,10 +37,10 @@ class YouTubePlayerLogger : YouTubePlayerListener {
     }
 
     override fun onError(error: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(javaClass.simpleName, "onError: $error")
     }
 
     override fun onStateChange(state: Int) {
-        Log.d(javaClass.simpleName, "state changed: " +state)
+        Log.d(javaClass.simpleName, "onStateChange: $state")
     }
 }
