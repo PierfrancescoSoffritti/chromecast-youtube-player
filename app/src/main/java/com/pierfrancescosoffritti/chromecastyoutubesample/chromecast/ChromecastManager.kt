@@ -18,7 +18,7 @@ class ChromecastManager(private val context: Context, private val chromecastConn
     private val castSessionManagerListener: CastSessionManagerListener = CastSessionManagerListener(this)
 
     fun onApplicationConnecting() {
-        chromecastConnectionListener.onApplicationConnecting()
+        chromecastConnectionListener.onChromecastConnecting()
     }
 
     fun onApplicationConnected(castSession: CastSession) {
@@ -27,13 +27,13 @@ class ChromecastManager(private val context: Context, private val chromecastConn
 
         sendCommunicationConstants(chromecastCommunicationChannel)
 
-        chromecastConnectionListener.onApplicationConnected(chromecastCommunicationChannel)
+        chromecastConnectionListener.onChromecastConnected(chromecastCommunicationChannel)
     }
 
     fun onApplicationDisconnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
 
-        chromecastConnectionListener.onApplicationDisconnected()
+        chromecastConnectionListener.onChromecastDisconnected()
     }
 
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {

@@ -13,48 +13,49 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     private val chromeCastYouTubePlayer = ChromecastYouTubePlayer()
     val chromecastUIController = ChromecastUIController(mainActivity.chromecast_controls_root, chromeCastYouTubePlayer)
 
-    private val chromecastPlayerTracker = YouTubePlayerStateTracker()
+    private val chromecastPlayerStateTracker = YouTubePlayerStateTracker()
+
+    private val localYouTubePlayerManager = LocalPlaybackManager()
+
+    private var playingOnCastPlayer = false
 
     private var currentSecond: Float = 0f
     private lateinit var lastVideoId: String
 
-    private var playingRemotely = false
-
-    private val localYouTubePlayerBehaviour = LocalPlaybackBehaviour()
-
     init {
-        chromeCastYouTubePlayer.addListener(chromecastPlayerTracker)
+        chromeCastYouTubePlayer.addListener(chromecastPlayerStateTracker)
         initLocalYouTube()
     }
 
-    override fun onApplicationConnecting() {
-        localYouTubePlayerBehaviour.onApplicationConnecting()
+    override fun onChromecastConnecting() {
+        localYouTubePlayerManager.pause()
     }
 
-    override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+    override fun onChromecastConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         initializeCastPlayer(chromecastCommunicationChannel)
 
-        playingRemotely = true
+        playingOnCastPlayer = true
     }
 
-    override fun onApplicationDisconnected() {
-        localYouTubePlayerBehaviour.onApplicationDisconnected(chromecastPlayerTracker.currentState, lastVideoId, currentSecond)
+    override fun onChromecastDisconnected() {
+        localYouTubePlayerManager.resume(chromecastPlayerStateTracker.currentState, lastVideoId, currentSecond)
 
-        playingRemotely = false
+        playingOnCastPlayer = false
     }
 
     private fun initLocalYouTube() {
         mainActivity.lifecycle.addObserver(mainActivity.youtube_player_view)
 
-        mainActivity.youtube_player_view.initialize({ initializedYouTubePlayer ->
+        mainActivity.youtube_player_view.initialize({ youtubePlayer ->
 
-            localYouTubePlayerBehaviour.youTubePlayer = initializedYouTubePlayer
+            localYouTubePlayerManager.youTubePlayer = youtubePlayer
 
-            initializedYouTubePlayer.addListener(object : AbstractYouTubePlayerListener() {
+            youtubePlayer.addListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady() {
-                    localYouTubePlayerBehaviour.onLocalYouTubePlayerReady(playingRemotely, currentSecond)
+                    if(!playingOnCastPlayer)
+                        youtubePlayer.loadVideo("6JYIGclVQdw", currentSecond)
 
-                    mainActivity.onLocalPlayerReady()
+                    mainActivity.onLocalYouTubePlayerReady()
                 }
 
                 override fun onVideoId(videoId: String) {
@@ -70,14 +71,14 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     }
 
     private fun initializeCastPlayer(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        chromeCastYouTubePlayer.initialize(chromecastCommunicationChannel, YouTubePlayerInitListener {
+        chromeCastYouTubePlayer.initialize( YouTubePlayerInitListener { youtubePlayer ->
 
-            chromeCastYouTubePlayer.addListener(LoggerYouTubePlayerListener())
-            chromeCastYouTubePlayer.addListener(chromecastUIController)
+            youtubePlayer.addListener(YouTubePlayerLogger())
+            youtubePlayer.addListener(chromecastUIController)
 
-            chromeCastYouTubePlayer.addListener(object: AbstractYouTubePlayerListener() {
+            youtubePlayer.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
-                    chromeCastYouTubePlayer.loadVideo("6JYIGclVQdw", currentSecond)
+                    youtubePlayer.loadVideo("6JYIGclVQdw", currentSecond)
                 }
 
                 override fun onVideoId(videoId: String) {
@@ -88,7 +89,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
                     currentSecond = second
                 }
             })
-        })
+        }, chromecastCommunicationChannel)
     }
 
 }

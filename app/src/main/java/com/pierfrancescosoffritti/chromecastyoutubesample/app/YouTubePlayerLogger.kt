@@ -3,7 +3,7 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.app
 import android.util.Log
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 
-class LoggerYouTubePlayerListener : YouTubePlayerListener {
+class YouTubePlayerLogger : YouTubePlayerListener {
     override fun onVideoLoadedFraction(loadedFraction: Float) {
 
     }

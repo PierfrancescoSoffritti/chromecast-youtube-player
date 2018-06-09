@@ -15,7 +15,7 @@ class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayer
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
     private val playerStateTracker = PlayerStateTracker()
 
-    fun initialize(chromecastCommunicationChannel: ChromecastCommunicationChannel, youTubePlayerInitListener: YouTubePlayerInitListener) {
+    fun initialize(youTubePlayerInitListener: YouTubePlayerInitListener, chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         youTubePlayerListeners.clear()
         youTubePlayerListeners.add(playerStateTracker)
 

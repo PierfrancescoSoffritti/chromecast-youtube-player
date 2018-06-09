@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
         initMediaRouteButton()
     }
 
-    fun onLocalPlayerReady() {
+    fun onLocalYouTubePlayerReady() {
         if(mediaRouteButton.parent != null)
             return
 
@@ -39,14 +39,14 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
         youtube_player_view.playerUIController.addView(mediaRouteButton)
     }
 
-    override fun onApplicationConnecting() {
-        youTubePlayersManager.onApplicationConnecting()
+    override fun onChromecastConnecting() {
+        youTubePlayersManager.onChromecastConnecting()
     }
 
-    override fun onApplicationConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        Log.d(javaClass.simpleName, "onApplicationConnected to Chromecast")
+    override fun onChromecastConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+        Log.d(javaClass.simpleName, "onChromecastConnected to Chromecast")
 
-        youTubePlayersManager.onApplicationConnected(chromecastCommunicationChannel)
+        youTubePlayersManager.onChromecastConnected(chromecastCommunicationChannel)
 
         addMediaRouteButtonToPlayerUI(mediaRouteButton, android.R.color.white, youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController)
 
@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
         chromecast_controls_root.visibility = View.VISIBLE
     }
 
-    override fun onApplicationDisconnected() {
-        Log.d(javaClass.simpleName, "onApplicationDisconnected from Chromecast")
+    override fun onChromecastDisconnected() {
+        Log.d(javaClass.simpleName, "resume from Chromecast")
 
-        youTubePlayersManager.onApplicationDisconnected()
+        youTubePlayersManager.onChromecastDisconnected()
 
         addMediaRouteButtonToPlayerUI(mediaRouteButton, android.R.color.white, youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController)
 
