@@ -8,26 +8,26 @@ import com.google.gson.JsonObject
  */
 object ChromecastCommunicationConstants {
     // receiver to sender
-    val INIT_COMMUNICATION_CONSTANTS = "INIT_COMMUNICATION_CONSTANTS"
+    const val INIT_COMMUNICATION_CONSTANTS = "INIT_COMMUNICATION_CONSTANTS"
 
-    val IFRAME_API_READY = "IFRAME_API_READY"
-    val READY = "READY"
-    val STATE_CHANGED = "STATE_CHANGED"
-    val PLAYBACK_QUALITY_CHANGED = "PLAYBACK_QUALITY_CHANGED"
-    val PLAYBACK_RATE_CHANGED = "PLAYBACK_RATE_CHANGED"
-    val ERROR = "ERROR"
-    val API_CHANGED = "API_CHANGED"
-    val VIDEO_CURRENT_TIME = "VIDEO_CURRENT_TIME"
-    val VIDEO_DURATION = "VIDEO_DURATION"
-    val VIDEO_ID = "VIDEO_ID"
-    val MESSAGE = "MESSAGE"
+    const val IFRAME_API_READY = "IFRAME_API_READY"
+    const val READY = "READY"
+    const val STATE_CHANGED = "STATE_CHANGED"
+    const val PLAYBACK_QUALITY_CHANGED = "PLAYBACK_QUALITY_CHANGED"
+    const val PLAYBACK_RATE_CHANGED = "PLAYBACK_RATE_CHANGED"
+    const val ERROR = "ERROR"
+    const val API_CHANGED = "API_CHANGED"
+    const val VIDEO_CURRENT_TIME = "VIDEO_CURRENT_TIME"
+    const val VIDEO_DURATION = "VIDEO_DURATION"
+    const val VIDEO_ID = "VIDEO_ID"
+    const val MESSAGE = "MESSAGE"
 
     // sender to receiver
-    val LOAD = "LOAD"
-    val PLAY = "PLAY"
-    val PAUSE = "PAUSE"
-    val SET_VOLUME = "SET_VOLUME"
-    val SEEK_TO = "SEEK_TO"
+    const val LOAD = "LOAD"
+    const val PLAY = "PLAY"
+    const val PAUSE = "PAUSE"
+    const val SET_VOLUME = "SET_VOLUME"
+    const val SEEK_TO = "SEEK_TO"
 
     fun asJson() : JsonObject {
         return jsonObject(

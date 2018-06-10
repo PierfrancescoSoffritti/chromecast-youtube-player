@@ -12,18 +12,20 @@ class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : C
 
     override val observers = HashSet<ChromecastCommunicationChannel.ChannelObserver>()
 
-    override fun sendMessage(message: String) = try {
-        sessionManager.currentCastSession
-                .sendMessage(namespace, message)
-                .setResultCallback {
-                    if(it.isSuccess)
-                        Log.d(this.javaClass.simpleName, "message sent")
-                    else
-                        Log.d(this.javaClass.simpleName, "failed, can't send message")
-                }
+    override fun sendMessage(message: String) {
+        try {
+            sessionManager.currentCastSession
+                    .sendMessage(namespace, message)
+                    .setResultCallback {
+                        if(it.isSuccess)
+                            Log.d(this.javaClass.simpleName, "message sent")
+                        else
+                            Log.e(this.javaClass.simpleName, "failed, can't send message")
+                    }
 
-    } catch (e: Exception) {
-        throw RuntimeException(e)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
     }
 
     override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {

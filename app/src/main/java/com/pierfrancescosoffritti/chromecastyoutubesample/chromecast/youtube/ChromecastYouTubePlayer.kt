@@ -10,19 +10,15 @@ class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayer
     private lateinit var chromecastCommunicationChannel: ChromecastCommunicationChannel
     private lateinit var youTubePlayerInitListener: YouTubePlayerInitListener
 
-    private val messageDispatcher = ChromecastYouTubeMessageDispatcher(YouTubePlayerBridge(this))
+    private val inputMessageDispatcher = ChromecastYouTubeMessageDispatcher( YouTubePlayerBridge(this) )
 
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
-    private val playerStateTracker = PlayerStateTracker()
 
-    fun initialize(youTubePlayerInitListener: YouTubePlayerInitListener, chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        youTubePlayerListeners.clear()
-        youTubePlayerListeners.add(playerStateTracker)
+    fun initialize(initListener: YouTubePlayerInitListener, communicationChannel: ChromecastCommunicationChannel) {
+        youTubePlayerInitListener = initListener
+        chromecastCommunicationChannel = communicationChannel
 
-        this.youTubePlayerInitListener = youTubePlayerInitListener
-        this.chromecastCommunicationChannel = chromecastCommunicationChannel
-
-        chromecastCommunicationChannel.addObserver(messageDispatcher)
+        communicationChannel.addObserver(inputMessageDispatcher)
     }
 
     override fun onYouTubeIframeAPIReady() {
@@ -40,6 +36,7 @@ class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayer
     }
 
     override fun cueVideo(videoId: String, startSeconds: Float) {
+        throw RuntimeException("cueVideo NO-OP")
     }
 
     override fun play() {
@@ -81,12 +78,4 @@ class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayer
     override fun removeListener(listener: YouTubePlayerListener): Boolean = youTubePlayerListeners.remove(listener)
 
     override fun getListeners(): MutableCollection<YouTubePlayerListener> = youTubePlayerListeners
-
-    private inner class PlayerStateTracker : AbstractYouTubePlayerListener() {
-        @PlayerConstants.PlayerState.State internal var currentState: Int = PlayerConstants.PlayerState.UNKNOWN
-
-        override fun onStateChange(@PlayerConstants.PlayerState.State state: Int) {
-            this.currentState = state
-        }
-    }
 }

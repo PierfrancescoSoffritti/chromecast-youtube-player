@@ -6,10 +6,10 @@ import com.google.android.gms.cast.framework.*
 // TODO: consider passing an interface instead of the class ChromecastManager
 class CastSessionManagerListener(private val chromecastManager: ChromecastManager) : SessionManagerListener<CastSession> {
 
-    override fun onSessionEnding(castSession: CastSession) { Log.d(javaClass.simpleName, "session ending, NOP") }
-    override fun onSessionSuspended(castSession: CastSession, p1: Int) { Log.d(javaClass.simpleName, "session suspended, NOP") }
+    override fun onSessionEnding(castSession: CastSession) { Log.d(javaClass.simpleName, "session ending, NO-OP") }
+    override fun onSessionSuspended(castSession: CastSession, p1: Int) { Log.d(javaClass.simpleName, "session suspended, NO-OP") }
 
-    override fun onSessionStarting(p0: CastSession) { chromecastManager.onApplicationConnecting() }
+    override fun onSessionStarting(castSession: CastSession) { chromecastManager.onApplicationConnecting() }
     override fun onSessionResuming(castSession: CastSession, p1: String) { chromecastManager.onApplicationConnecting() }
 
     override fun onSessionEnded(castSession: CastSession, error: Int) = chromecastManager.onApplicationDisconnected(castSession)
