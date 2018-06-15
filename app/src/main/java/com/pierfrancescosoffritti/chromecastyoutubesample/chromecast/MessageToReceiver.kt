@@ -4,7 +4,7 @@ import com.github.salomonbrys.kotson.addProperty
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonObject
 
-class CastMessageToReceiver private constructor(val message: JsonObject) {
+class MessageToReceiver private constructor(val message: JsonObject) {
 
     override fun toString(): String {
         return message.toString()
@@ -13,24 +13,24 @@ class CastMessageToReceiver private constructor(val message: JsonObject) {
     companion object Builder {
         private val COMMAND = "command"
 
-        fun build(command: String): CastMessageToReceiver {
+        fun build(command: String): MessageToReceiver {
             val message: JsonObject = jsonObject(COMMAND to command)
 
-            return CastMessageToReceiver(message)
+            return MessageToReceiver(message)
         }
 
-        fun build(command: String, vararg arguments: Pair<String, JsonObject>): CastMessageToReceiver {
+        fun build(command: String, vararg arguments: Pair<String, JsonObject>): MessageToReceiver {
             val message: JsonObject = jsonObject(COMMAND to command)
             arguments.forEach { message.addProperty(it.first, it.second) }
 
-            return CastMessageToReceiver(message)
+            return MessageToReceiver(message)
         }
 
-        fun build(command: String, vararg arguments: String): CastMessageToReceiver {
+        fun build(command: String, vararg arguments: String): MessageToReceiver {
             val message: JsonObject = jsonObject(COMMAND to command)
             arguments.forEach { message.addProperty(it, it) }
 
-            return CastMessageToReceiver(message)
+            return MessageToReceiver(message)
         }
     }
 }

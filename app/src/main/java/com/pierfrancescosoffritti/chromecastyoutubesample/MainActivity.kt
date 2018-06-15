@@ -31,8 +31,11 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
         initChromecastManager()
         initMediaRouteButton()
 
-        val testJson = JSONUtils.buildFlatJson(Pair("test", "test"))
-        Log.d(javaClass.simpleName, testJson)
+        val testJson = JSONUtils.buildFlatJson(Pair("par1", "val1"), Pair("par2", "val2"))
+        val messageFromReceiver = JSONUtils.parseMessageFromReceiverJson(testJson)
+
+//        Log.d(javaClass.simpleName, testJson)
+        Log.d(javaClass.simpleName, messageFromReceiver.toString())
     }
 
     fun onLocalYouTubePlayerReady() {
