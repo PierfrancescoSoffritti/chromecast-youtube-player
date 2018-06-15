@@ -13,6 +13,7 @@ import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastC
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastManager
 import com.pierfrancescosoffritti.chromecastyoutubesample.app.YouTubePlayersManager
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.ui.PlayerUIController
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity(), ChromecastConnectionListener {
 
         initChromecastManager()
         initMediaRouteButton()
+
+        val testJson = JSONUtils.buildFlatJson(Pair("test", "test"))
+        Log.d(javaClass.simpleName, testJson)
     }
 
     fun onLocalYouTubePlayerReady() {

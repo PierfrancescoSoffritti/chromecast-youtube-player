@@ -35,7 +35,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     implementation 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:7.0.0'
