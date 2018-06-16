@@ -9,6 +9,7 @@ import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
 import com.google.gson.JsonObject
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.utils.JSONUtils
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastYouTubeIOChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastCommunicationConstants
 
@@ -39,7 +40,7 @@ class ChromecastManager(private val context: Context, private val chromecastConn
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         val communicationConstants = ChromecastCommunicationConstants.asJson()
 
-        val message: JsonObject = jsonObject(
+        val message = JSONUtils.buildCommunicationConstantsJson(
                 "command" to ChromecastCommunicationConstants.INIT_COMMUNICATION_CONSTANTS,
                 "communicationConstants" to communicationConstants
         )

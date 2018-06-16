@@ -3,6 +3,7 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
 class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
@@ -26,13 +27,13 @@ class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayer
     }
 
     override fun loadVideo(videoId: String, startSeconds: Float) {
-        val message: JsonObject = jsonObject(
+        val message = JSONUtils.buildFlatJson(
                 "command" to ChromecastCommunicationConstants.LOAD,
                 "videoId" to videoId,
-                "startSeconds" to startSeconds
+                "startSeconds" to startSeconds.toString()
         )
 
-        chromecastCommunicationChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     override fun cueVideo(videoId: String, startSeconds: Float) {
@@ -40,37 +41,37 @@ class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayer
     }
 
     override fun play() {
-        val message: JsonObject = jsonObject(
+        val message = JSONUtils.buildFlatJson(
                 "command" to ChromecastCommunicationConstants.PLAY
         )
 
-        chromecastCommunicationChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     override fun pause() {
-        val message: JsonObject = jsonObject(
+        val message = JSONUtils.buildFlatJson(
                 "command" to ChromecastCommunicationConstants.PAUSE
         )
 
-        chromecastCommunicationChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     override fun setVolume(volumePercent: Int) {
-        val message: JsonObject = jsonObject(
+        val message = JSONUtils.buildFlatJson(
                 "command" to ChromecastCommunicationConstants.SET_VOLUME,
-                "volumePercent" to volumePercent
+                "volumePercent" to volumePercent.toString()
         )
 
-        chromecastCommunicationChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     override fun seekTo(time: Float) {
-        val message: JsonObject = jsonObject(
+        val message = JSONUtils.buildFlatJson(
                 "command" to ChromecastCommunicationConstants.SEEK_TO,
-                "time" to time
+                "time" to time.toString()
         )
 
-        chromecastCommunicationChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     override fun addListener(listener: YouTubePlayerListener): Boolean = youTubePlayerListeners.add(listener)

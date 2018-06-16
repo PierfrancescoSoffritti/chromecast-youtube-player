@@ -2,6 +2,7 @@ package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube
 
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonObject
+import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.utils.JSONUtils
 
 /**
  * Set of constants used for sender-receiver communication
@@ -29,8 +30,8 @@ object ChromecastCommunicationConstants {
     const val SET_VOLUME = "SET_VOLUME"
     const val SEEK_TO = "SEEK_TO"
 
-    fun asJson() : JsonObject {
-        return jsonObject(
+    fun asJson() : String {
+        return JSONUtils.buildFlatJson(
                 IFRAME_API_READY to IFRAME_API_READY,
                 READY to READY,
                 STATE_CHANGED to STATE_CHANGED,

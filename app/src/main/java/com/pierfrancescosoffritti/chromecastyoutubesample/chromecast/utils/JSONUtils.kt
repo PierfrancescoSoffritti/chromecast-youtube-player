@@ -12,6 +12,15 @@ object JSONUtils {
         return jsonBuilder.toString()
     }
 
+    fun buildCommunicationConstantsJson(command: Pair<String, String>, communicationConstants: Pair<String, String>) : String {
+        val jsonBuilder = StringBuilder("{")
+        jsonBuilder.append("\"${command.first}\": \"${command.second}\",")
+        jsonBuilder.append("\"${communicationConstants.first}\": ${communicationConstants.second}")
+        jsonBuilder.append("}")
+
+        return jsonBuilder.toString()
+    }
+
     fun parseMessageFromReceiverJson(json: String) : MessageFromReceiver {
         val strings = json.split(",")
         val values = strings.map { it.split(":")[1].trim().replace("\"", "") }
