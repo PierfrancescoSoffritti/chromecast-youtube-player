@@ -4,11 +4,9 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
-import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.utils.JSONUtils
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastYouTubeIOChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube.ChromecastCommunicationConstants

@@ -1,7 +1,5 @@
 package com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.youtube
 
-import com.github.salomonbrys.kotson.jsonObject
-import com.google.gson.JsonObject
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubesample.chromecast.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
