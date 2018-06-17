@@ -14,7 +14,7 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 
-class ChromecastUIController(private val controls_view: ConstraintLayout, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, DumbPlayerUIController(), SeekBar.OnSeekBarChangeListener {
+class ChromecastUIController(private val controls_view: View, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, DumbPlayerUIController(), SeekBar.OnSeekBarChangeListener {
     private var isPlaying = false
     private var showPlayPauseButton = true
 

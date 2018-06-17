@@ -1,16 +1,19 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
 
+import android.arch.lifecycle.Lifecycle
+import android.view.View
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
+import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
-import kotlinx.android.synthetic.main.activity_main.*
 
-class YouTubePlayersManager(private val mainActivity: MainActivity) : ChromecastConnectionListener {
+class YouTubePlayersManager(private val lifecycle: Lifecycle, private val localYouTubePlayerListener: LocalYouTubePlayerListener,
+                            private val youtubePlayerView: YouTubePlayerView, chromecastControls: View) : ChromecastConnectionListener {
     private val chromeCastYouTubePlayer = ChromecastYouTubePlayer()
-    val chromecastUIController = ChromecastUIController(mainActivity.chromecast_controls_root, chromeCastYouTubePlayer)
+    val chromecastUIController = ChromecastUIController(chromecastControls, chromeCastYouTubePlayer)
 
     private val chromecastPlayerStateTracker = YouTubePlayerStateTracker()
 
@@ -43,9 +46,9 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
     }
 
     private fun initLocalYouTube() {
-        mainActivity.lifecycle.addObserver(mainActivity.youtube_player_view)
+        lifecycle.addObserver(youtubePlayerView)
 
-        mainActivity.youtube_player_view.initialize({ youtubePlayer ->
+        youtubePlayerView.initialize({ youtubePlayer ->
 
             localYouTubePlayerManager.youTubePlayer = youtubePlayer
 
@@ -54,7 +57,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
                     if(!playingOnCastPlayer)
                         youtubePlayer.loadVideo("6JYIGclVQdw", currentSecond)
 
-                    mainActivity.onLocalYouTubePlayerReady()
+                    localYouTubePlayerListener.onLocalYouTubePlayerReady()
                 }
 
                 override fun onVideoId(videoId: String) {
@@ -91,4 +94,7 @@ class YouTubePlayersManager(private val mainActivity: MainActivity) : Chromecast
         }, chromecastCommunicationChannel)
     }
 
+    interface LocalYouTubePlayerListener {
+        fun onLocalYouTubePlayerReady()
+    }
 }
