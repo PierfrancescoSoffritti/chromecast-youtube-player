@@ -15,10 +15,11 @@ object MediaRouterButtonUtils {
         setMediaRouterButtonTint(mediaRouteButton, tintColor)
 
         uiControllerDisabled?.removeView(mediaRouteButton)
+        if(mediaRouteButton.parent != null) return
         uiControllerActivated.addView(mediaRouteButton)
     }
 
-    fun setMediaRouterButtonTint(mediaRouterButton: MediaRouteButton, color: Int) {
+    private fun setMediaRouterButtonTint(mediaRouterButton: MediaRouteButton, color: Int) {
         val castContext = ContextThemeWrapper(mediaRouterButton.context, R.style.Theme_MediaRouter)
         val styledAttributes = castContext.obtainStyledAttributes(null, android.support.v7.mediarouter.R.styleable.MediaRouteButton, android.support.v7.mediarouter.R.attr.mediaRouteButtonStyle, 0)
         val drawable = styledAttributes.getDrawable(android.support.v7.mediarouter.R.styleable.MediaRouteButton_externalRouteEnabledDrawable)

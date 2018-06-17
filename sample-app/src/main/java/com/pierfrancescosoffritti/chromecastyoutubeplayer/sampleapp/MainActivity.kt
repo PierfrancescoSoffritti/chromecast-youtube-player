@@ -1,6 +1,7 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
 import android.util.Log
@@ -30,10 +31,6 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     }
 
     override fun onLocalYouTubePlayerReady() {
-        // in case the app starts and is immediately connect to the receiver
-        if(mediaRouteButton.parent != null)
-            return
-
         MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
                 mediaRouteButton, android.R.color.white,
                 null, youtube_player_view.playerUIController
@@ -41,6 +38,8 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     }
 
     override fun onChromecastConnecting() {
+        Log.d(javaClass.simpleName, "onChromecastConnecting")
+
         youTubePlayersManager.onChromecastConnecting()
     }
 

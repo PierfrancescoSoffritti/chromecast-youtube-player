@@ -5,19 +5,19 @@ import android.view.View
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubePlayer
-import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView
+import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
-class YouTubePlayersManager(private val lifecycle: Lifecycle, private val localYouTubePlayerListener: LocalYouTubePlayerListener,
-                            private val youtubePlayerView: YouTubePlayerView, chromecastControls: View) : ChromecastConnectionListener {
+class YouTubePlayersManager(
+        private val lifecycle: Lifecycle, private val localYouTubePlayerListener: LocalYouTubePlayerListener,
+        private val youtubePlayerView: YouTubePlayerView, chromecastControls: View) : ChromecastConnectionListener {
+
     private val chromeCastYouTubePlayer = ChromecastYouTubePlayer()
     val chromecastUIController = ChromecastUIController(chromecastControls, chromeCastYouTubePlayer)
 
     private val chromecastPlayerStateTracker = YouTubePlayerStateTracker()
 
-    private val localYouTubePlayerManager = LocalPlaybackManager()
+    private lateinit var youTubePlayer: YouTubePlayer
 
     private var playingOnCastPlayer = false
 
@@ -30,7 +30,7 @@ class YouTubePlayersManager(private val lifecycle: Lifecycle, private val localY
     }
 
     override fun onChromecastConnecting() {
-        localYouTubePlayerManager.pause()
+        youTubePlayer.pause()
     }
 
     override fun onChromecastConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
@@ -40,7 +40,10 @@ class YouTubePlayersManager(private val lifecycle: Lifecycle, private val localY
     }
 
     override fun onChromecastDisconnected() {
-        localYouTubePlayerManager.resume(chromecastPlayerStateTracker.currentState, lastVideoId, currentSecond)
+        if(chromecastPlayerStateTracker.currentState == PlayerConstants.PlayerState.PLAYING)
+            youTubePlayer.loadVideo(lastVideoId, currentSecond)
+        else
+            youTubePlayer.cueVideo(lastVideoId, currentSecond)
 
         playingOnCastPlayer = false
     }
@@ -50,7 +53,7 @@ class YouTubePlayersManager(private val lifecycle: Lifecycle, private val localY
 
         youtubePlayerView.initialize({ youtubePlayer ->
 
-            localYouTubePlayerManager.youTubePlayer = youtubePlayer
+            this.youTubePlayer = youtubePlayer
 
             youtubePlayer.addListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady() {
