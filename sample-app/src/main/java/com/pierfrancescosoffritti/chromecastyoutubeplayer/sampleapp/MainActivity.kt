@@ -20,23 +20,13 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     private lateinit var mediaRouteButton : MediaRouteButton
 
     private val chromecastPlayerUIMediaRouteButtonContainer = object: MediaRouteButtonContainer {
-        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) {
-            youTubePlayersManager.chromecastUIController.addView(mediaRouteButton)
-        }
-
-        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) {
-            youTubePlayersManager.chromecastUIController.removeView(mediaRouteButton)
-        }
+        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) = youTubePlayersManager.chromecastUIController.addView(mediaRouteButton)
+        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) = youTubePlayersManager.chromecastUIController.removeView(mediaRouteButton)
     }
 
     private val localPlayerUIMediaRouteButtonContainer = object: MediaRouteButtonContainer {
-        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) {
-            youtube_player_view.playerUIController.addView(mediaRouteButton)
-        }
-
-        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) {
-            youtube_player_view.playerUIController.removeView(mediaRouteButton)
-        }
+        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) = youtube_player_view.playerUIController.addView(mediaRouteButton)
+        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) = youtube_player_view.playerUIController.removeView(mediaRouteButton)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
