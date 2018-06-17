@@ -43,6 +43,8 @@ class YouTubePlayersManager(
         else
             youTubePlayer?.cueVideo(chromecastPlayerStateTracker.videoId, chromecastPlayerStateTracker.currentSecond)
 
+        chromecastUIController.resetUI()
+
         playingOnCastPlayer = false
     }
 

@@ -16,7 +16,6 @@ import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 class ChromecastUIController(private val controls_view: View, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, DumbPlayerUIController(), SeekBar.OnSeekBarChangeListener {
     private var isPlaying = false
-    private var showPlayPauseButton = true
 
     private val progressBar = controls_view.findViewById<View>(R.id.progress_bar)
     private val playPauseButton = controls_view.findViewById<ImageView>(R.id.play_pause_button)
@@ -29,7 +28,7 @@ class ChromecastUIController(private val controls_view: View, private val youtub
 
     init {
         seekBar.setOnSeekBarChangeListener(this)
-        playPauseButton.setOnClickListener({ onPlayButtonPressed() })
+        playPauseButton.setOnClickListener { onPlayButtonPressed() }
     }
 
     override fun onStateChange(state: Int) {
@@ -39,11 +38,11 @@ class ChromecastUIController(private val controls_view: View, private val youtub
 
         if (state == PlayerConstants.PlayerState.PLAYING || state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.VIDEO_CUED || state == PlayerConstants.PlayerState.UNSTARTED) {
             progressBar.visibility = View.INVISIBLE
-            if (showPlayPauseButton) playPauseButton.visibility = View.VISIBLE
+            playPauseButton.visibility = View.VISIBLE
 
         } else if(state == PlayerConstants.PlayerState.BUFFERING) {
             progressBar.visibility = View.VISIBLE
-            if (showPlayPauseButton) playPauseButton.visibility = View.INVISIBLE
+            playPauseButton.visibility = View.INVISIBLE
         }
 
         val playing = state == PlayerConstants.PlayerState.PLAYING
@@ -100,10 +99,13 @@ class ChromecastUIController(private val controls_view: View, private val youtub
         updatePlayPauseButtonIcon(!isPlaying)
     }
 
-    private fun resetUI() {
+    fun resetUI() {
         seekBar.progress = 0
         seekBar.max = 0
-        totalTimeTextView.post({ totalTimeTextView.text = "" })
+        playPauseButton.visibility = View.INVISIBLE
+        progressBar.visibility = View.VISIBLE
+        currentTimeTextView.post { currentTimeTextView.text = "" }
+        totalTimeTextView.post { totalTimeTextView.text = "" }
         youTubeButton.setOnClickListener(null)
     }
 
