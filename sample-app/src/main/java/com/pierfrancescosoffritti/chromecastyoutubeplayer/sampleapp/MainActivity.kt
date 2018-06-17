@@ -1,14 +1,14 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
 import android.util.Log
 import android.view.View
 import com.google.android.gms.cast.framework.CastButtonFactory
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastCommunicationChannel
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastConnectionListener
+import com.google.android.gms.cast.framework.CastContext
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastManager
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.utils.MediaRouterButtonUtils
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         youTubePlayersManager = YouTubePlayersManager(lifecycle, this, youtube_player_view, chromecast_controls_root)
         mediaRouteButton = initMediaRouteButton()
 
-        val chromecastManager = ChromecastManager(this, this)
+        val chromecastManager = ChromecastManager(CastContext.getSharedInstance(this).sessionManager, this)
         lifecycle.addObserver(chromecastManager)
     }
 

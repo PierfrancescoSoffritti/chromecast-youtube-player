@@ -1,9 +1,9 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils
 
 import android.util.Log
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.MessageFromReceiver
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.MessageFromReceiver
 
-object JSONUtils {
+internal object JSONUtils {
     fun buildFlatJson(vararg args: Pair<String, String>) : String {
         val jsonBuilder = StringBuilder("{")
         args.forEach { jsonBuilder.append("\"${it.first}\": \"${it.second}\",") }

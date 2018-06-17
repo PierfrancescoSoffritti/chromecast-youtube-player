@@ -5,7 +5,7 @@ import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils
 /**
  * Set of constants used for sender-receiver communication
  */
-object ChromecastCommunicationConstants {
+internal object ChromecastCommunicationConstants {
     // receiver to sender
     const val INIT_COMMUNICATION_CONSTANTS = "INIT_COMMUNICATION_CONSTANTS"
 
@@ -19,7 +19,6 @@ object ChromecastCommunicationConstants {
     const val VIDEO_CURRENT_TIME = "VIDEO_CURRENT_TIME"
     const val VIDEO_DURATION = "VIDEO_DURATION"
     const val VIDEO_ID = "VIDEO_ID"
-    const val MESSAGE = "MESSAGE"
 
     // sender to receiver
     const val LOAD = "LOAD"
@@ -28,25 +27,22 @@ object ChromecastCommunicationConstants {
     const val SET_VOLUME = "SET_VOLUME"
     const val SEEK_TO = "SEEK_TO"
 
-    fun asJson() : String {
-        return JSONUtils.buildFlatJson(
-                IFRAME_API_READY to IFRAME_API_READY,
-                READY to READY,
-                STATE_CHANGED to STATE_CHANGED,
-                PLAYBACK_QUALITY_CHANGED to PLAYBACK_QUALITY_CHANGED,
-                PLAYBACK_RATE_CHANGED to PLAYBACK_RATE_CHANGED,
-                ERROR to ERROR,
-                API_CHANGED to API_CHANGED,
-                VIDEO_CURRENT_TIME to VIDEO_CURRENT_TIME,
-                VIDEO_DURATION to VIDEO_DURATION,
-                VIDEO_ID to VIDEO_ID,
-                MESSAGE to MESSAGE,
+    fun asJson() = JSONUtils.buildFlatJson(
+            IFRAME_API_READY to IFRAME_API_READY,
+            READY to READY,
+            STATE_CHANGED to STATE_CHANGED,
+            PLAYBACK_QUALITY_CHANGED to PLAYBACK_QUALITY_CHANGED,
+            PLAYBACK_RATE_CHANGED to PLAYBACK_RATE_CHANGED,
+            ERROR to ERROR,
+            API_CHANGED to API_CHANGED,
+            VIDEO_CURRENT_TIME to VIDEO_CURRENT_TIME,
+            VIDEO_DURATION to VIDEO_DURATION,
+            VIDEO_ID to VIDEO_ID,
 
-                LOAD to LOAD,
-                PLAY to PLAY,
-                PAUSE to PAUSE,
-                SET_VOLUME to SET_VOLUME,
-                SEEK_TO to SEEK_TO
-        )
-    }
+            LOAD to LOAD,
+            PLAY to PLAY,
+            PAUSE to PAUSE,
+            SET_VOLUME to SET_VOLUME,
+            SEEK_TO to SEEK_TO
+    )
 }

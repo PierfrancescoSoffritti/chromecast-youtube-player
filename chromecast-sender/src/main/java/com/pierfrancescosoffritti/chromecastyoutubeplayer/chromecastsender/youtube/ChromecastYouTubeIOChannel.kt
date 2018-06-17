@@ -3,10 +3,10 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.yout
 import android.util.Log
 import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.framework.SessionManager
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 
-class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : ChromecastCommunicationChannel {
+internal class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : ChromecastCommunicationChannel {
     override val namespace get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
 
     override val observers = HashSet<ChromecastCommunicationChannel.ChannelObserver>()

@@ -3,24 +3,24 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
-import android.content.Context
-import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.CastSessionManagerListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubeIOChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastCommunicationConstants
 
-class ChromecastManager(private val context: Context, private val chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver {
-    private val sessionManager: SessionManager = CastContext.getSharedInstance(context).sessionManager
+class ChromecastManager(private val sessionManager: SessionManager, private val chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver  {
     private val chromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener = CastSessionManagerListener(this)
 
-    fun onApplicationConnecting() {
+    fun onCastSessionConnecting() {
         chromecastConnectionListener.onChromecastConnecting()
     }
 
-    fun onApplicationConnected(castSession: CastSession) {
+    fun onCastSessionConnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
         castSession.setMessageReceivedCallbacks(chromecastCommunicationChannel.namespace, chromecastCommunicationChannel)
 
@@ -29,7 +29,7 @@ class ChromecastManager(private val context: Context, private val chromecastConn
         chromecastConnectionListener.onChromecastConnected(chromecastCommunicationChannel)
     }
 
-    fun onApplicationDisconnected(castSession: CastSession) {
+    fun onCastSessionDisconnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
 
         chromecastConnectionListener.onChromecastDisconnected()
@@ -43,14 +43,14 @@ class ChromecastManager(private val context: Context, private val chromecastConn
                 "communicationConstants" to communicationConstants
         )
 
-        chromecastCommunicationChannel.sendMessage(message.toString())
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun restoreSession() {
-        val currentCastSessions = CastContext.getSharedInstance(context).sessionManager.currentCastSession
+        val currentCastSessions = sessionManager.currentCastSession
         if(currentCastSessions != null)
-            onApplicationConnected(currentCastSessions)
+            onCastSessionConnected(currentCastSessions)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

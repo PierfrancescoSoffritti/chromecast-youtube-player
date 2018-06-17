@@ -1,1 +1,1 @@
-include ':app', ':chromecast-sender', ':sample-app'
+include ':chromecast-sender', ':sample-app'
