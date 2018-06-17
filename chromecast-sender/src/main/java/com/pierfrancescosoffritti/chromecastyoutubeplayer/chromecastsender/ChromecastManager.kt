@@ -13,8 +13,8 @@ import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtu
 
 class ChromecastManager(private val context: Context, private val chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver {
     private val sessionManager: SessionManager = CastContext.getSharedInstance(context).sessionManager
-    private val chromecastCommunicationChannel: ChromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
-    private val castSessionManagerListener: CastSessionManagerListener = CastSessionManagerListener(this)
+    private val chromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
+    private val castSessionManagerListener = CastSessionManagerListener(this)
 
     fun onApplicationConnecting() {
         chromecastConnectionListener.onChromecastConnecting()
