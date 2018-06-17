@@ -5,18 +5,18 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.MediaRouteButton
 import android.support.v7.mediarouter.R
 import android.view.ContextThemeWrapper
-import com.pierfrancescosoffritti.youtubeplayer.ui.PlayerUIController
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.MediaRouteButtonContainer
 
 object MediaRouterButtonUtils {
     fun addMediaRouteButtonToPlayerUI(
             mediaRouteButton: MediaRouteButton, tintColor: Int,
-            uiControllerDisabled: PlayerUIController?, uiControllerActivated: PlayerUIController) {
+            disabledContainer: MediaRouteButtonContainer?, activatedContainer: MediaRouteButtonContainer) {
 
         setMediaRouterButtonTint(mediaRouteButton, tintColor)
 
-        uiControllerDisabled?.removeView(mediaRouteButton)
+        disabledContainer?.removeMediaRouteButton(mediaRouteButton)
         if(mediaRouteButton.parent != null) return
-        uiControllerActivated.addView(mediaRouteButton)
+        activatedContainer.addMediaRouteButton(mediaRouteButton)
     }
 
     private fun setMediaRouterButtonTint(mediaRouterButton: MediaRouteButton, color: Int) {

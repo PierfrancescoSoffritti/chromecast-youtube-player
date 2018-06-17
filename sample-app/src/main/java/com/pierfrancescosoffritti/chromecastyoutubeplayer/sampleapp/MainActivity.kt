@@ -19,6 +19,26 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     private lateinit var youTubePlayersManager: YouTubePlayersManager
     private lateinit var mediaRouteButton : MediaRouteButton
 
+    private val chromecastPlayerUIMediaRouteButtonContainer = object: MediaRouteButtonContainer {
+        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) {
+            youTubePlayersManager.chromecastUIController.addView(mediaRouteButton)
+        }
+
+        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) {
+            youTubePlayersManager.chromecastUIController.removeView(mediaRouteButton)
+        }
+    }
+
+    private val localPlayerUIMediaRouteButtonContainer = object: MediaRouteButtonContainer {
+        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) {
+            youtube_player_view.playerUIController.addView(mediaRouteButton)
+        }
+
+        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) {
+            youtube_player_view.playerUIController.removeView(mediaRouteButton)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,7 +53,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     override fun onLocalYouTubePlayerReady() {
         MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
                 mediaRouteButton, android.R.color.white,
-                null, youtube_player_view.playerUIController
+                null, localPlayerUIMediaRouteButtonContainer
         )
     }
 
@@ -50,7 +70,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
                 mediaRouteButton, android.R.color.white,
-                youtube_player_view.playerUIController, youTubePlayersManager.chromecastUIController
+                localPlayerUIMediaRouteButtonContainer, chromecastPlayerUIMediaRouteButtonContainer
         )
 
         youtube_player_view.visibility = View.GONE
@@ -64,7 +84,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
                 mediaRouteButton, android.R.color.white,
-                youTubePlayersManager.chromecastUIController, youtube_player_view.playerUIController
+                chromecastPlayerUIMediaRouteButtonContainer, localPlayerUIMediaRouteButtonContainer
         )
 
         youtube_player_view.visibility = View.VISIBLE

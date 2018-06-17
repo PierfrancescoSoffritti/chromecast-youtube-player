@@ -14,7 +14,7 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 
-class ChromecastUIController(private val controls_view: View, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, DumbPlayerUIController(), SeekBar.OnSeekBarChangeListener {
+class ChromecastUIController(private val controls_view: View, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
     private var isPlaying = false
 
     private val progressBar = controls_view.findViewById<View>(R.id.progress_bar)
@@ -78,11 +78,11 @@ class ChromecastUIController(private val controls_view: View, private val youtub
         }
     }
 
-    override fun addView(view: View) {
+    fun addView(view: View) {
         castButtonContainer.addView(view)
     }
 
-    override fun removeView(view: View) {
+    fun removeView(view: View) {
         castButtonContainer.removeView(view)
     }
 
