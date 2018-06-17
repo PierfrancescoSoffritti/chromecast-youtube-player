@@ -4,20 +4,19 @@ import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castI
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
-class ChromecastYouTubePlayer : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
+class ChromecastYouTubePlayer internal constructor(private val chromecastCommunicationChannel: ChromecastCommunicationChannel) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 
-    private lateinit var chromecastCommunicationChannel: ChromecastCommunicationChannel
     private lateinit var youTubePlayerInitListener: YouTubePlayerInitListener
 
     private val inputMessageDispatcher = ChromecastYouTubeMessageDispatcher( YouTubePlayerBridge(this) )
-
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
 
-    fun initialize(initListener: YouTubePlayerInitListener, communicationChannel: ChromecastCommunicationChannel) {
-        youTubePlayerInitListener = initListener
-        chromecastCommunicationChannel = communicationChannel
+    fun initialize(initListener: YouTubePlayerInitListener) {
+        youTubePlayerListeners.clear()
 
-        communicationChannel.addObserver(inputMessageDispatcher)
+        youTubePlayerInitListener = initListener
+
+        chromecastCommunicationChannel.addObserver(inputMessageDispatcher)
     }
 
     override fun onYouTubeIframeAPIReady() {

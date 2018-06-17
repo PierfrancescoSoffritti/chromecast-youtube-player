@@ -7,9 +7,8 @@ import android.util.Log
 import android.view.View
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastManager
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.utils.MediaRouterButtonUtils
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,8 +35,8 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         youTubePlayersManager = YouTubePlayersManager(lifecycle, this, youtube_player_view, chromecast_controls_root)
         mediaRouteButton = initMediaRouteButton()
 
-        val chromecastManager = ChromecastManager(CastContext.getSharedInstance(this).sessionManager, this)
-        lifecycle.addObserver(chromecastManager)
+        val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, this)
+        lifecycle.addObserver(chromecastYouTubePlayerContext)
     }
 
     override fun onLocalYouTubePlayerReady() {
@@ -53,10 +52,10 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         youTubePlayersManager.onChromecastConnecting()
     }
 
-    override fun onChromecastConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+    override fun onChromecastConnected(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
         Log.d(javaClass.simpleName, "onChromecastConnected")
 
-        youTubePlayersManager.onChromecastConnected(chromecastCommunicationChannel)
+        youTubePlayersManager.onChromecastConnected(chromecastYouTubePlayerContext)
 
         MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
                 mediaRouteButton, android.R.color.white,

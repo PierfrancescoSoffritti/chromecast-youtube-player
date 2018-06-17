@@ -2,18 +2,16 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
 
 import android.arch.lifecycle.Lifecycle
 import android.view.View
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
 class YouTubePlayersManager(
         private val lifecycle: Lifecycle, private val localYouTubePlayerListener: LocalYouTubePlayerListener,
-        private val youtubePlayerView: YouTubePlayerView, chromecastControls: View) : ChromecastConnectionListener {
+        private val youtubePlayerView: YouTubePlayerView, private val chromecastControls: View) : ChromecastConnectionListener {
 
-    private val chromeCastYouTubePlayer = ChromecastYouTubePlayer()
-    val chromecastUIController = ChromecastUIController(chromecastControls, chromeCastYouTubePlayer)
+    val chromecastUIController = ChromecastUIController(chromecastControls)
 
     private var youTubePlayer: YouTubePlayer? = null
 
@@ -23,7 +21,6 @@ class YouTubePlayersManager(
     private var playingOnCastPlayer = false
 
     init {
-        chromeCastYouTubePlayer.addListener(chromecastPlayerStateTracker)
         initLocalYouTube()
     }
 
@@ -31,8 +28,8 @@ class YouTubePlayersManager(
         youTubePlayer?.pause()
     }
 
-    override fun onChromecastConnected(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        initializeCastPlayer(chromecastCommunicationChannel)
+    override fun onChromecastConnected(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
+        initializeCastPlayer(chromecastYouTubePlayerContext)
 
         playingOnCastPlayer = true
     }
@@ -68,18 +65,22 @@ class YouTubePlayersManager(
         }, true)
     }
 
-    private fun initializeCastPlayer(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        chromeCastYouTubePlayer.initialize( YouTubePlayerInitListener { youtubePlayer ->
+    private fun initializeCastPlayer(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
+        chromecastYouTubePlayerContext.initialize( YouTubePlayerInitListener { youtubePlayer ->
+
+            chromecastUIController.youtubePlayer = youtubePlayer
+
+            youtubePlayer.addListener(chromecastPlayerStateTracker)
+            youtubePlayer.addListener(chromecastUIController)
 
             youtubePlayer.addListener(YouTubePlayerLogger())
-            youtubePlayer.addListener(chromecastUIController)
 
             youtubePlayer.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
                     youtubePlayer.loadVideo(localPlayerStateTracker.videoId, localPlayerStateTracker.currentSecond)
                 }
             })
-        }, chromecastCommunicationChannel)
+        })
     }
 
     interface LocalYouTubePlayerListener {

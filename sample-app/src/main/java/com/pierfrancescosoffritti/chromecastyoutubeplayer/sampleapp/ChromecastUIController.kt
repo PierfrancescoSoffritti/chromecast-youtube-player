@@ -14,7 +14,9 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 
-class ChromecastUIController(private val controls_view: View, private val youtubePlayer: YouTubePlayer) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
+class ChromecastUIController(private val controls_view: View) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
+    lateinit var youtubePlayer: YouTubePlayer
+
     private var isPlaying = false
 
     private val progressBar = controls_view.findViewById<View>(R.id.progress_bar)
