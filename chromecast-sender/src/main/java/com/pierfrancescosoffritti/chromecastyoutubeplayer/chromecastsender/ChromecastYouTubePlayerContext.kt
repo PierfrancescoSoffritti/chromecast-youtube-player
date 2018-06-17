@@ -12,6 +12,8 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastC
     private val chromecastManager = ChromecastManager(this, sessionManager, chromecastConnectionListener)
     private val chromecastYouTubePlayer = ChromecastYouTubePlayer(chromecastManager.chromecastCommunicationChannel)
 
+    var chromecastConnected = false
+
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onCreate() = chromecastManager.restoreSession()
 
@@ -22,6 +24,9 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastC
     private fun onPause() = chromecastManager.removeSessionManagerListener()
 
     fun initialize(youTubePlayerInitListener: YouTubePlayerInitListener) {
+        if(!chromecastConnected)
+            throw RuntimeException("ChromecastYouTubePlayerContext, can't initialize before chromecast connection is established.")
+
         chromecastYouTubePlayer.initialize(youTubePlayerInitListener)
     }
 }

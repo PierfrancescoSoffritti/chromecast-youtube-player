@@ -9,7 +9,11 @@ import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastCommunicationConstants
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubeIOChannel
 
-internal class ChromecastManager(private val chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext, private val sessionManager: SessionManager, private val chromecastConnectionListener: ChromecastConnectionListener) {
+internal class ChromecastManager(
+        private val chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext,
+        private val sessionManager: SessionManager,
+        private val chromecastConnectionListener: ChromecastConnectionListener) {
+
     val chromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener = CastSessionManagerListener(this)
 
@@ -23,12 +27,14 @@ internal class ChromecastManager(private val chromecastYouTubePlayerContext: Chr
 
         sendCommunicationConstants(chromecastCommunicationChannel)
 
+        chromecastYouTubePlayerContext.chromecastConnected = true
         chromecastConnectionListener.onChromecastConnected(chromecastYouTubePlayerContext)
     }
 
     fun onCastSessionDisconnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
 
+        chromecastYouTubePlayerContext.chromecastConnected = false
         chromecastConnectionListener.onChromecastDisconnected()
     }
 

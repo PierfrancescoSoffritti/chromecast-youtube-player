@@ -10,6 +10,7 @@ import com.google.android.gms.cast.framework.CastContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.utils.MediaRouterButtonUtils
+import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -37,13 +38,6 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, this)
         lifecycle.addObserver(chromecastYouTubePlayerContext)
-    }
-
-    override fun onLocalYouTubePlayerReady() {
-        MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
-                mediaRouteButton, android.R.color.white,
-                null, localPlayerUIMediaRouteButtonContainer
-        )
     }
 
     override fun onChromecastConnecting() {
@@ -78,6 +72,13 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         youtube_player_view.visibility = View.VISIBLE
         chromecast_controls_root.visibility = View.GONE
+    }
+
+    override fun onLocalYouTubePlayerReady() {
+        MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
+                mediaRouteButton, android.R.color.white,
+                null, localPlayerUIMediaRouteButtonContainer
+        )
     }
 
     private fun initMediaRouteButton() : MediaRouteButton {
