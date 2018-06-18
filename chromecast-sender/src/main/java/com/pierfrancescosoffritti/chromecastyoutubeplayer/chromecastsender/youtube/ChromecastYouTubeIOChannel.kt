@@ -7,7 +7,7 @@ import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.Ch
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 
 internal class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : ChromecastCommunicationChannel {
-    override val namespace get() = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
+    override val namespace get() = "urn:x-cast:com.pierfrancescosoffritti.chromecast-youtube-player.communication"
 
     override val observers = HashSet<ChromecastCommunicationChannel.ChannelObserver>()
 

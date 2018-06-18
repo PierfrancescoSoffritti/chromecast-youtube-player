@@ -2,7 +2,7 @@ import SenderMessagesDispatcher from "./io/SenderMessagesDispatcher.js"
 import ChromecastCommunicationChannel from "./io/ChromecastCommunicationChannel.js"
 import YouTubePlayer from "./YouTubePlayer.js"
 
-const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecastyoutubesample.youtubeplayercommunication"
+const namespace = "urn:x-cast:com.pierfrancescosoffritti.chromecast-youtube-player.communication"
 let communicationConstants = {}
 
 const context = cast.framework.CastReceiverContext.getInstance()
