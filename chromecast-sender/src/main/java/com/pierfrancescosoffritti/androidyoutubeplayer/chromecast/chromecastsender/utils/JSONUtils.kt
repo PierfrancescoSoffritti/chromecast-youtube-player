@@ -27,12 +27,8 @@ internal object JSONUtils {
     }
 
     fun parseMessageFromReceiverJson(json: String) : MessageFromReceiver {
-        Log.d(javaClass.simpleName, json)
-
         val strings = json.split(",")
         val values = strings.map { it.split(":")[1].trim().replace("\"", "").replace("{", "").replace("}", "") }
-
-        Log.d(javaClass.simpleName, MessageFromReceiver(values[0], values[1]).toString())
 
         return MessageFromReceiver(values[0], values[1])
     }

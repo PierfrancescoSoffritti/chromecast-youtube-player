@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
-import android.util.Log
 import android.view.View
 import com.google.android.gms.cast.framework.CastContext
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
@@ -14,6 +13,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.util
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlayServicesUtils
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.IntentFilter
+import android.util.Log
 
 
 class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlayerListener, ChromecastConnectionListener {
@@ -28,17 +29,16 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        notificationManager = NotificationManager(this)
-
         lifecycle.addObserver(youtube_player_view)
 
         youTubePlayersManager = YouTubePlayersManager(this, youtube_player_view, chromecast_controls_root)
         mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
-    }
 
-    override fun onResume() {
-        super.onResume()
+        notificationManager = NotificationManager(this, youTubePlayersManager)
+
         PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
+
+        Log.d(javaClass.simpleName, "on create")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,14 +59,18 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     }
 
     override fun onChromecastConnected(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
+        Log.d(javaClass.simpleName, "connected")
         youTubePlayersManager.onChromecastConnected(chromecastYouTubePlayerContext)
         updateUI(true)
+
         notificationManager.showNotification("test")
     }
 
     override fun onChromecastDisconnected() {
+        Log.d(javaClass.simpleName, "disconnected")
         youTubePlayersManager.onChromecastDisconnected()
         updateUI(false)
+
         notificationManager.dismissNotification()
     }
 

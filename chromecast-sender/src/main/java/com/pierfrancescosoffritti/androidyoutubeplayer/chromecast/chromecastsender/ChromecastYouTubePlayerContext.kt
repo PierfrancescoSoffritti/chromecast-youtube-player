@@ -18,11 +18,12 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastC
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onCreate() = chromecastSessionManager.restoreSession()
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onResume() = chromecastSessionManager.addSessionManagerListener()
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private fun onPause() = chromecastSessionManager.removeSessionManagerListener()
+    // if this is enabled the library can't know when a session is terminated (if the app is in the background), therefore it can't remove notifications etc.
+//    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+//    private fun onPause() = chromecastSessionManager.removeSessionManagerListener()
 
     fun initialize(youTubePlayerInitListener: YouTubePlayerInitListener) {
         if(!chromecastConnected)

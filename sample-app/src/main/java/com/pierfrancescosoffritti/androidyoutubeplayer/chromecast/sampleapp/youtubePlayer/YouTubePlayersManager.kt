@@ -85,17 +85,27 @@ class YouTubePlayersManager(
             youtubePlayer.addListener(chromecastPlayerStateTracker)
             youtubePlayer.addListener(chromecastUIController)
 
-            youtubePlayer.addListener(YouTubePlayerLogger())
+//            youtubePlayer.addListener(YouTubePlayerLogger())
 
             youtubePlayer.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
-                    if(localPlayerStateTracker.currentState == PlayerConstants.PlayerState.PLAYING)
-                        youtubePlayer.loadVideo(localPlayerStateTracker.videoId, localPlayerStateTracker.currentSecond)
-                    else
-                        youtubePlayer.cueVideo(localPlayerStateTracker.videoId, localPlayerStateTracker.currentSecond)
+                    youtubePlayer.loadVideo(localPlayerStateTracker.videoId, localPlayerStateTracker.currentSecond)
                 }
             })
         })
+    }
+
+    fun togglePlayback() {
+        if(playingOnCastPlayer)
+            if(chromecastPlayerStateTracker.currentState == PlayerConstants.PlayerState.PLAYING)
+                chromecastYouTubePlayer?.pause()
+            else
+                chromecastYouTubePlayer?.play()
+        else
+            if(localPlayerStateTracker.currentState == PlayerConstants.PlayerState.PLAYING)
+                localYouTubePlayer?.pause()
+            else
+                localYouTubePlayer?.play()
     }
 
     interface LocalYouTubePlayerListener {
