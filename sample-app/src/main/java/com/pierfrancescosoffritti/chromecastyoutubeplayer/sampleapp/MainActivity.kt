@@ -1,11 +1,14 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
 import android.util.Log
 import android.view.View
 import com.google.android.gms.cast.framework.CastContext
+import com.google.android.gms.common.ConnectionResult.SUCCESS
+import com.google.android.gms.common.GoogleApiAvailability
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.ui.MediaRouteButtonContainer
@@ -15,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlayerListener, ChromecastConnectionListener {
+    private val requestCodeGooglePlayServicesAvailability = 1
+
     private lateinit var youTubePlayersManager: YouTubePlayersManager
     private lateinit var mediaRouteButton : MediaRouteButton
 
@@ -34,7 +39,31 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         youTubePlayersManager = YouTubePlayersManager(lifecycle, this, youtube_player_view, chromecast_controls_root)
         mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        checkGooglePlayServicesAvailability()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == requestCodeGooglePlayServicesAvailability) {
+            Log.d(javaClass.simpleName, "called")
+            checkGooglePlayServicesAvailability()
+        }
+    }
+
+    private fun checkGooglePlayServicesAvailability() {
+        val googlePlayServicesAvailabilityResult = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+        if(googlePlayServicesAvailabilityResult == SUCCESS)
+            initChromecastYouTubePlayer()
+        else
+            GoogleApiAvailability.getInstance().getErrorDialog(this, googlePlayServicesAvailabilityResult, requestCodeGooglePlayServicesAvailability, null).show()
+    }
+
+    private fun initChromecastYouTubePlayer() {
         val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, this)
         lifecycle.addObserver(chromecastYouTubePlayerContext)
     }
