@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp"
+        applicationId "com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1

@@ -1,6 +1,0 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io
-
-/**
- * POJO for message received from the cast receiver
- */
-internal data class MessageFromReceiver(val type: String, val data: String)
