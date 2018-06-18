@@ -10,6 +10,7 @@ import com.google.android.gms.cast.framework.CastButtonFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.ui.MediaRouteButtonContainer
 
 object MediaRouterButtonUtils {
+
     fun initMediaRouteButton(context: Context) : MediaRouteButton {
         val mediaRouteButton = MediaRouteButton(context)
         CastButtonFactory.setUpMediaRouteButton(context, mediaRouteButton)

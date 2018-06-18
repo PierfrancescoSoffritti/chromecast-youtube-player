@@ -3,10 +3,7 @@ package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.ui
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
@@ -93,6 +90,7 @@ class ChromecastUIController(private val controls_view: View) : YouTubePlayerLis
             PlayerConstants.PlayerState.ENDED -> isPlaying = false
             PlayerConstants.PlayerState.PAUSED -> isPlaying = false
             PlayerConstants.PlayerState.PLAYING -> isPlaying = true
+            PlayerConstants.PlayerState.BUFFERING -> isPlaying = false
             PlayerConstants.PlayerState.UNSTARTED -> resetUI()
             else -> {
             }
