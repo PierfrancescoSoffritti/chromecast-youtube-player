@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io
 
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 

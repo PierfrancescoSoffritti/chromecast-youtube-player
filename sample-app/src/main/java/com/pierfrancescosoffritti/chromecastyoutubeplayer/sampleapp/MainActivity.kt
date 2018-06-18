@@ -7,10 +7,9 @@ import android.util.Log
 import android.view.View
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.utils.MediaRouterButtonUtils
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io
 
 import com.google.android.gms.cast.Cast
 import com.google.android.gms.cast.CastDevice

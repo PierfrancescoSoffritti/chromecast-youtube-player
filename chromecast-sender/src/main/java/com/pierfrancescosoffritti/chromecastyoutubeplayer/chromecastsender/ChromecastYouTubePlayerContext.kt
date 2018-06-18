@@ -4,15 +4,15 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import com.google.android.gms.cast.framework.SessionManager
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 
-class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver {
+class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver, ChromecastConnectionListener {
     private val chromecastManager = ChromecastManager(this, sessionManager, chromecastConnectionListener)
     private val chromecastYouTubePlayer = ChromecastYouTubePlayer(chromecastManager.chromecastCommunicationChannel)
 
-    var chromecastConnected = false
+    private var chromecastConnected = false
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onCreate() = chromecastManager.restoreSession()
@@ -25,8 +25,19 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastC
 
     fun initialize(youTubePlayerInitListener: YouTubePlayerInitListener) {
         if(!chromecastConnected)
-            throw RuntimeException("ChromecastYouTubePlayerContext, can't initialize before chromecast connection is established.")
+            throw RuntimeException("ChromecastYouTubePlayerContext, can't initialize before Chromecast connection is established.")
 
         chromecastYouTubePlayer.initialize(youTubePlayerInitListener)
+    }
+
+    override fun onChromecastConnecting() {
+    }
+
+    override fun onChromecastConnected(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
+        chromecastConnected = true
+    }
+
+    override fun onChromecastDisconnected() {
+        chromecastConnected = false
     }
 }

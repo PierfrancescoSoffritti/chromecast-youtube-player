@@ -1,6 +1,6 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube
 
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 

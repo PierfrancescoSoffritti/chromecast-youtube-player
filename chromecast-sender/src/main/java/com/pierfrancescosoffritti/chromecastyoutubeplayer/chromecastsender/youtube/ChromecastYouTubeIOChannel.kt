@@ -3,7 +3,7 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.yout
 import android.util.Log
 import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.framework.SessionManager
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 
 internal class ChromecastYouTubeIOChannel(private val sessionManager: SessionManager) : ChromecastCommunicationChannel {

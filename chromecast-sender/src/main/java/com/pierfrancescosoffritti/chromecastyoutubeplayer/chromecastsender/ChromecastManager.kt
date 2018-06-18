@@ -2,9 +2,10 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender
 
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.CastSessionManagerListener
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastCommunicationChannel
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.CastSessionManagerListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.CastSessionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastCommunicationConstants
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubeIOChannel
@@ -12,41 +13,30 @@ import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtu
 internal class ChromecastManager(
         private val chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext,
         private val sessionManager: SessionManager,
-        private val chromecastConnectionListener: ChromecastConnectionListener) {
+        private val chromecastConnectionListener: ChromecastConnectionListener) : CastSessionListener {
 
     val chromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener = CastSessionManagerListener(this)
 
-    fun onCastSessionConnecting() {
+    override fun onCastSessionConnecting() {
         chromecastConnectionListener.onChromecastConnecting()
     }
 
-    fun onCastSessionConnected(castSession: CastSession) {
+    override fun onCastSessionConnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
         castSession.setMessageReceivedCallbacks(chromecastCommunicationChannel.namespace, chromecastCommunicationChannel)
 
         sendCommunicationConstants(chromecastCommunicationChannel)
 
-        chromecastYouTubePlayerContext.chromecastConnected = true
+        chromecastYouTubePlayerContext.onChromecastConnected(chromecastYouTubePlayerContext)
         chromecastConnectionListener.onChromecastConnected(chromecastYouTubePlayerContext)
     }
 
-    fun onCastSessionDisconnected(castSession: CastSession) {
+    override fun onCastSessionDisconnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
 
-        chromecastYouTubePlayerContext.chromecastConnected = false
+        chromecastYouTubePlayerContext.onChromecastDisconnected()
         chromecastConnectionListener.onChromecastDisconnected()
-    }
-
-    private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
-        val communicationConstants = ChromecastCommunicationConstants.asJson()
-
-        val message = JSONUtils.buildCommunicationConstantsJson(
-                "command" to ChromecastCommunicationConstants.INIT_COMMUNICATION_CONSTANTS,
-                "communicationConstants" to communicationConstants
-        )
-
-        chromecastCommunicationChannel.sendMessage(message)
     }
 
     fun restoreSession() {
@@ -61,5 +51,16 @@ internal class ChromecastManager(
 
     fun removeSessionManagerListener() {
         sessionManager.removeSessionManagerListener(castSessionManagerListener, CastSession::class.java)
+    }
+
+    private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
+        val communicationConstants = ChromecastCommunicationConstants.asJson()
+
+        val message = JSONUtils.buildCommunicationConstantsJson(
+                "command" to ChromecastCommunicationConstants.INIT_COMMUNICATION_CONSTANTS,
+                "communicationConstants" to communicationConstants
+        )
+
+        chromecastCommunicationChannel.sendMessage(message)
     }
 }

@@ -3,7 +3,7 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
 import android.arch.lifecycle.Lifecycle
 import android.view.View
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 

@@ -1,7 +1,7 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils
 
 import android.util.Log
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.castIO.MessageFromReceiver
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.MessageFromReceiver
 
 internal object JSONUtils {
     fun buildFlatJson(vararg args: Pair<String, String>) : String {
