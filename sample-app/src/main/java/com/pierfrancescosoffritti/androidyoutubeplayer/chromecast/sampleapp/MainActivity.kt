@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
     private lateinit var notificationManager: NotificationManager
 
+    private lateinit var myBroadcastReceiver: MyBroadcastReceiver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +41,17 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
 
         Log.d(javaClass.simpleName, "on create")
+
+        myBroadcastReceiver = MyBroadcastReceiver(youTubePlayersManager)
+
+        val filter = IntentFilter()
+        filter.addAction(MyBroadcastReceiver.TOGGLE_PLAYBACK)
+        registerReceiver(myBroadcastReceiver, filter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(myBroadcastReceiver)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

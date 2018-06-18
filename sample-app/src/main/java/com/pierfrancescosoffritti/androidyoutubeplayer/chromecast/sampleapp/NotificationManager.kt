@@ -22,8 +22,6 @@ class NotificationManager(private val context: Context, youTubePlayersManager: Y
     private val notificationId = 1
     private val channelId = "CHANNEL_ID"
 
-    val myBroadcastReceiver = MyBroadcastReceiver(youTubePlayersManager)
-
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -35,9 +33,10 @@ class NotificationManager(private val context: Context, youTubePlayersManager: Y
     }
 
     fun showNotification(title: String, thumbnail: Bitmap? = null) {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val intent = Intent(context.applicationContext, MainActivity::class.java)
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intent.setAction(Intent.ACTION_MAIN); intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        val pendingIntent = PendingIntent.getActivity(context.applicationContext, 0, intent, 0)
 
         val togglePlaybackIntent = Intent(context, MyBroadcastReceiver::class.java)
         togglePlaybackIntent.action = MyBroadcastReceiver.TOGGLE_PLAYBACK
@@ -53,32 +52,17 @@ class NotificationManager(private val context: Context, youTubePlayersManager: Y
                 .setStyle(MediaStyle().setShowActionsInCompactView(0, 1))
                 .setContentTitle(title)
                 .setContentText("My Awesome Band")
-                .setAutoCancel(true)
+//                .setAutoCancel(true)
                 .setOngoing(true)
 //                .setLargeIcon(thumbnail)
                 .build()
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(notificationId, notification)
-
-        val filter = IntentFilter()
-        filter.addAction(MyBroadcastReceiver.TOGGLE_PLAYBACK)
-
-        try {
-            context.registerReceiver(myBroadcastReceiver, filter)
-        } catch (e: IllegalArgumentException) {
-            Log.e(javaClass.simpleName, e.message)
-        }
     }
 
     fun dismissNotification() {
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.cancel(notificationId)
-
-        try {
-            context.unregisterReceiver(myBroadcastReceiver)
-        } catch (e: IllegalArgumentException) {
-            Log.e(javaClass.simpleName, e.message)
-        }
     }
 }
