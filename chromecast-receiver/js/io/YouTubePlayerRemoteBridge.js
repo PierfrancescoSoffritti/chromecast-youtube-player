@@ -1,5 +1,10 @@
-import { YouTubeMessage } from "./YouTubeMessage.js";
+import { YouTubeMessage } from "./YouTubeMessage.js"
 
+/**
+ * Class responsible for sending messages to the cast sender
+ * @param {*} communicationConstants 
+ * @param {*} communicationChannel 
+ */
 function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel) {
 
     function sendYouTubeIframeAPIReady() {
@@ -56,4 +61,4 @@ function YouTubePlayerRemoteBridge(communicationConstants, communicationChannel)
     }
 }
 
-export default YouTubePlayerRemoteBridge;
+export default YouTubePlayerRemoteBridge
