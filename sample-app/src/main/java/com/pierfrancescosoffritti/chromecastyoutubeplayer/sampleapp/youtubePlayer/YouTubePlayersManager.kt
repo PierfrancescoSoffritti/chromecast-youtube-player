@@ -25,7 +25,7 @@ class YouTubePlayersManager(
     private var playingOnCastPlayer = false
 
     init {
-        initLocalYouTube(playingOnCastPlayer)
+        initLocalYouTube()
     }
 
     override fun onChromecastConnecting() {
@@ -49,7 +49,7 @@ class YouTubePlayersManager(
         playingOnCastPlayer = false
     }
 
-    private fun initLocalYouTube(playingOnCastPlayer: Boolean) {
+    private fun initLocalYouTube() {
         lifecycle.addObserver(youtubePlayerView)
 
         youtubePlayerView.initialize({ youtubePlayer ->
@@ -63,6 +63,11 @@ class YouTubePlayersManager(
                         youtubePlayer.loadVideo("6JYIGclVQdw", chromecastPlayerStateTracker.currentSecond)
 
                     localYouTubePlayerListener.onLocalYouTubePlayerReady()
+                }
+
+                override fun onCurrentSecond(second: Float) {
+                    if(playingOnCastPlayer && localPlayerStateTracker.currentState == PlayerConstants.PlayerState.PLAYING)
+                        youtubePlayer.pause()
                 }
             })
 
