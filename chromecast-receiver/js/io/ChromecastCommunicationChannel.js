@@ -11,8 +11,7 @@ function ChromecastCommunicationChannel(namespace) {
             return;
         }
         
-        const sender = context.getSenders()[0]
-        context.sendCustomMessage(namespace, sender.id, data)
+        context.getSenders().forEach( sender => context.sendCustomMessage(namespace, sender.id, data) )
     }
 
     return {
