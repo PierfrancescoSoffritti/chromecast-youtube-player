@@ -49,10 +49,8 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == requestCodeGooglePlayServicesAvailability) {
-            Log.d(javaClass.simpleName, "called")
+        if(requestCode == requestCodeGooglePlayServicesAvailability)
             checkGooglePlayServicesAvailability()
-        }
     }
 
     private fun checkGooglePlayServicesAvailability() {

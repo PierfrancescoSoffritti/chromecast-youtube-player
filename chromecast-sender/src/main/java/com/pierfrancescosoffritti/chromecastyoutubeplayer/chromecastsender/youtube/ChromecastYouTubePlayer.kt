@@ -34,7 +34,13 @@ class ChromecastYouTubePlayer internal constructor(private val chromecastCommuni
     }
 
     override fun cueVideo(videoId: String, startSeconds: Float) {
-        throw RuntimeException("cueVideo NO-OP")
+        val message = JSONUtils.buildFlatJson(
+                "command" to ChromecastCommunicationConstants.CUE,
+                "videoId" to videoId,
+                "startSeconds" to startSeconds.toString()
+        )
+
+        chromecastCommunicationChannel.sendMessage(message)
     }
 
     override fun play() {

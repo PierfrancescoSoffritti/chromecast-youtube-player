@@ -15,6 +15,8 @@ function SenderMessagesDispatcher(communicationConstants, callbacks) {
             
         else if(message.data.command === communicationConstants.LOAD)
             callbacks.loadVideo(message.data.videoId, Number(message.data.startSeconds))
+        else if(message.data.command === communicationConstants.CUE)
+            callbacks.cueVideo(message.data.videoId, Number(message.data.startSeconds))
         else if(message.data.command === communicationConstants.PLAY)
             callbacks.playVideo()
         else if(message.data.command === communicationConstants.PAUSE)
