@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
 import android.util.Log
 import android.view.View
-import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.ui.MediaRouteButtonContainer
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.utils.MediaRouterButtonUtils
-
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.youtubePlayer.YouTubePlayersManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         setContentView(R.layout.activity_main)
 
         youTubePlayersManager = YouTubePlayersManager(lifecycle, this, youtube_player_view, chromecast_controls_root)
-        mediaRouteButton = initMediaRouteButton()
+        mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
 
         val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, this)
         lifecycle.addObserver(chromecastYouTubePlayerContext)
@@ -78,12 +78,5 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
                 mediaRouteButton, android.R.color.white,
                 null, localPlayerUIMediaRouteButtonContainer
         )
-    }
-
-    private fun initMediaRouteButton() : MediaRouteButton {
-        val mediaRouteButton = MediaRouteButton(this)
-        CastButtonFactory.setUpMediaRouteButton(this, mediaRouteButton)
-
-        return mediaRouteButton
     }
 }

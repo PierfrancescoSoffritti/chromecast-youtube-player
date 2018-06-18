@@ -1,11 +1,8 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io
 
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.CastSessionManagerListener
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.CastSessionListener
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastCommunicationChannel
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastCommunicationConstants
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubeIOChannel
@@ -45,13 +42,8 @@ internal class ChromecastManager(
             onCastSessionConnected(currentCastSessions)
     }
 
-    fun addSessionManagerListener() {
-        sessionManager.addSessionManagerListener(castSessionManagerListener, CastSession::class.java)
-    }
-
-    fun removeSessionManagerListener() {
-        sessionManager.removeSessionManagerListener(castSessionManagerListener, CastSession::class.java)
-    }
+    fun addSessionManagerListener() = sessionManager.addSessionManagerListener(castSessionManagerListener, CastSession::class.java)
+    fun removeSessionManagerListener() = sessionManager.removeSessionManagerListener(castSessionManagerListener, CastSession::class.java)
 
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         val communicationConstants = ChromecastCommunicationConstants.asJson()

@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.R
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener

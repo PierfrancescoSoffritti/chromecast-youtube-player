@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import com.google.android.gms.cast.framework.SessionManager
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastManager
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 

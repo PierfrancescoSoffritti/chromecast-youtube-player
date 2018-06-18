@@ -3,7 +3,7 @@ package com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.yout
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.utils.JSONUtils
 
 /**
- * Set of constants used for sender-receiver communication
+ * Set of constants used for sender-receiver communication.
  */
 internal object ChromecastCommunicationConstants {
     // receiver to sender

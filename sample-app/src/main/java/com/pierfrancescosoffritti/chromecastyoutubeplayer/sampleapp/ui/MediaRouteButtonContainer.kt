@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.ui
 
 import android.support.v7.app.MediaRouteButton
 

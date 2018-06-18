@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.youtubePlayer
 
 import android.util.Log
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
@@ -21,7 +21,7 @@ class YouTubePlayerLogger : YouTubePlayerListener {
     }
 
     override fun onReady() {
-        Log.d("listener", "onReady")
+        Log.d(javaClass.simpleName, "onReady")
     }
 
     override fun onPlaybackRateChange(playbackRate: String) {

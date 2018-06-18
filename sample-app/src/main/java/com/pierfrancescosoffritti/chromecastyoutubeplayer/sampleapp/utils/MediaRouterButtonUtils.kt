@@ -1,13 +1,22 @@
 package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.utils
 
+import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.MediaRouteButton
 import android.support.v7.mediarouter.R
 import android.view.ContextThemeWrapper
-import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.MediaRouteButtonContainer
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.ui.MediaRouteButtonContainer
 
 object MediaRouterButtonUtils {
+    fun initMediaRouteButton(context: Context) : MediaRouteButton {
+        val mediaRouteButton = MediaRouteButton(context)
+        CastButtonFactory.setUpMediaRouteButton(context, mediaRouteButton)
+
+        return mediaRouteButton
+    }
+
     fun addMediaRouteButtonToPlayerUI(
             mediaRouteButton: MediaRouteButton, tintColor: Int,
             disabledContainer: MediaRouteButtonContainer?, activatedContainer: MediaRouteButtonContainer) {

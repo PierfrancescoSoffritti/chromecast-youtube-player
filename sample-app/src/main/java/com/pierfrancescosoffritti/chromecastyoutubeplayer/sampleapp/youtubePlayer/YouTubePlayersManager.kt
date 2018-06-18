@@ -1,15 +1,19 @@
-package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp
+package com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.youtubePlayer
 
 import android.arch.lifecycle.Lifecycle
 import android.view.View
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.chromecastyoutubeplayer.chromecastsender.io.ChromecastConnectionListener
+import com.pierfrancescosoffritti.chromecastyoutubeplayer.sampleapp.ui.ChromecastUIController
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
+/**
+ * Class responsible for
+ */
 class YouTubePlayersManager(
         private val lifecycle: Lifecycle, private val localYouTubePlayerListener: LocalYouTubePlayerListener,
-        private val youtubePlayerView: YouTubePlayerView, private val chromecastControls: View) : ChromecastConnectionListener {
+        private val youtubePlayerView: YouTubePlayerView, chromecastControls: View) : ChromecastConnectionListener {
 
     val chromecastUIController = ChromecastUIController(chromecastControls)
 
@@ -21,7 +25,7 @@ class YouTubePlayersManager(
     private var playingOnCastPlayer = false
 
     init {
-        initLocalYouTube()
+        initLocalYouTube(playingOnCastPlayer)
     }
 
     override fun onChromecastConnecting() {
@@ -45,7 +49,7 @@ class YouTubePlayersManager(
         playingOnCastPlayer = false
     }
 
-    private fun initLocalYouTube() {
+    private fun initLocalYouTube(playingOnCastPlayer: Boolean) {
         lifecycle.addObserver(youtubePlayerView)
 
         youtubePlayerView.initialize({ youtubePlayer ->
