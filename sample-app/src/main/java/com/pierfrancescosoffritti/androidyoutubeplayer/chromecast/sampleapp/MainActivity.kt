@@ -15,15 +15,20 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.util
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlayerListener, ChromecastConnectionListener {
     private val googlePlayServicesAvailabilityRequestCode = 1
 
     private lateinit var youTubePlayersManager: YouTubePlayersManager
     private lateinit var mediaRouteButton : MediaRouteButton
 
+    private lateinit var notificationManager: NotificationManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        notificationManager = NotificationManager(this)
 
         lifecycle.addObserver(youtube_player_view)
 
@@ -33,7 +38,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
     override fun onResume() {
         super.onResume()
-        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) {initChromecast()}
+        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -56,11 +61,13 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
     override fun onChromecastConnected(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
         youTubePlayersManager.onChromecastConnected(chromecastYouTubePlayerContext)
         updateUI(true)
+        notificationManager.showNotification("test")
     }
 
     override fun onChromecastDisconnected() {
         youTubePlayersManager.onChromecastDisconnected()
         updateUI(false)
+        notificationManager.dismissNotification()
     }
 
     private fun updateUI(connected: Boolean) {

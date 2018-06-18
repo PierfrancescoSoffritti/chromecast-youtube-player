@@ -11,11 +11,11 @@ import com.google.android.gms.cast.framework.OptionsProvider
  * [see doc here](https://developers.google.com/cast/docs/android_sender_integrate#initialize_the_cast_context)
  */
 internal class CastOptionsProvider : OptionsProvider {
-    private val APP_ID = "C5CBE8CA"
+    private val receiverId = "C5CBE8CA"
 
     override fun getCastOptions(appContext: Context): CastOptions {
         return CastOptions.Builder()
-                .setReceiverApplicationId(APP_ID)
+                .setReceiverApplicationId(receiverId)
                 .build()
     }
 

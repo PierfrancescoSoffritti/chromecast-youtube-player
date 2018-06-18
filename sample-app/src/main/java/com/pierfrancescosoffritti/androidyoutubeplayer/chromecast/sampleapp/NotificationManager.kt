@@ -1,0 +1,57 @@
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp
+
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.OnLifecycleEvent
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Build
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.media.app.NotificationCompat.MediaStyle
+
+class NotificationManager(private val context: Context) : LifecycleObserver {
+    private val notificationId = 1
+    private val channelId = "CHANNEL_ID"
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, "chromecast-youtube-player", NotificationManager.IMPORTANCE_DEFAULT)
+            channel.description = "sample-app"
+            val notificationManager = context.getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    fun showNotification(title: String, thumbnail: Bitmap? = null) {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+        val notification = NotificationCompat.Builder(context, channelId)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.ic_audiotrack_dark)
+                .setContentIntent(pendingIntent)
+                .addAction(R.drawable.ic_play_arrow_24dp, "Toggle Playback", pendingIntent) // #0
+                .addAction(R.drawable.ic_cast_connected_24dp, "Disconnect from chromecast", pendingIntent)  // #1
+                .setStyle(MediaStyle().setShowActionsInCompactView(0, 1))
+                .setContentTitle(title)
+                .setContentText("My Awesome Band")
+                .setAutoCancel(true)
+//                .setLargeIcon(thumbnail)
+                .build()
+
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.notify(notificationId, notification)
+    }
+
+    fun dismissNotification() {
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.cancel(notificationId)
+    }
+}
