@@ -3,7 +3,7 @@ package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsen
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.utils.JSONUtils
 
 /**
- * Set of constants used for sender-receiver communication.
+ * Set of constants used for sender-receiver communication. The sender will send the constants to the receiver when a connection is initiated.
  */
 internal object ChromecastCommunicationConstants {
     // receiver to sender

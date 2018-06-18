@@ -7,7 +7,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube.ChromecastCommunicationConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube.ChromecastYouTubeIOChannel
 
-internal class ChromecastManager(
+/**
+ * Class responsible for chromecast sessions.
+ */
+internal class ChromecastSessionManager(
         private val chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext,
         private val sessionManager: SessionManager,
         private val chromecastConnectionListener: ChromecastConnectionListener) : CastSessionListener {

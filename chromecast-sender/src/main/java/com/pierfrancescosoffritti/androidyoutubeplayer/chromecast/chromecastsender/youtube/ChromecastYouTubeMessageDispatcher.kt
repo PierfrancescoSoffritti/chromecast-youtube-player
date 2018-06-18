@@ -2,13 +2,12 @@ package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsen
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.MessageFromReceiver
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastCommunicationChannel
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube.ChromecastCommunicationConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerBridge
 
 /**
- * Class responsible for dispatching messages received from the CastReceiver
+ * Class responsible for dispatching messages received from the cast receiver.
   */
-internal class ChromecastYouTubeMessageDispatcher(private val bridge: YouTubePlayerBridge) : ChromecastCommunicationChannel.ChannelObserver {
+internal class ChromecastYouTubeMessageDispatcher(private val bridge: YouTubePlayerBridge) : ChromecastCommunicationChannel.ChromecastChannelObserver {
     override fun onMessageReceived(messageFromReceiver: MessageFromReceiver) {
         when (messageFromReceiver.type) {
             ChromecastCommunicationConstants.IFRAME_API_READY -> bridge.sendYouTubeIframeAPIReady()

@@ -27,9 +27,10 @@ dependencies {
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-
-    implementation 'com.android.support:mediarouter-v7:27.1.1'
-    implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
     implementation 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:7.0.1'
+
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:mediarouter-v7:27.1.1'
+
+    implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
 }

@@ -5,24 +5,24 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import com.google.android.gms.cast.framework.SessionManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastManager
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastSessionManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 
 class ChromecastYouTubePlayerContext(sessionManager: SessionManager, chromecastConnectionListener: ChromecastConnectionListener) : LifecycleObserver, ChromecastConnectionListener {
-    private val chromecastManager = ChromecastManager(this, sessionManager, chromecastConnectionListener)
-    private val chromecastYouTubePlayer = ChromecastYouTubePlayer(chromecastManager.chromecastCommunicationChannel)
+    private val chromecastSessionManager = ChromecastSessionManager(this, sessionManager, chromecastConnectionListener)
+    private val chromecastYouTubePlayer = ChromecastYouTubePlayer(chromecastSessionManager.chromecastCommunicationChannel)
 
     private var chromecastConnected = false
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private fun onCreate() = chromecastManager.restoreSession()
+    private fun onCreate() = chromecastSessionManager.restoreSession()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onResume() = chromecastManager.addSessionManagerListener()
+    private fun onResume() = chromecastSessionManager.addSessionManagerListener()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private fun onPause() = chromecastManager.removeSessionManagerListener()
+    private fun onPause() = chromecastSessionManager.removeSessionManagerListener()
 
     fun initialize(youTubePlayerInitListener: YouTubePlayerInitListener) {
         if(!chromecastConnected)

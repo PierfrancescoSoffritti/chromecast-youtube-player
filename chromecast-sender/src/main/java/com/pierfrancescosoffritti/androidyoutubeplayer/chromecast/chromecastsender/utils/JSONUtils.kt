@@ -3,6 +3,10 @@ package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsen
 import android.util.Log
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.MessageFromReceiver
 
+/**
+ * Utility class to read and parse JSON messages exchanged between sender and receiver.
+ * The format of the messages is basic, no external library is needed.
+ */
 internal object JSONUtils {
     fun buildFlatJson(vararg args: Pair<String, String>) : String {
         val jsonBuilder = StringBuilder("{")
