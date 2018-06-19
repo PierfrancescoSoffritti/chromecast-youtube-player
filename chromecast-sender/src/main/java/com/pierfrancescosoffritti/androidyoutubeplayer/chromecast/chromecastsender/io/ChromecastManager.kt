@@ -13,7 +13,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 internal class ChromecastManager(
         private val chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext,
         private val sessionManager: SessionManager,
-        private val chromecastConnectionListeners: Array< out ChromecastConnectionListener>) : CastSessionListener {
+        private val chromecastConnectionListeners: Set<ChromecastConnectionListener>) : CastSessionListener {
 
     val chromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener = CastSessionManagerListener(this)

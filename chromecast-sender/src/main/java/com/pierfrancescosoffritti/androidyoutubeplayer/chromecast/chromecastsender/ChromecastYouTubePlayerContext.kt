@@ -10,10 +10,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 
 class ChromecastYouTubePlayerContext(sessionManager: SessionManager, vararg chromecastConnectionListeners: ChromecastConnectionListener) : LifecycleObserver, ChromecastConnectionListener {
-    private val chromecastManager = ChromecastManager(this, sessionManager, chromecastConnectionListeners)
+    private val chromecastConnectionListeners = HashSet<ChromecastConnectionListener>()
+
+    private val chromecastManager = ChromecastManager(this, sessionManager, this.chromecastConnectionListeners)
     private val chromecastYouTubePlayer = ChromecastYouTubePlayer(chromecastManager.chromecastCommunicationChannel)
 
     private var chromecastConnected = false
+
+    init {
+        chromecastConnectionListeners.forEach { this.chromecastConnectionListeners.add(it) }
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onCreate() {
@@ -49,4 +55,7 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, vararg chro
     override fun onChromecastDisconnected() {
         chromecastConnected = false
     }
+
+    fun addChromecastConnectionListener(chromecastConnectionListener: ChromecastConnectionListener) = chromecastConnectionListeners.add(chromecastConnectionListener)
+    fun removeChromecastConnectionListener(chromecastConnectionListener: ChromecastConnectionListener) = chromecastConnectionListeners.remove(chromecastConnectionListener)
 }

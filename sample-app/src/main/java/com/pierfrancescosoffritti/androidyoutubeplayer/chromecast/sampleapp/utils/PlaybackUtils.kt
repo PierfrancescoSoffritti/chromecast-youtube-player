@@ -3,7 +3,7 @@ package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.uti
 import java.util.*
 
 object PlaybackUtils {
-    private val videoIds = arrayOf("6JYIGclVQdw", "LvetJ9U_tVY")
+    private val videoIds = arrayOf("6JYIGclVQdw", "LvetJ9U_tVY", "S0Q4gqBUs7c", "zOa-rSM4nms")
 
     fun getNextVideoId(): String {
         return videoIds[Random().nextInt(videoIds.size)]
