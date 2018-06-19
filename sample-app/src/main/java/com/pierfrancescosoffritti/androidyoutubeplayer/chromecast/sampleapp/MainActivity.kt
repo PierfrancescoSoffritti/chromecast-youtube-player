@@ -14,6 +14,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.util
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.IntentFilter
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 
 
@@ -43,15 +44,13 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         Log.d(javaClass.simpleName, "on create")
 
         myBroadcastReceiver = MyBroadcastReceiver(youTubePlayersManager)
-
-        val filter = IntentFilter()
-        filter.addAction(MyBroadcastReceiver.TOGGLE_PLAYBACK)
-        registerReceiver(myBroadcastReceiver, filter)
+        val filter = IntentFilter(MyBroadcastReceiver.TOGGLE_PLAYBACK)
+        applicationContext.registerReceiver(myBroadcastReceiver, filter)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(myBroadcastReceiver)
+        applicationContext.unregisterReceiver(myBroadcastReceiver)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

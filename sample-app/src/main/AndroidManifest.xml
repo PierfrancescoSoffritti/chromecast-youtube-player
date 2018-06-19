@@ -10,13 +10,20 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTop" >
+            android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--<receiver-->
+            <!--android:name=".MyBroadcastReceiver"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="@string/toggle_playback_id"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"

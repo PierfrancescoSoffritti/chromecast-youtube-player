@@ -8,13 +8,11 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.app.NotificationCompat.MediaStyle
-import android.util.Log
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
 
 
@@ -34,14 +32,14 @@ class NotificationManager(private val context: Context, youTubePlayersManager: Y
 
     fun showNotification(title: String, thumbnail: Bitmap? = null) {
         val intent = Intent(context.applicationContext, MainActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        intent.setAction(Intent.ACTION_MAIN); intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.action = Intent.ACTION_MAIN
+        intent.addCategory(Intent.CATEGORY_LAUNCHER)
         val pendingIntent = PendingIntent.getActivity(context.applicationContext, 0, intent, 0)
 
-        val togglePlaybackIntent = Intent(context, MyBroadcastReceiver::class.java)
-        togglePlaybackIntent.action = MyBroadcastReceiver.TOGGLE_PLAYBACK
-//        snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, 0)
-        val togglePlaybackPendingIntent = PendingIntent.getBroadcast(context, 0, togglePlaybackIntent, 0)
+//        val togglePlaybackExplicitIntent = Intent(context, MyBroadcastReceiver::class.java)
+//        togglePlaybackExplicitIntent.action = MyBroadcastReceiver.TOGGLE_PLAYBACK
+        val togglePlaybackImplicitIntent = Intent(MyBroadcastReceiver.TOGGLE_PLAYBACK)
+        val togglePlaybackPendingIntent = PendingIntent.getBroadcast(context, 0, togglePlaybackImplicitIntent, 0)
 
         val notification = NotificationCompat.Builder(context, channelId)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

@@ -11,7 +11,7 @@ class MyBroadcastReceiver(private val youTubePlayersManager: YouTubePlayersManag
         const val TOGGLE_PLAYBACK = "TOGGLE_PLAYBACK"
     }
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(javaClass.simpleName, intent.action)
+        Log.d(javaClass.simpleName, "intent received ${intent.action}")
         when(intent.action) {
             TOGGLE_PLAYBACK -> youTubePlayersManager.togglePlayback()
         }
