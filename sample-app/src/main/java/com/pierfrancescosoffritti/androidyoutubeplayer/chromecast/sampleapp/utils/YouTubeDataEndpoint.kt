@@ -13,13 +13,13 @@ object YouTubeDataEndpoint {
     const val APP_NAME = "android-youtube-player-chromecast"
     const val YOUTUBE_DATA_API_KEY = "AIzaSyAVeTsyAjfpfBBbUQq4E7jooWwtV2D_tjE"
 
-    fun getVideoTitleFromYouTubeDataAPIs(videoId: String): Single<Pair<String, Bitmap?>> {
-        val onSubscribe = SingleOnSubscribe<Pair<String, Bitmap?>> { emitter ->
+    fun getVideoTitleFromYouTubeDataAPIs(videoId: String): Single<Pair< Pair<String, String> , Bitmap?>> {
+        val onSubscribe = SingleOnSubscribe<Pair< Pair<String, String> , Bitmap?>> { emitter ->
             try {
 
                 val youTubeDataAPIEndpoint = buildYouTubeEndpoint()
 
-                val query = buildQuery(youTubeDataAPIEndpoint, videoId)
+                val query = buildVideosListQuery(youTubeDataAPIEndpoint, videoId)
                 val videoListResponse = query.execute()
 
                 if (videoListResponse.items.size != 1)
@@ -30,7 +30,10 @@ object YouTubeDataEndpoint {
                 val videoTitle = video.snippet.title
                 val bitmap = NetworkUtils.getBitmapFromURL(video.snippet.thumbnails.medium.url)
 
-                emitter.onSuccess(Pair<String, Bitmap?>(videoTitle, bitmap))
+                val channel = buildChannelsListQuery(youTubeDataAPIEndpoint, video.snippet.channelId).execute()
+                val channelTitle = channel.items[0].snippet.title
+
+                emitter.onSuccess(Pair< Pair<String, String> , Bitmap?>( Pair(videoTitle, channelTitle), bitmap) )
 
             } catch (e: IOException) {
                 emitter.onError(e)
@@ -40,12 +43,21 @@ object YouTubeDataEndpoint {
         return Single.create(onSubscribe)
     }
 
-    private fun buildQuery(youTubeDataAPIEndpoint: YouTube, videoId: String): YouTube.Videos.List {
+    private fun buildVideosListQuery(youTubeDataAPIEndpoint: YouTube, videoId: String): YouTube.Videos.List {
         return youTubeDataAPIEndpoint
                 .videos()
                 .list("snippet")
-                .setFields("items(snippet(title,thumbnails(medium(url))))")
+                .setFields("items(snippet(title,channelId,thumbnails(medium(url))))")
                 .setId(videoId)
+                .setKey(YOUTUBE_DATA_API_KEY)
+    }
+
+    private fun buildChannelsListQuery(youTubeDataAPIEndpoint: YouTube, channelId: String): YouTube.Channels.List {
+        return youTubeDataAPIEndpoint
+                .channels()
+                .list("snippet")
+                .setFields("items(snippet(title))")
+                .setId(channelId)
                 .setKey(YOUTUBE_DATA_API_KEY)
     }
 

@@ -95,7 +95,8 @@ class NotificationManager(private val context: Context) : LifecycleObserver, Abs
                 .doOnSuccess { showNotification() }
                 .subscribe(
                         {
-                            notificationBuilder.setContentTitle(it.first)
+                            notificationBuilder.setContentTitle(it.first.first)
+                            notificationBuilder.setContentText(it.first.second)
                             notificationBuilder.setLargeIcon(it?.second)
                         },
                         { Log.e(javaClass.simpleName, "Can't retrieve video title, are you connected to the internet?") }
