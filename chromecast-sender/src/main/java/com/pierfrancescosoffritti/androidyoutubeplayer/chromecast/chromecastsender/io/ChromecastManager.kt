@@ -10,16 +10,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 /**
  * Class responsible for chromecast sessions.
  */
-internal class ChromecastSessionManager(
+internal class ChromecastManager(
         private val chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext,
         private val sessionManager: SessionManager,
-        private val chromecastConnectionListener: ChromecastConnectionListener) : CastSessionListener {
+        private val chromecastConnectionListeners: Array< out ChromecastConnectionListener>) : CastSessionListener {
 
     val chromecastCommunicationChannel = ChromecastYouTubeIOChannel(sessionManager)
     private val castSessionManagerListener = CastSessionManagerListener(this)
 
     override fun onCastSessionConnecting() {
-        chromecastConnectionListener.onChromecastConnecting()
+        chromecastConnectionListeners.forEach { it.onChromecastConnecting() }
     }
 
     override fun onCastSessionConnected(castSession: CastSession) {
@@ -29,20 +29,24 @@ internal class ChromecastSessionManager(
         sendCommunicationConstants(chromecastCommunicationChannel)
 
         chromecastYouTubePlayerContext.onChromecastConnected(chromecastYouTubePlayerContext)
-        chromecastConnectionListener.onChromecastConnected(chromecastYouTubePlayerContext)
+        chromecastConnectionListeners.forEach { it.onChromecastConnected(chromecastYouTubePlayerContext) }
     }
 
     override fun onCastSessionDisconnected(castSession: CastSession) {
         castSession.removeMessageReceivedCallbacks(chromecastCommunicationChannel.namespace)
 
         chromecastYouTubePlayerContext.onChromecastDisconnected()
-        chromecastConnectionListener.onChromecastDisconnected()
+        chromecastConnectionListeners.forEach { it.onChromecastDisconnected() }
     }
 
     fun restoreSession() {
         val currentCastSessions = sessionManager.currentCastSession
         if(currentCastSessions != null)
             onCastSessionConnected(currentCastSessions)
+    }
+
+    fun endCurrentSession() {
+        sessionManager.endCurrentSession(true)
     }
 
     fun addSessionManagerListener() = sessionManager.addSessionManagerListener(castSessionManagerListener, CastSession::class.java)

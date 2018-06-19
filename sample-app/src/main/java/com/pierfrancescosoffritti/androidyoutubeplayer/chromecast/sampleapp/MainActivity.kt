@@ -1,9 +1,11 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.MediaRouteButton
+import android.util.Log
 import android.view.View
 import com.google.android.gms.cast.framework.CastContext
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
@@ -13,9 +15,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.util
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlayServicesUtils
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
-import android.util.Log
 
 
 class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlayerListener, ChromecastConnectionListener {
@@ -39,13 +38,14 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         notificationManager = NotificationManager(this, youTubePlayersManager)
 
-        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
-
         Log.d(javaClass.simpleName, "on create")
 
         myBroadcastReceiver = MyBroadcastReceiver(youTubePlayersManager)
         val filter = IntentFilter(MyBroadcastReceiver.TOGGLE_PLAYBACK)
+        filter.addAction(MyBroadcastReceiver.STOP_CAST_SESSION)
         applicationContext.registerReceiver(myBroadcastReceiver, filter)
+
+        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
     }
 
     override fun onDestroy() {
@@ -62,7 +62,11 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
     private fun initChromecast() {
         // can't use CastContext until I'm sure the user has GooglePlayServices
-        val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, this)
+        val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(
+                CastContext.getSharedInstance(this).sessionManager,
+                this, myBroadcastReceiver
+        )
+
         lifecycle.addObserver(chromecastYouTubePlayerContext)
     }
 
