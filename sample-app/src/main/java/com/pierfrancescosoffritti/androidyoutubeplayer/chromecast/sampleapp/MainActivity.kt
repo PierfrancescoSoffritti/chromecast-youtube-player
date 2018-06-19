@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
 
         lifecycle.addObserver(youtube_player_view)
 
-        youTubePlayersManager = YouTubePlayersManager(this, youtube_player_view, chromecast_controls_root)
-        mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
+        notificationManager = NotificationManager(this)
 
-        notificationManager = NotificationManager(this, youTubePlayersManager)
+        youTubePlayersManager = YouTubePlayersManager(this, youtube_player_view, chromecast_controls_root, notificationManager)
+        mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
 
         Log.d(javaClass.simpleName, "on create")
 
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlay
         youTubePlayersManager.onChromecastConnected(chromecastYouTubePlayerContext)
         updateUI(true)
 
-        notificationManager.showNotification("test")
+        notificationManager.showNotification()
     }
 
     override fun onChromecastDisconnected() {

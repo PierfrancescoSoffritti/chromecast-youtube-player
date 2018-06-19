@@ -13,12 +13,49 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.app.NotificationCompat.MediaStyle
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
+import android.util.Log
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.YouTubeDataEndpoint
+import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
-class NotificationManager(private val context: Context, youTubePlayersManager: YouTubePlayersManager) : LifecycleObserver {
+class NotificationManager(private val context: Context) : LifecycleObserver, AbstractYouTubePlayerListener() {
     private val notificationId = 1
     private val channelId = "CHANNEL_ID"
+
+    private val notificationBuilder: NotificationCompat.Builder
+
+    init {
+        notificationBuilder = initNotificationBuilder()
+    }
+
+    private fun initNotificationBuilder() : NotificationCompat.Builder {
+        val openActivityExplicitIntent = Intent(context.applicationContext, MainActivity::class.java)
+        openActivityExplicitIntent.action = Intent.ACTION_MAIN
+        openActivityExplicitIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+        val openActivityPendingIntent = PendingIntent.getActivity(context.applicationContext, 0, openActivityExplicitIntent, 0)
+
+        val togglePlaybackImplicitIntent = Intent(MyBroadcastReceiver.TOGGLE_PLAYBACK)
+        val togglePlaybackPendingIntent = PendingIntent.getBroadcast(context, 0, togglePlaybackImplicitIntent, 0)
+
+        val stopCastSessionImplicitIntent = Intent(MyBroadcastReceiver.STOP_CAST_SESSION)
+        val stopCastSessionPendingIntent = PendingIntent.getBroadcast(context, 0, stopCastSessionImplicitIntent, 0)
+
+        return NotificationCompat.Builder(context, channelId)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.ic_cast_connected_24dp)
+                .setContentIntent(openActivityPendingIntent)
+                .setStyle(MediaStyle().setShowActionsInCompactView(0, 1))
+                .setOngoing(true)
+                .addAction(R.drawable.ic_play_arrow_24dp, "Toggle Playback", togglePlaybackPendingIntent) // #0
+                .addAction(R.drawable.ic_cast_connected_24dp, "Disconnect from chromecast", stopCastSessionPendingIntent)  // #1
+//                .setAutoCancel(true)
+//                .setContentTitle(title)
+//                .setContentText("My Awesome Band")
+//                .setLargeIcon(thumbnail)
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate() {
@@ -30,38 +67,38 @@ class NotificationManager(private val context: Context, youTubePlayersManager: Y
         }
     }
 
-    fun showNotification(title: String, thumbnail: Bitmap? = null) {
-        val openActivityExplicitIntent = Intent(context.applicationContext, MainActivity::class.java)
-        openActivityExplicitIntent.action = Intent.ACTION_MAIN
-        openActivityExplicitIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-        val pendingIntent = PendingIntent.getActivity(context.applicationContext, 0, openActivityExplicitIntent, 0)
-
-        val togglePlaybackImplicitIntent = Intent(MyBroadcastReceiver.TOGGLE_PLAYBACK)
-        val togglePlaybackPendingIntent = PendingIntent.getBroadcast(context, 0, togglePlaybackImplicitIntent, 0)
-
-        val stopCastSessionImplicitIntent = Intent(MyBroadcastReceiver.STOP_CAST_SESSION)
-        val stopCastSessionPendingIntent = PendingIntent.getBroadcast(context, 0, stopCastSessionImplicitIntent, 0)
-
-        val notification = NotificationCompat.Builder(context, channelId)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.ic_audiotrack_dark)
-                .setContentIntent(pendingIntent)
-                .addAction(R.drawable.ic_play_arrow_24dp, "Toggle Playback", togglePlaybackPendingIntent) // #0
-                .addAction(R.drawable.ic_cast_connected_24dp, "Disconnect from chromecast", stopCastSessionPendingIntent)  // #1
-                .setStyle(MediaStyle().setShowActionsInCompactView(0, 1))
-                .setContentTitle(title)
-                .setContentText("My Awesome Band")
-//                .setAutoCancel(true)
-                .setOngoing(true)
-//                .setLargeIcon(thumbnail)
-                .build()
-
+    fun showNotification() {
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(notificationId, notification)
+        notificationManager.notify(notificationId, notificationBuilder.build())
     }
 
     fun dismissNotification() {
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.cancel(notificationId)
+    }
+
+    override fun onStateChange(state: Int) {
+        when(state) {
+            PlayerConstants.PlayerState.PLAYING -> notificationBuilder.mActions[0].icon = R.drawable.ic_pause_24dp
+            else -> notificationBuilder.mActions[0].icon = R.drawable.ic_play_arrow_24dp
+        }
+
+        showNotification()
+    }
+
+    override fun onVideoId(videoId: String) {
+        val observable = YouTubeDataEndpoint.getVideoTitleFromYouTubeDataAPIs(videoId)
+
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess { showNotification() }
+                .subscribe(
+                        {
+                            notificationBuilder.setContentTitle(it.first)
+                            notificationBuilder.setLargeIcon(it?.second)
+                        },
+                        { Log.e(javaClass.simpleName, "Can't retrieve video title, are you connected to the internet?") }
+                )
     }
 }

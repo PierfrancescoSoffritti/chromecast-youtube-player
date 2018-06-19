@@ -12,7 +12,8 @@ import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
 class YouTubePlayersManager(
         private val localYouTubePlayerListener: LocalYouTubePlayerListener,
-        private val youtubePlayerView: YouTubePlayerView, chromecastControls: View) : ChromecastConnectionListener {
+        private val youtubePlayerView: YouTubePlayerView, chromecastControls: View,
+        private val chromecastPlayerListener: YouTubePlayerListener) : ChromecastConnectionListener {
 
     private val nextVideoButton = chromecastControls.findViewById<Button>(R.id.next_video_button)
 
@@ -82,6 +83,7 @@ class YouTubePlayersManager(
 
             chromecastUIController.youtubePlayer = youtubePlayer
 
+            youtubePlayer.addListener(chromecastPlayerListener)
             youtubePlayer.addListener(chromecastPlayerStateTracker)
             youtubePlayer.addListener(chromecastUIController)
 
