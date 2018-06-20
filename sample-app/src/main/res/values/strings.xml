@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">chromecast-youtube-player</string>
     <string name="media_route_menu_title">Cast menu item</string>
+    <string name="title_activity_basic_example">BasicExample</string>
 </resources>

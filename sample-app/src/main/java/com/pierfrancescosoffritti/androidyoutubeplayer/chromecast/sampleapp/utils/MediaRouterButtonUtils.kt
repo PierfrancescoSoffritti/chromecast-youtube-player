@@ -1,6 +1,7 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils
 
 import android.content.Context
+import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.MediaRouteButton
@@ -15,6 +16,11 @@ object MediaRouterButtonUtils {
         val mediaRouteButton = MediaRouteButton(context)
         CastButtonFactory.setUpMediaRouteButton(context, mediaRouteButton)
 
+        return mediaRouteButton
+    }
+
+    fun initMediaRouteButton(mediaRouteButton: MediaRouteButton) : MediaRouteButton {
+        CastButtonFactory.setUpMediaRouteButton(mediaRouteButton.context, mediaRouteButton)
         return mediaRouteButton
     }
 
