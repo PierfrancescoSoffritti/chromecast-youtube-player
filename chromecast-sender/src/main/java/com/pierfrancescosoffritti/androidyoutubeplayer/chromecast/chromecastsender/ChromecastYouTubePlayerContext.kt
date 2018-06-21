@@ -19,9 +19,11 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, vararg chro
 
     init {
         chromecastConnectionListeners.forEach { this.chromecastConnectionListeners.add(it) }
+        onCreate()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    // does this really have to be called when the activity is created?
+//    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onCreate() {
         chromecastManager.restoreSession()
         chromecastManager.addSessionManagerListener()
@@ -39,6 +41,12 @@ class ChromecastYouTubePlayerContext(sessionManager: SessionManager, vararg chro
             throw RuntimeException("ChromecastYouTubePlayerContext, can't initialize before Chromecast connection is established.")
 
         chromecastYouTubePlayer.initialize(youTubePlayerInitListener)
+    }
+
+    fun release() {
+        endCurrentSession()
+        chromecastManager.release()
+        chromecastConnectionListeners.clear()
     }
 
     fun endCurrentSession() {

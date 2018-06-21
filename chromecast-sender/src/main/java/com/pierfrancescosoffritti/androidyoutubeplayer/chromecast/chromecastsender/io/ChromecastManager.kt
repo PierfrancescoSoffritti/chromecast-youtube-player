@@ -52,6 +52,10 @@ internal class ChromecastManager(
     fun addSessionManagerListener() = sessionManager.addSessionManagerListener(castSessionManagerListener, CastSession::class.java)
     fun removeSessionManagerListener() = sessionManager.removeSessionManagerListener(castSessionManagerListener, CastSession::class.java)
 
+    fun release() {
+        removeSessionManagerListener()
+    }
+
     private fun sendCommunicationConstants(chromecastCommunicationChannel: ChromecastCommunicationChannel) {
         val communicationConstants = ChromecastCommunicationConstants.asJson()
 

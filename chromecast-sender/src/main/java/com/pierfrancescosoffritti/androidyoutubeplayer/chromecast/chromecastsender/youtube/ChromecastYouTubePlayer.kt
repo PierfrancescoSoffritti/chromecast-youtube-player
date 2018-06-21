@@ -11,7 +11,7 @@ class ChromecastYouTubePlayer internal constructor(private val chromecastCommuni
     private val inputMessageDispatcher = ChromecastYouTubeMessageDispatcher( YouTubePlayerBridge(this) )
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
 
-    fun initialize(initListener: YouTubePlayerInitListener) {
+    internal fun initialize(initListener: YouTubePlayerInitListener) {
         youTubePlayerListeners.clear()
 
         youTubePlayerInitListener = initListener
