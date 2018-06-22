@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+
+        <activity
+            android:name=".MainActivity">
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
@@ -23,18 +27,38 @@
             android:theme="@style/AppTheme">
         </activity>
 
-        <service android:name=".mediaPlayerService.MediaPlayerService" />
-
         <activity
-            android:name=".mediaPlayerService.ServiceActivity"
+            android:name=".serviceExample.ServiceActivity"
             android:label="@string/title_activity_service"
             android:theme="@style/AppTheme">
+
+        </activity>
+
+        <service android:name=".serviceExample.MediaPlayerService" />
+
+        <activity
+            android:name=".mediaSessionExample.MediaSessionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".mediaSessionExample.MediaSession_inService">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

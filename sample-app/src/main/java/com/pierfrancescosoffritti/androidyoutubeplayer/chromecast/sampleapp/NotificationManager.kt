@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.app.NotificationCompat.MediaStyle
 import android.util.Log
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.mediaSessionExample.MediaSessionActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.YouTubeDataEndpoint
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
@@ -32,7 +33,7 @@ class NotificationManager(private val context: Context) : LifecycleObserver, Abs
     }
 
     private fun initNotificationBuilder() : NotificationCompat.Builder {
-        val openActivityExplicitIntent = Intent(context.applicationContext, MainActivity::class.java)
+        val openActivityExplicitIntent = Intent(context.applicationContext, MediaSessionActivity::class.java)
         openActivityExplicitIntent.action = Intent.ACTION_MAIN
         openActivityExplicitIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         val openActivityPendingIntent = PendingIntent.getActivity(context.applicationContext, 0, openActivityExplicitIntent, 0)
@@ -47,14 +48,10 @@ class NotificationManager(private val context: Context) : LifecycleObserver, Abs
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.drawable.ic_cast_connected_24dp)
                 .setContentIntent(openActivityPendingIntent)
-                .setStyle(MediaStyle().setShowActionsInCompactView(0, 1))
                 .setOngoing(true)
-                .addAction(R.drawable.ic_play_arrow_24dp, "Toggle Playback", togglePlaybackPendingIntent) // #0
-                .addAction(R.drawable.ic_cast_connected_24dp, "Disconnect from chromecast", stopCastSessionPendingIntent)  // #1
-//                .setAutoCancel(true)
-//                .setContentTitle(title)
-//                .setContentText("My Awesome Band")
-//                .setLargeIcon(thumbnail)
+                .addAction(R.drawable.ic_play_arrow_24dp, "Toggle Playback", togglePlaybackPendingIntent)
+                .addAction(R.drawable.ic_cast_connected_24dp, "Disconnect from chromecast", stopCastSessionPendingIntent)
+                .setStyle(MediaStyle().setShowActionsInCompactView(0, 1))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

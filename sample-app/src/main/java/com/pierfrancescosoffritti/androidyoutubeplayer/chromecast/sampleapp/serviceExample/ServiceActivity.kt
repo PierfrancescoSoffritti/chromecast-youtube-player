@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.mediaPlayerService
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.serviceExample
 
 import android.content.ComponentName
 import android.content.Context
@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.MediaRouterButtonUtils
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlayServicesUtils
@@ -17,29 +18,15 @@ class ServiceActivity : AppCompatActivity() {
 
     private val googlePlayServicesAvailabilityRequestCode = 1
 
-    private var player: MediaPlayerService? = null
+    private var mediaPlayerService: MediaPlayerService? = null
     var serviceBound = false
-
-    //Binding this Client to the AudioPlayer Service
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            val binder = service as MediaPlayerService.LocalBinder
-            player = binder.service
-            serviceBound = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName) {
-            serviceBound = false
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_service)
 
         MediaRouterButtonUtils.initMediaRouteButton(media_route_button)
-        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { startCastInService() }
+        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { startCastService() }
     }
 
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -56,19 +43,30 @@ class ServiceActivity : AppCompatActivity() {
         super.onDestroy()
         if (serviceBound) {
             unbindService(serviceConnection)
-            player?.stopSelf()
+            mediaPlayerService?.stopSelf()
         }
     }
 
-    private fun startCastInService() {
-        //Check is service is active
+    private fun startCastService() {
         if (!serviceBound) {
             val playerIntent = Intent(this, MediaPlayerService::class.java)
-            startService(playerIntent)
             bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+            startService(playerIntent)
         } else {
-            //Service is active
-            //Send media with BroadcastReceiver
+            Log.e(javaClass.simpleName, "service already bound")
+        }
+    }
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as MediaPlayerService.LocalBinder
+            mediaPlayerService = binder.service
+            serviceBound = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            mediaPlayerService = null
+            serviceBound = false
         }
     }
 }
