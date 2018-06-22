@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.Intent
 import android.util.Log
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample.youtubePlayer.YouTubePlayersManager
 
 class MyBroadcastReceiver(private val youTubePlayersManager: YouTubePlayersManager) : BroadcastReceiver(), ChromecastConnectionListener {
     companion object {

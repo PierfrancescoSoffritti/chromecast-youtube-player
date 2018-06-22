@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,13 +8,12 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.app.NotificationCompat.MediaStyle
 import android.util.Log
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.mediaSessionExample.MediaSessionActivity
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.YouTubeDataEndpoint
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
@@ -33,7 +32,7 @@ class NotificationManager(private val context: Context) : LifecycleObserver, Abs
     }
 
     private fun initNotificationBuilder() : NotificationCompat.Builder {
-        val openActivityExplicitIntent = Intent(context.applicationContext, MediaSessionActivity::class.java)
+        val openActivityExplicitIntent = Intent(context.applicationContext, LocalAndCastPlayerExample::class.java)
         openActivityExplicitIntent.action = Intent.ACTION_MAIN
         openActivityExplicitIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         val openActivityPendingIntent = PendingIntent.getActivity(context.applicationContext, 0, openActivityExplicitIntent, 0)

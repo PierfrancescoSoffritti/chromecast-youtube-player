@@ -1,11 +1,11 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample.youtubePlayer
 
 import android.view.View
 import android.widget.Button
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.ui.ChromecastUIController
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample.ui.ChromecastUIController
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlaybackUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker

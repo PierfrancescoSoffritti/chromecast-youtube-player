@@ -1,125 +1,197 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp
 
+import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.os.Bundle
+import android.graphics.Point
+import android.net.Uri
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.MediaRouteButton
-import android.util.Log
+import android.os.Bundle
+import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import com.google.android.gms.cast.framework.CastContext
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.ui.MediaRouteButtonContainer
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.MediaRouterButtonUtils
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlayServicesUtils
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer.YouTubePlayersManager
+import android.view.WindowManager
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.basicExample.BasicExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
+class MainActivity : AppCompatActivity() {
 
-class MainActivity : AppCompatActivity(), YouTubePlayersManager.LocalYouTubePlayerListener, ChromecastConnectionListener {
-    private val googlePlayServicesAvailabilityRequestCode = 1
-
-    private lateinit var youTubePlayersManager: YouTubePlayersManager
-    private lateinit var mediaRouteButton : MediaRouteButton
-
-    private lateinit var notificationManager: NotificationManager
-
-    private lateinit var myBroadcastReceiver: MyBroadcastReceiver
+    private lateinit var drawerLayout: DrawerLayout
+    private var selectedMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        lifecycle.addObserver(youtube_player_view)
+        initWebView()
 
-        notificationManager = NotificationManager(this)
+        adjustStatusBarTranslucency()
+        initToolbar()
+        initNavDrawer()
 
-        youTubePlayersManager = YouTubePlayersManager(this, youtube_player_view, chromecast_controls_root, notificationManager)
-        mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
-
-        Log.d(javaClass.simpleName, "on create")
-
-        myBroadcastReceiver = MyBroadcastReceiver(youTubePlayersManager)
-        val filter = IntentFilter(MyBroadcastReceiver.TOGGLE_PLAYBACK)
-        filter.addAction(MyBroadcastReceiver.STOP_CAST_SESSION)
-        applicationContext.registerReceiver(myBroadcastReceiver, filter)
-
-        PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
+        showFeatureDiscovery()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        applicationContext.unregisterReceiver(myBroadcastReceiver)
+    public override fun onResume() {
+        super.onResume()
+        selectedMenuItem?.isChecked = false
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == googlePlayServicesAvailabilityRequestCode)
-            PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) {initChromecast()}
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        return true
     }
 
-    private fun initChromecast() {
-        // can't use CastContext until I'm sure the user has GooglePlayServices
-        val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(
-                CastContext.getSharedInstance(this).sessionManager,
-                this, myBroadcastReceiver
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                drawerLayout.openDrawer(GravityCompat.START)
+                return true
+            }
+            R.id.open_on_github -> {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/PierfrancescoSoffritti/chromecast-youtube-player")))
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (main_activity_webview.canGoBack())
+            main_activity_webview.goBack()
+        else
+            super.onBackPressed()
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun initWebView() {
+        main_activity_webview.settings.javaScriptEnabled = true
+        main_activity_webview.loadUrl("https://pierfrancescosoffritti.github.io/Android-YouTube-Player/")
+
+        main_activity_webview.webViewClient = object : WebViewClient() {
+            override fun onPageCommitVisible(view: WebView, url: String) {
+                super.onPageCommitVisible(view, url)
+                progressbar.visibility = View.GONE
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
+                return if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                    true
+                } else
+                    false
+            }
+        }
+    }
+
+    private fun adjustStatusBarTranslucency() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            val windowParams = window.attributes
+            windowParams.flags = windowParams.flags or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            window.attributes = windowParams
+        }
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_nav_drawer_menu_24dp)
+    }
+
+    private fun initNavDrawer() {
+        drawerLayout = findViewById(R.id.drawer_layout)
+
+        setNavigationViewWidth(navigation_view)
+
+        navigation_view.setNavigationItemSelectedListener(
+                { menuItem ->
+                    menuItem.isChecked = true
+                    selectedMenuItem = menuItem
+
+                    drawerLayout.closeDrawers()
+
+                    if (menuItem.itemId == R.id.open_base_example_menu_item) {
+                        val intent = Intent(this, BasicExampleActivity::class.java)
+                        startActivity(intent)
+                    }
+//                    } else if (menuItem.getItemId() === R.id.open_recycler_view_example_menu_item) {
+//                        val intent = Intent(this, RecyclerViewActivity::class.java)
+//                        startActivity(intent)
+//                    } else if (menuItem.getItemId() === R.id.star_on_github)
+//                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/PierfrancescoSoffritti/Android-YouTube-Player/stargazers")))
+//                    else if (menuItem.getItemId() === R.id.rate_on_playstore) {
+//                        val appPackageName = packageName
+//                        try {
+//                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+//                        } catch (exception: ActivityNotFoundException) {
+//                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+//                        }
+//
+//                    }
+
+                    true
+                }
         )
-
-        lifecycle.addObserver(chromecastYouTubePlayerContext)
     }
 
-    override fun onChromecastConnecting() {
-        youTubePlayersManager.onChromecastConnecting()
+    private fun setNavigationViewWidth(navigationView: NavigationView) {
+        val params = navigationView.layoutParams
+        val width = getScreenWidth() - getToolbarHeight()
+        val _320dp = resources.getDimensionPixelSize(R.dimen._320dp)
+        params.width = if (width > _320dp) _320dp else width
+        navigationView.layoutParams = params
     }
 
-    override fun onChromecastConnected(chromecastYouTubePlayerContext: ChromecastYouTubePlayerContext) {
-        Log.d(javaClass.simpleName, "connected")
-        youTubePlayersManager.onChromecastConnected(chromecastYouTubePlayerContext)
-        updateUI(true)
-
-        notificationManager.showNotification()
+    private fun getToolbarHeight(): Int {
+        return toolbar.layoutParams.height
     }
 
-    override fun onChromecastDisconnected() {
-        Log.d(javaClass.simpleName, "disconnected")
-        youTubePlayersManager.onChromecastDisconnected()
-        updateUI(false)
-
-        notificationManager.dismissNotification()
+    private fun getScreenWidth(): Int {
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        return size.x
     }
 
-    private fun updateUI(connected: Boolean) {
 
-        val disabledContainer = if(connected) localPlayerUIMediaRouteButtonContainer else chromecastPlayerUIMediaRouteButtonContainer
-        val enabledContainer = if(connected) chromecastPlayerUIMediaRouteButtonContainer else localPlayerUIMediaRouteButtonContainer
+    private fun showFeatureDiscovery() {
+        val preferenceKey = "featureDiscoveryShown"
+        val sharedPreferencesKey = "sampleApp_MainActivity_SharedPreferences"
+        val prefs = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
+        val featureDiscoveryShown = prefs.getBoolean(preferenceKey, false)
 
-        // the media route button has a single instance.
-        // therefore it has to be moved from the local YouTube player UI to the chromecast YouTube player UI, and vice versa.
-        MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
-                mediaRouteButton, android.R.color.white,
-                disabledContainer, enabledContainer
-        )
+        if (featureDiscoveryShown)
+            return
+        else
+            prefs.edit().putBoolean(preferenceKey, true).apply()
 
-        youtube_player_view.visibility = if(connected) View.GONE else View.VISIBLE
-        chromecast_controls_root.visibility = if(connected) View.VISIBLE else View.GONE
-    }
+        val target = toolbar.getChildAt(1)
 
-    override fun onLocalYouTubePlayerReady() {
-        MediaRouterButtonUtils.addMediaRouteButtonToPlayerUI(
-                mediaRouteButton, android.R.color.white,
-                null, localPlayerUIMediaRouteButtonContainer
-        )
-    }
-
-    private val chromecastPlayerUIMediaRouteButtonContainer = object: MediaRouteButtonContainer {
-        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) = youTubePlayersManager.chromecastUIController.addView(mediaRouteButton)
-        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) = youTubePlayersManager.chromecastUIController.removeView(mediaRouteButton)
-    }
-
-    private val localPlayerUIMediaRouteButtonContainer = object: MediaRouteButtonContainer {
-        override fun addMediaRouteButton(mediaRouteButton: MediaRouteButton) = youtube_player_view.playerUIController.addView(mediaRouteButton)
-        override fun removeMediaRouteButton(mediaRouteButton: MediaRouteButton) = youtube_player_view.playerUIController.removeView(mediaRouteButton)
+        TapTargetView.showFor(
+                this,
+                TapTarget.forView(target, getString(R.string.explore_examples), getString(R.string.explore_examples_description))
+                        .outerCircleColor(R.color.github_black)
+                        .outerCircleAlpha(1f)
+                        .targetCircleColor(android.R.color.white)
+                        .titleTextColor(android.R.color.white)
+                        .drawShadow(true)
+                        .transparentTarget(true), object : TapTargetView.Listener() {
+            override fun onTargetClick(view: TapTargetView) {
+                super.onTargetClick(view)
+                target.performClick()
+            }
+        })
     }
 }

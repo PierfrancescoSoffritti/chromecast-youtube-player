@@ -1,14 +1,13 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils
 
 import android.content.Context
-import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.MediaRouteButton
 import android.support.v7.mediarouter.R
 import android.view.ContextThemeWrapper
 import com.google.android.gms.cast.framework.CastButtonFactory
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.ui.MediaRouteButtonContainer
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample.ui.MediaRouteButtonContainer
 
 object MediaRouterButtonUtils {
 

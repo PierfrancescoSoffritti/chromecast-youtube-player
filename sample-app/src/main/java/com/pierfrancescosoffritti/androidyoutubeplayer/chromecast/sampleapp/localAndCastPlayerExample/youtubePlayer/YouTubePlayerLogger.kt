@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.youtubePlayer
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.localAndCastPlayerExample.youtubePlayer
 
 import android.util.Log
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener

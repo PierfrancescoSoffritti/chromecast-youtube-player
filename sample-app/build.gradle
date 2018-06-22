@@ -29,7 +29,10 @@ dependencies {
 
     implementation project(':chromecast-sender')
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
 
     implementation 'com.android.support:mediarouter-v7:27.1.1'
     implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
