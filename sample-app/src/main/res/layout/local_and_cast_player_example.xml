@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".localAndCastPlayerExample.LocalAndCastPlayerExample" >
+    tools:context=".examples.localAndCastPlayerExample.LocalAndCastPlayerExample" >
 
     <com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView
         android:id="@+id/youtube_player_view"

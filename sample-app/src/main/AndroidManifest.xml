@@ -11,16 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".localAndCastPlayerExample.LocalAndCastPlayerExample"></activity>
 
-        <meta-data
-            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-            android:value="com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.CastOptionsProvider" />
+        <activity android:name=".examples.localAndCastPlayerExample.LocalAndCastPlayerExample" />
 
         <activity
-            android:name=".basicExample.BasicExampleActivity"
+            android:name=".examples.basicExample.BasicExampleActivity"
             android:label="@string/basic_example"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.CastOptionsProvider" />
+
     </application>
 
 </manifest>

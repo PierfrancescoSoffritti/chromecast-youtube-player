@@ -1,7 +1,6 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Point
@@ -11,8 +10,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -21,12 +18,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.basicExample.BasicExampleActivity
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.basicExample.BasicExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var drawerLayout: DrawerLayout
     private var selectedMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                drawerLayout.openDrawer(GravityCompat.START)
+                drawer_layout.openDrawer(GravityCompat.START)
                 return true
             }
             R.id.open_on_github -> {
@@ -111,8 +107,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavDrawer() {
-        drawerLayout = findViewById(R.id.drawer_layout)
-
         setNavigationViewWidth(navigation_view)
 
         navigation_view.setNavigationItemSelectedListener(
@@ -120,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                     menuItem.isChecked = true
                     selectedMenuItem = menuItem
 
-                    drawerLayout.closeDrawers()
+                    drawer_layout.closeDrawers()
 
                     if (menuItem.itemId == R.id.open_base_example_menu_item) {
                         val intent = Intent(this, BasicExampleActivity::class.java)
