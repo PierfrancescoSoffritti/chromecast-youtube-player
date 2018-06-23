@@ -19,6 +19,7 @@ import android.webkit.WebViewClient
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.basicExample.BasicExampleActivity
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localPlayerExample.LocalPlayerInitExampleActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.notificationExample.NotificationExampleActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.playerControlsExample.PlayerControlsExample
 import kotlinx.android.synthetic.main.activity_main.*
@@ -125,6 +126,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } else if(menuItem.itemId == R.id.open_notification_example_menu_item) {
                 val intent = Intent(this, NotificationExampleActivity::class.java)
+                startActivity(intent)
+            } else if(menuItem.itemId == R.id.open_local_player_example_menu_item) {
+                val intent = Intent(this, LocalPlayerInitExampleActivity::class.java)
                 startActivity(intent)
             }
 //                    } else if (menuItem.getItemId() === R.id.star_on_github)

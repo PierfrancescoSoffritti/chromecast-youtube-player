@@ -32,7 +32,7 @@ class NotificationExampleActivity : AppCompatActivity() {
 
         registerBroadcastReceiver()
 
-        MediaRouterButtonUtils.initMediaRouteButton(media_route_button)
+        MediaRouteButtonUtils.initMediaRouteButton(media_route_button)
 
         // can't use CastContext until I'm sure the user has GooglePlayServices
         PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }

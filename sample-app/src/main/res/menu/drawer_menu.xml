@@ -15,6 +15,11 @@
         <item
             android:id="@+id/open_notification_example_menu_item"
             android:title="@string/notification_example" />
+
+        <item
+            android:id="@+id/open_local_player_example_menu_item"
+            android:title="@string/local_player_example" />
+
     </group>
 
     <group

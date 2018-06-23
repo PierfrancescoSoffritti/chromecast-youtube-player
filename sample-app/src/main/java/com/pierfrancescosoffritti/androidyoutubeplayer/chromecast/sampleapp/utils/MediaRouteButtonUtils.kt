@@ -7,9 +7,9 @@ import android.support.v7.app.MediaRouteButton
 import android.support.v7.mediarouter.R
 import android.view.ContextThemeWrapper
 import com.google.android.gms.cast.framework.CastButtonFactory
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample.ui.MediaRouteButtonContainer
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localPlayerExample.MediaRouteButtonContainer
 
-object MediaRouterButtonUtils {
+object MediaRouteButtonUtils {
 
     fun initMediaRouteButton(context: Context) : MediaRouteButton {
         val mediaRouteButton = MediaRouteButton(context)
