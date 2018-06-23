@@ -9,7 +9,9 @@ import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.app.NotificationCompat.MediaStyle
+import android.support.v7.graphics.Palette
 import android.util.Log
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
@@ -89,6 +91,10 @@ class NotificationManager(private val context: Context, private val notification
                             notificationBuilder.setContentTitle(it.first.first)
                             notificationBuilder.setContentText(it.first.second)
                             notificationBuilder.setLargeIcon(it?.second)
+
+                            val color = Palette.from(it.second!!).generate().getDominantColor(ContextCompat.getColor(context, android.R.color.black))
+                            notificationBuilder.color = color
+
                             showNotification()
                         },
                         { Log.e(javaClass.simpleName, "Can't retrieve video title, are you connected to the internet?") }
