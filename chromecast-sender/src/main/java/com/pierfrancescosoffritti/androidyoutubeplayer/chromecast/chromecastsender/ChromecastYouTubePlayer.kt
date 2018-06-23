@@ -1,6 +1,8 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender
 
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube.ChromecastCommunicationConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube.ChromecastYouTubeMessageDispatcher
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 
@@ -8,7 +10,7 @@ class ChromecastYouTubePlayer internal constructor(private val chromecastCommuni
 
     private lateinit var youTubePlayerInitListener: YouTubePlayerInitListener
 
-    private val inputMessageDispatcher = ChromecastYouTubeMessageDispatcher( YouTubePlayerBridge(this) )
+    private val inputMessageDispatcher = ChromecastYouTubeMessageDispatcher(YouTubePlayerBridge(this))
     private val youTubePlayerListeners = HashSet<YouTubePlayerListener>()
 
     internal fun initialize(initListener: YouTubePlayerInitListener) {

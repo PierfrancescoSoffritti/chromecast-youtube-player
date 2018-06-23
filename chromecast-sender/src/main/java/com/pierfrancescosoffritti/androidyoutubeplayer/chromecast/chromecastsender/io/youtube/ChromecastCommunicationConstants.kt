@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.utils.JSONUtils
 

@@ -54,7 +54,7 @@ function YouTubePlayer(communicationConstants, communicationChannel) {
         lastState = playerState
 
         let timerTaskId
-        clearTimeout(timerTaskId)
+        clearInterval(timerTaskId)
 
         switch (playerState) {
             case YT.PlayerState.UNSTARTED:

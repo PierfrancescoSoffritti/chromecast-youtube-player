@@ -1,7 +1,6 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.utils
 
-import android.util.Log
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.MessageFromReceiver
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.MessageFromReceiver
 
 /**
  * Utility class to read and parse JSON messages exchanged between sender and receiver.

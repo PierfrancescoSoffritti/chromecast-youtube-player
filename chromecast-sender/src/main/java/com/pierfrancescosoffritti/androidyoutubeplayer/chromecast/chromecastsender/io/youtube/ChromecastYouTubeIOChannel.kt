@@ -1,8 +1,8 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube
 
 import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.framework.SessionManager
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastCommunicationChannel
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.ChromecastCommunicationChannel
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.utils.JSONUtils
 
 /**
