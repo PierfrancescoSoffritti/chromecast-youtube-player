@@ -16,9 +16,6 @@ let isYouTubeIframeAPIReady = false
 context.addCustomMessageListener(namespace, senderMessagesDispatcher.onMessage)
 context.start()
 
-// context.addEventListener(cast.framework.system.EventType.SENDER_CONNECTED, () => {
-// })
-
 function onInitMessageReceived(parsedCommunicationConstants) {
     if(!isYouTubeIframeAPIReady) {
         initCommunicationConstants(parsedCommunicationConstants)

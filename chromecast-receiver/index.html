@@ -6,13 +6,20 @@
         <script type="module" src="./js/main.js"></script>
 
         <script>
+            // hack!
+            // unfortunately when using a custom channel for communication the Cast Receiver always remains IDLE and disconnects after 5 minutes.
+            // hopefully the Google Cast team will solve the issue someday. 
+            // https://stackoverflow.com/questions/46673152/google-cast-custom-receiver-timing-out
+            window._setTimeout = window.setTimeout
+            window.setTimeout = () => { }
+
             // called automatically by the IFrame APIs
             function onYouTubeIframeAPIReady() {
                 window.main_onYouTubeIframeAPIReady()
             }
         </script>
 
-        <title>ChromecastYouTubePlayer</title>
+        <title>chromecast-youtube-player-receiver</title>
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     </head>
