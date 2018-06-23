@@ -8,7 +8,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample.youtubePlayer.YouTubePlayersManager
 
-class PlaybackControllerBroadcastReceiver(private val youTubePlayersManager: YouTubePlayersManager) : BroadcastReceiver(), ChromecastConnectionListener {
+class PlaybackControllerBroadcastReceiver(
+        var togglePlayback: () -> Unit = { Log.d(PlaybackControllerBroadcastReceiver::class.java.simpleName, "no-op") }
+    ): BroadcastReceiver(), ChromecastConnectionListener {
+
     companion object {
         const val TOGGLE_PLAYBACK = "com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.TOGGLE_PLAYBACK"
         const val STOP_CAST_SESSION = "com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.STOP_CAST_SESSION"
@@ -19,7 +22,7 @@ class PlaybackControllerBroadcastReceiver(private val youTubePlayersManager: You
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(javaClass.simpleName, "intent received ${intent.action}")
         when(intent.action) {
-            TOGGLE_PLAYBACK -> youTubePlayersManager.togglePlayback()
+            TOGGLE_PLAYBACK -> togglePlayback()
             STOP_CAST_SESSION -> chromecastYouTubePlayerContext.endCurrentSession()
         }
     }

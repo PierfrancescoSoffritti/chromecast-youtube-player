@@ -18,7 +18,6 @@ import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerList
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlin.concurrent.fixedRateTimer
 
 
 class NotificationManager(private val context: Context, private val notificationHostActivity: Class<*>) : LifecycleObserver, AbstractYouTubePlayerListener() {

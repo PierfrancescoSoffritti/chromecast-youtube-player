@@ -43,7 +43,7 @@ class LocalAndCastPlayerExample : AppCompatActivity(), YouTubePlayersManager.Loc
 
         Log.d(javaClass.simpleName, "on create")
 
-        playbackControllerBroadcastReceiver = PlaybackControllerBroadcastReceiver(youTubePlayersManager)
+        playbackControllerBroadcastReceiver = PlaybackControllerBroadcastReceiver({ youTubePlayersManager.togglePlayback() })
         val filter = IntentFilter(PlaybackControllerBroadcastReceiver.TOGGLE_PLAYBACK)
         filter.addAction(PlaybackControllerBroadcastReceiver.STOP_CAST_SESSION)
         applicationContext.registerReceiver(playbackControllerBroadcastReceiver, filter)
@@ -65,7 +65,7 @@ class LocalAndCastPlayerExample : AppCompatActivity(), YouTubePlayersManager.Loc
 
     private fun initChromecast() {
         // can't use CastContext until I'm sure the user has GooglePlayServices
-        val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(
+        ChromecastYouTubePlayerContext(
                 CastContext.getSharedInstance(this).sessionManager,
                 this, playbackControllerBroadcastReceiver
         )
