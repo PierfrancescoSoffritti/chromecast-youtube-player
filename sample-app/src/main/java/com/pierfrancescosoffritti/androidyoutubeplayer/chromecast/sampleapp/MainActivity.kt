@@ -20,6 +20,7 @@ import android.webkit.WebViewClient
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.basicExample.BasicExampleActivity
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.playerControlsExample.PlayerControlsExample
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -110,17 +111,19 @@ class MainActivity : AppCompatActivity() {
     private fun initNavDrawer() {
         setNavigationViewWidth(navigation_view)
 
-        navigation_view.setNavigationItemSelectedListener(
-                { menuItem ->
-                    menuItem.isChecked = true
-                    selectedMenuItem = menuItem
+        navigation_view.setNavigationItemSelectedListener({ menuItem ->
+            menuItem.isChecked = true
+            selectedMenuItem = menuItem
 
-                    drawer_layout.closeDrawers()
+            drawer_layout.closeDrawers()
 
-                    if (menuItem.itemId == R.id.open_base_example_menu_item) {
-                        val intent = Intent(this, BasicExampleActivity::class.java)
-                        startActivity(intent)
-                    }
+            if (menuItem.itemId == R.id.open_base_example_menu_item) {
+                val intent = Intent(this, BasicExampleActivity::class.java)
+                startActivity(intent)
+            } else if(menuItem.itemId == R.id.open_player_controls_example_menu_item) {
+                val intent = Intent(this, PlayerControlsExample::class.java)
+                startActivity(intent)
+            }
 //                    } else if (menuItem.getItemId() === R.id.open_recycler_view_example_menu_item) {
 //                        val intent = Intent(this, RecyclerViewActivity::class.java)
 //                        startActivity(intent)
@@ -136,9 +139,8 @@ class MainActivity : AppCompatActivity() {
 //
 //                    }
 
-                    true
-                }
-        )
+            true
+        })
     }
 
     private fun setNavigationViewWidth(navigationView: NavigationView) {

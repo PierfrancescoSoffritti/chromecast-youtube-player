@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample.ui
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils
 
 import android.content.Intent
 import android.net.Uri
@@ -11,8 +11,8 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 
-class ChromecastUIController(private val controls_view: View) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
-    lateinit var youtubePlayer: YouTubePlayer
+class SimpleChromecastUIController(private val controls_view: View) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
+    lateinit var youTubePlayer: YouTubePlayer
 
     private var isPlaying = false
 
@@ -116,9 +116,9 @@ class ChromecastUIController(private val controls_view: View) : YouTubePlayerLis
 
     private fun onPlayButtonPressed() {
         if (isPlaying)
-            youtubePlayer.pause()
+            youTubePlayer.pause()
         else
-            youtubePlayer.play()
+            youTubePlayer.play()
     }
 
     override fun onReady() { }
@@ -145,7 +145,7 @@ class ChromecastUIController(private val controls_view: View) : YouTubePlayerLis
         if (isPlaying)
             newSeekBarProgress = seekBar.progress
 
-        youtubePlayer.seekTo(seekBar.progress.toFloat())
+        youTubePlayer.seekTo(seekBar.progress.toFloat())
         seekBarTouchStarted = false
     }
 }

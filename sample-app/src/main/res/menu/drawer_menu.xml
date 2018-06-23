@@ -7,6 +7,10 @@
         <item
             android:id="@+id/open_base_example_menu_item"
             android:title="@string/basic_example" />
+
+        <item
+            android:id="@+id/open_player_controls_example_menu_item"
+            android:title="@string/player_controls_example" />
     </group>
 
     <group

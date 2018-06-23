@@ -5,7 +5,7 @@ import android.widget.Button
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample.ui.ChromecastUIController
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.SimpleChromecastUIController
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlaybackUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
@@ -17,7 +17,7 @@ class YouTubePlayersManager(
 
     private val nextVideoButton = chromecastControls.findViewById<Button>(R.id.next_video_button)
 
-    val chromecastUIController = ChromecastUIController(chromecastControls)
+    val chromecastUIController = SimpleChromecastUIController(chromecastControls)
 
     private var localYouTubePlayer: YouTubePlayer? = null
     private var chromecastYouTubePlayer: YouTubePlayer? = null
@@ -81,13 +81,13 @@ class YouTubePlayersManager(
 
             chromecastYouTubePlayer = youtubePlayer
 
-            chromecastUIController.youtubePlayer = youtubePlayer
+            chromecastUIController.youTubePlayer = youtubePlayer
 
             youtubePlayer.addListener(chromecastPlayerListener)
             youtubePlayer.addListener(chromecastPlayerStateTracker)
             youtubePlayer.addListener(chromecastUIController)
 
-//            youtubePlayer.addListener(YouTubePlayerLogger())
+//            youTubePlayer.addListener(YouTubePlayerLogger())
 
             youtubePlayer.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
