@@ -25,22 +25,23 @@ class BasicExampleActivity : AppCompatActivity() {
 
         MediaRouterButtonUtils.initMediaRouteButton(media_route_button)
 
+        // can't use CastContext until I'm sure the user has GooglePlayServices
         PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // can't use CastContext until I'm sure the user has GooglePlayServices
         if(requestCode == googlePlayServicesAvailabilityRequestCode)
             PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) {initChromecast()}
     }
 
     private fun initChromecast() {
-        // can't use CastContext until I'm sure the user has GooglePlayServices
-        val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, SimpleChromecastConnectionListener())
+        ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, SimpleChromecastConnectionListener())
     }
 
-    private class SimpleChromecastConnectionListener: ChromecastConnectionListener {
+    inner class SimpleChromecastConnectionListener: ChromecastConnectionListener {
         override fun onChromecastConnecting() {
             Log.d(javaClass.simpleName, "onChromecastConnecting")
         }

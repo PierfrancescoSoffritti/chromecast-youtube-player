@@ -13,7 +13,7 @@ object YouTubeDataEndpoint {
     const val APP_NAME = "android-youtube-player-chromecast"
     const val YOUTUBE_DATA_API_KEY = "AIzaSyAVeTsyAjfpfBBbUQq4E7jooWwtV2D_tjE"
 
-    fun getVideoTitleFromYouTubeDataAPIs(videoId: String): Single<Pair< Pair<String, String> , Bitmap?>> {
+    fun getVideoInfoFromYouTubeDataAPIs(videoId: String): Single<Pair< Pair<String, String> , Bitmap?>> {
         val onSubscribe = SingleOnSubscribe<Pair< Pair<String, String> , Bitmap?>> { emitter ->
             try {
 

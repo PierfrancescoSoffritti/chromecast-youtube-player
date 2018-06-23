@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample
+package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,7 +8,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.ChromecastConnectionListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample.youtubePlayer.YouTubePlayersManager
 
-class MyBroadcastReceiver(private val youTubePlayersManager: YouTubePlayersManager) : BroadcastReceiver(), ChromecastConnectionListener {
+class PlaybackControllerBroadcastReceiver(private val youTubePlayersManager: YouTubePlayersManager) : BroadcastReceiver(), ChromecastConnectionListener {
     companion object {
         const val TOGGLE_PLAYBACK = "com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.TOGGLE_PLAYBACK"
         const val STOP_CAST_SESSION = "com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.STOP_CAST_SESSION"

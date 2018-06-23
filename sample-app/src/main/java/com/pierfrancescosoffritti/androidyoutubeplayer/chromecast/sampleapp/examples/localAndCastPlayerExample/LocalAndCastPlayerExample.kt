@@ -15,6 +15,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.exam
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.MediaRouterButtonUtils
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlayServicesUtils
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.localAndCastPlayerExample.youtubePlayer.YouTubePlayersManager
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.NotificationManager
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils.PlaybackControllerBroadcastReceiver
 import kotlinx.android.synthetic.main.local_and_cast_player_example.*
 
 
@@ -26,7 +28,7 @@ class LocalAndCastPlayerExample : AppCompatActivity(), YouTubePlayersManager.Loc
 
     private lateinit var notificationManager: NotificationManager
 
-    private lateinit var myBroadcastReceiver: MyBroadcastReceiver
+    private lateinit var playbackControllerBroadcastReceiver: PlaybackControllerBroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,24 +36,24 @@ class LocalAndCastPlayerExample : AppCompatActivity(), YouTubePlayersManager.Loc
 
         lifecycle.addObserver(youtube_player_view)
 
-        notificationManager = NotificationManager(this)
+        notificationManager = NotificationManager(this, LocalAndCastPlayerExample::class.java)
 
         youTubePlayersManager = YouTubePlayersManager(this, youtube_player_view, chromecast_controls_root, notificationManager)
         mediaRouteButton = MediaRouterButtonUtils.initMediaRouteButton(this)
 
         Log.d(javaClass.simpleName, "on create")
 
-        myBroadcastReceiver = MyBroadcastReceiver(youTubePlayersManager)
-        val filter = IntentFilter(MyBroadcastReceiver.TOGGLE_PLAYBACK)
-        filter.addAction(MyBroadcastReceiver.STOP_CAST_SESSION)
-        applicationContext.registerReceiver(myBroadcastReceiver, filter)
+        playbackControllerBroadcastReceiver = PlaybackControllerBroadcastReceiver(youTubePlayersManager)
+        val filter = IntentFilter(PlaybackControllerBroadcastReceiver.TOGGLE_PLAYBACK)
+        filter.addAction(PlaybackControllerBroadcastReceiver.STOP_CAST_SESSION)
+        applicationContext.registerReceiver(playbackControllerBroadcastReceiver, filter)
 
         PlayServicesUtils.checkGooglePlayServicesAvailability(this, googlePlayServicesAvailabilityRequestCode) { initChromecast() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        applicationContext.unregisterReceiver(myBroadcastReceiver)
+        applicationContext.unregisterReceiver(playbackControllerBroadcastReceiver)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -65,7 +67,7 @@ class LocalAndCastPlayerExample : AppCompatActivity(), YouTubePlayersManager.Loc
         // can't use CastContext until I'm sure the user has GooglePlayServices
         val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(
                 CastContext.getSharedInstance(this).sessionManager,
-                this, myBroadcastReceiver
+                this, playbackControllerBroadcastReceiver
         )
     }
 

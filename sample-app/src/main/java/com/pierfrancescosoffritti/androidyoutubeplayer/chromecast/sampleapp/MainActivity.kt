@@ -14,13 +14,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.basicExample.BasicExampleActivity
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.playerControlsExample.PlayerControlsExample
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.notificationExample.NotificationExampleActivity
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.examples.playerControlsExample.PlayerControlsExample
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -123,10 +123,10 @@ class MainActivity : AppCompatActivity() {
             } else if(menuItem.itemId == R.id.open_player_controls_example_menu_item) {
                 val intent = Intent(this, PlayerControlsExample::class.java)
                 startActivity(intent)
+            } else if(menuItem.itemId == R.id.open_notification_example_menu_item) {
+                val intent = Intent(this, NotificationExampleActivity::class.java)
+                startActivity(intent)
             }
-//                    } else if (menuItem.getItemId() === R.id.open_recycler_view_example_menu_item) {
-//                        val intent = Intent(this, RecyclerViewActivity::class.java)
-//                        startActivity(intent)
 //                    } else if (menuItem.getItemId() === R.id.star_on_github)
 //                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/PierfrancescoSoffritti/Android-YouTube-Player/stargazers")))
 //                    else if (menuItem.getItemId() === R.id.rate_on_playstore) {
