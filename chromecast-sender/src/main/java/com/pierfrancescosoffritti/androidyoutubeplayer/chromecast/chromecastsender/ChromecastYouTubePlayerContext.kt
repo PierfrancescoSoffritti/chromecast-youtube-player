@@ -9,7 +9,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.youtube.ChromecastYouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
 
-class ChromecastYouTubePlayerContext(sessionManager: SessionManager, vararg chromecastConnectionListeners: ChromecastConnectionListener) : LifecycleObserver, ChromecastConnectionListener {
+class ChromecastYouTubePlayerContext(sessionManager: SessionManager, vararg chromecastConnectionListeners: ChromecastConnectionListener) : ChromecastConnectionListener {
     private val chromecastConnectionListeners = HashSet<ChromecastConnectionListener>()
 
     private val chromecastManager = ChromecastManager(this, sessionManager, this.chromecastConnectionListeners)

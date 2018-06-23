@@ -67,8 +67,6 @@ class LocalAndCastPlayerExample : AppCompatActivity(), YouTubePlayersManager.Loc
                 CastContext.getSharedInstance(this).sessionManager,
                 this, myBroadcastReceiver
         )
-
-        lifecycle.addObserver(chromecastYouTubePlayerContext)
     }
 
     override fun onChromecastConnecting() {

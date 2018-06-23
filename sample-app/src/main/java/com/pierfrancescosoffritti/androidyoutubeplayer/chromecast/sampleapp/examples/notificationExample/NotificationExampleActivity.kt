@@ -38,7 +38,6 @@ class NotificationExampleActivity : AppCompatActivity() {
     private fun initChromecast() {
         // can't use CastContext until I'm sure the user has GooglePlayServices
         val chromecastYouTubePlayerContext = ChromecastYouTubePlayerContext(CastContext.getSharedInstance(this).sessionManager, SimpleChromecastConnectionListener())
-        lifecycle.addObserver(chromecastYouTubePlayerContext)
     }
 
     private class SimpleChromecastConnectionListener: ChromecastConnectionListener {

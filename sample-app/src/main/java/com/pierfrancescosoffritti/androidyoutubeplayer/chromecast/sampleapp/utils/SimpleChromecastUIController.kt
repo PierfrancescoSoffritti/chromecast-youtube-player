@@ -23,7 +23,7 @@ class SimpleChromecastUIController(private val controls_view: View) : YouTubePla
     private val seekBar = controls_view.findViewById<SeekBar>(R.id.seek_bar)
     private val youTubeButton = controls_view.findViewById<ImageView>(R.id.youtube_button)
 
-    private val castButtonContainer = controls_view.findViewById<FrameLayout>(R.id.cast_button_container)
+    private val newViewsContainer = controls_view.findViewById<FrameLayout>(R.id.cast_button_container)
 
     init {
         seekBar.setOnSeekBarChangeListener(this)
@@ -78,11 +78,11 @@ class SimpleChromecastUIController(private val controls_view: View) : YouTubePla
     }
 
     fun addView(view: View) {
-        castButtonContainer.addView(view)
+        newViewsContainer.addView(view)
     }
 
     fun removeView(view: View) {
-        castButtonContainer.removeView(view)
+        newViewsContainer.removeView(view)
     }
 
     private fun updateControlsState(state: Int) {
@@ -106,7 +106,6 @@ class SimpleChromecastUIController(private val controls_view: View) : YouTubePla
         progressBar.visibility = View.VISIBLE
         currentTimeTextView.post { currentTimeTextView.text = "" }
         totalTimeTextView.post { totalTimeTextView.text = "" }
-        youTubeButton.setOnClickListener(null)
     }
 
     private fun updatePlayPauseButtonIcon(playing: Boolean) {
