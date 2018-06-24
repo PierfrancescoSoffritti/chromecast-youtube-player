@@ -5,13 +5,14 @@ import android.net.Uri
 import android.view.View
 import android.widget.*
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.R
+import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
 
-class SimpleChromecastUIController(private val controls_view: View) : YouTubePlayerListener, SeekBar.OnSeekBarChangeListener {
+class SimpleChromecastUIController(private val controls_view: View) : AbstractYouTubePlayerListener(), SeekBar.OnSeekBarChangeListener {
     lateinit var youTubePlayer: YouTubePlayer
 
     private var isPlaying = false
@@ -119,12 +120,6 @@ class SimpleChromecastUIController(private val controls_view: View) : YouTubePla
         else
             youTubePlayer.play()
     }
-
-    override fun onReady() { }
-    override fun onPlaybackQualityChange(playbackQuality: String) { }
-    override fun onPlaybackRateChange(playbackRate: String) { }
-    override fun onApiChange() { }
-    override fun onError(error: Int) { }
 
     // -- SeekBar, this code will be refactored
 
