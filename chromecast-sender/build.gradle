@@ -2,6 +2,31 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.jetbrains.dokka-android'
+
+ext {
+    bintrayRepo = 'android-youtube-player'
+    bintrayName = 'chromecast-sender'
+
+    publishedGroupId = 'com.pierfrancescosoffritti.androidyoutubeplayer'
+    libraryName = 'chromecast-youtube-player'
+    artifact = 'chromecast-sender'
+
+    libraryDescription = 'Extension for the android-youtube-player library, that enables Chromecast compatibility.'
+
+    siteUrl = 'https://github.com/PierfrancescoSoffritti/chromecast-youtube-player'
+    gitUrl = 'https://github.com/PierfrancescoSoffritti/chromecast-youtube-player.git'
+
+    libraryVersion = '0.2'
+
+    developerId = 'PierfrancescoSoffritti'
+    developerName = 'Pierfrancesco Soffritti'
+    developerEmail = 'soffritti.pierfrancesco@gmail.com'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://github.com/PierfrancescoSoffritti/chromecast-youtube-player/blob/master/LICENSE'
+    allLicenses = ["MIT"]
+}
 
 android {
     compileSdkVersion 27
@@ -15,10 +40,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
 }
 
 dependencies {
@@ -34,3 +64,6 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
 }
+
+apply from: 'installAndDeployConfigFiles/install_v1.gradle'
+apply from: 'installAndDeployConfigFiles/bintray_v1.gradle'

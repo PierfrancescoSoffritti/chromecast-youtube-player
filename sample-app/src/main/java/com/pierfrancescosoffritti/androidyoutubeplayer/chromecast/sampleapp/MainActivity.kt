@@ -66,10 +66,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (main_activity_webview.canGoBack())
-            main_activity_webview.goBack()
-        else
-            super.onBackPressed()
+        when {
+            drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
+            main_activity_webview.canGoBack() -> main_activity_webview.goBack()
+            else -> super.onBackPressed()
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -112,7 +113,7 @@ class MainActivity : AppCompatActivity() {
     private fun initNavDrawer() {
         setNavigationViewWidth(navigation_view)
 
-        navigation_view.setNavigationItemSelectedListener({ menuItem ->
+        navigation_view.setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
             selectedMenuItem = menuItem
 
@@ -130,9 +131,8 @@ class MainActivity : AppCompatActivity() {
             } else if(menuItem.itemId == R.id.open_local_player_example_menu_item) {
                 val intent = Intent(this, LocalPlayerInitExampleActivity::class.java)
                 startActivity(intent)
-            }
-//                    } else if (menuItem.getItemId() === R.id.star_on_github)
-//                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/PierfrancescoSoffritti/Android-YouTube-Player/stargazers")))
+            } else if (menuItem.itemId == R.id.star_on_github)
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/PierfrancescoSoffritti/chromecast-youtube-player")))
 //                    else if (menuItem.getItemId() === R.id.rate_on_playstore) {
 //                        val appPackageName = packageName
 //                        try {
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 //                    }
 
             true
-        })
+        }
     }
 
     private fun setNavigationViewWidth(navigationView: NavigationView) {
