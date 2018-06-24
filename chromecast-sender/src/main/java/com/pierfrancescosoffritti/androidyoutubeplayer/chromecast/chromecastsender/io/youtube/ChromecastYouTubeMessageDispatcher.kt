@@ -1,8 +1,7 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube
 
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.MessageFromReceiver
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.ChromecastCommunicationChannel
-import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube.ChromecastCommunicationConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.MessageFromReceiver
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerBridge
 
 /**

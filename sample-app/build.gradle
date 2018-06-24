@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp"
+        applicationId "com.pierfrancescosoffritti.cyplayersample"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
@@ -27,8 +27,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-//    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.1'
-//    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.2'
     implementation project(':chromecast-sender')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'

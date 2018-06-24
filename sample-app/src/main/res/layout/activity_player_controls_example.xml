@@ -3,11 +3,9 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chromecast_controls_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary" >
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/chromecast_connection_status"
@@ -30,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="@+id/next_video_button" />
 
         <ImageView
-            android:id="@+id/play_pause_button"
+            android:id="@+id/toggle_playback_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -42,6 +40,7 @@
             android:padding="8dp"
             android:tint="@android:color/black"
             android:visibility="invisible"
+            android:contentDescription="toggle playback"
             app:layout_constraintBottom_toTopOf="@+id/chromecast_controls_low"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/play_pause_button"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_playback_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/play_pause_button" />
+            app:layout_constraintTop_toTopOf="@+id/toggle_playback_button" />
 
         <android.support.v7.app.MediaRouteButton
             android:id="@+id/media_route_button"
@@ -65,10 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/play_pause_button"
-            app:layout_constraintEnd_toStartOf="@+id/play_pause_button"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_playback_button"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_playback_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/play_pause_button" />
+            app:layout_constraintTop_toTopOf="@+id/toggle_playback_button" />
 
         <Button
             android:id="@+id/next_video_button"
@@ -77,10 +76,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="Next video"
-            app:layout_constraintBottom_toBottomOf="@+id/play_pause_button"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_playback_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/play_pause_button"
-            app:layout_constraintTop_toTopOf="@+id/play_pause_button" />
+            app:layout_constraintStart_toEndOf="@+id/toggle_playback_button"
+            app:layout_constraintTop_toTopOf="@+id/toggle_playback_button" />
 
         <LinearLayout
             android:id="@+id/chromecast_controls_low"
@@ -121,6 +120,7 @@
                 android:focusable="true"
                 android:padding="8dp"
                 android:tint="@android:color/black"
+                android:contentDescription="open on YouTube"
                 app:srcCompat="@drawable/ic_youtube_24dp" />
 
             <TextView
