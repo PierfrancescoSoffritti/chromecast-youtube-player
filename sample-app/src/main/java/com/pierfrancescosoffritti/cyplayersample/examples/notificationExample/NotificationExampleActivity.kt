@@ -14,10 +14,10 @@ import com.pierfrancescosoffritti.cyplayersample.notifications.PlaybackControlle
 import com.pierfrancescosoffritti.cyplayersample.utils.MediaRouteButtonUtils
 import com.pierfrancescosoffritti.cyplayersample.utils.PlayServicesUtils
 import com.pierfrancescosoffritti.cyplayersample.utils.PlaybackUtils
-import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.player.PlayerConstants
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.YouTubePlayerInitListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 import kotlinx.android.synthetic.main.activity_basic_example.*
 

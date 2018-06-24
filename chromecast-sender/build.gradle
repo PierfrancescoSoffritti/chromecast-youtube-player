@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/PierfrancescoSoffritti/chromecast-youtube-player'
     gitUrl = 'https://github.com/PierfrancescoSoffritti/chromecast-youtube-player.git'
 
-    libraryVersion = '0.8'
+    libraryVersion = '0.9'
 
     developerId = 'PierfrancescoSoffritti'
     developerName = 'Pierfrancesco Soffritti'
@@ -56,7 +56,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:7.0.1'
+    api 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:dev-SNAPSHOT'
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:mediarouter-v7:27.1.1'

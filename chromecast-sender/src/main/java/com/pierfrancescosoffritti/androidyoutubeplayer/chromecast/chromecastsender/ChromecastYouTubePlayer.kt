@@ -5,6 +5,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsend
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.youtube.ChromecastYouTubeMessageDispatcher
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.utils.JSONUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.YouTubePlayerInitListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.YouTubePlayerListener
 
 class ChromecastYouTubePlayer internal constructor(private val chromecastCommunicationChannel: ChromecastCommunicationChannel) : YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 

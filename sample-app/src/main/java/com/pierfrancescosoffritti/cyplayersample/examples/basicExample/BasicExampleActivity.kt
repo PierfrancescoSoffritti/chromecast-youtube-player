@@ -11,8 +11,8 @@ import com.pierfrancescosoffritti.cyplayersample.R
 import com.pierfrancescosoffritti.cyplayersample.utils.MediaRouteButtonUtils
 import com.pierfrancescosoffritti.cyplayersample.utils.PlayServicesUtils
 import com.pierfrancescosoffritti.cyplayersample.utils.PlaybackUtils
-import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.YouTubePlayerInitListener
 import kotlinx.android.synthetic.main.activity_basic_example.*
 
 class BasicExampleActivity : AppCompatActivity() {

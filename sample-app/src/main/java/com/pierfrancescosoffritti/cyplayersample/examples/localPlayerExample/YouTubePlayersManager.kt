@@ -8,6 +8,9 @@ import com.pierfrancescosoffritti.cyplayersample.R
 import com.pierfrancescosoffritti.cyplayersample.ui.SimpleChromecastUIController
 import com.pierfrancescosoffritti.cyplayersample.utils.PlaybackUtils
 import com.pierfrancescosoffritti.youtubeplayer.player.*
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.YouTubePlayerInitListener
+import com.pierfrancescosoffritti.youtubeplayer.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
 /**
@@ -51,9 +54,9 @@ class YouTubePlayersManager(
 
     override fun onChromecastDisconnected() {
         if(chromecastPlayerStateTracker.currentState == PlayerConstants.PlayerState.PLAYING)
-            localYouTubePlayer?.loadVideo(chromecastPlayerStateTracker.videoId, chromecastPlayerStateTracker.currentSecond)
+            localYouTubePlayer?.loadVideo(chromecastPlayerStateTracker.videoId!!, chromecastPlayerStateTracker.currentSecond)
         else
-            localYouTubePlayer?.cueVideo(chromecastPlayerStateTracker.videoId, chromecastPlayerStateTracker.currentSecond)
+            localYouTubePlayer?.cueVideo(chromecastPlayerStateTracker.videoId!!, chromecastPlayerStateTracker.currentSecond)
 
         chromecastUIController.resetUI()
 
@@ -108,7 +111,7 @@ class YouTubePlayersManager(
 
             youtubePlayer.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
-                    youtubePlayer.loadVideo(localPlayerStateTracker.videoId, localPlayerStateTracker.currentSecond)
+                    youtubePlayer.loadVideo(localPlayerStateTracker.videoId!!, localPlayerStateTracker.currentSecond)
                 }
             })
         })
