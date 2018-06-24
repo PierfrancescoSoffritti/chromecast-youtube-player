@@ -11,7 +11,9 @@ import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerListener
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils
 
-
+/**
+* Class used to control a simple UI for the cast player.
+*/
 class SimpleChromecastUIController(private val controls_view: View) : AbstractYouTubePlayerListener(), SeekBar.OnSeekBarChangeListener {
     lateinit var youTubePlayer: YouTubePlayer
 

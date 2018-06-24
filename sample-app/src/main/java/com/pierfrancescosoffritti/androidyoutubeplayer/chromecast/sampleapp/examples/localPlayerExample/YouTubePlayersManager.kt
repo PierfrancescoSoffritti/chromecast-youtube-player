@@ -10,6 +10,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.util
 import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
+/**
+ * Class used to manage the two YouTubePlayers, local and cast.
+ *
+ * The local YouTubePlayer is supposed to stop playing when the cast player stars and vice versa.
+ *
+ * When one of the two players stops, the other has to resume the playback from where the previous player stopped.
+ */
 class YouTubePlayersManager(
         localYouTubePlayerInitListener: LocalYouTubePlayerInitListener,
         private val youtubePlayerView: YouTubePlayerView, chromecastControls: View,
@@ -107,6 +114,9 @@ class YouTubePlayersManager(
         })
     }
 
+    /**
+     * Interface used to notify its listeners than the local YouTubePlayer is ready to play videos.
+     */
     interface LocalYouTubePlayerInitListener {
         fun onLocalYouTubePlayerInit()
     }

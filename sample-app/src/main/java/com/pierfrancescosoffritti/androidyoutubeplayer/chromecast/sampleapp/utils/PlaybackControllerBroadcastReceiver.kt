@@ -7,6 +7,9 @@ import android.util.Log
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.ChromecastYouTubePlayerContext
 import com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.chromecastsender.io.infrastructure.ChromecastConnectionListener
 
+/**
+ * This broadcast receiver is used to react to notification actions.
+ */
 class PlaybackControllerBroadcastReceiver(
         var togglePlayback: () -> Unit = { Log.d(PlaybackControllerBroadcastReceiver::class.java.simpleName, "no-op") }
     ): BroadcastReceiver(), ChromecastConnectionListener {
