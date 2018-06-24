@@ -20,7 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class NotificationManager(private val context: Context, private val notificationHostActivity: Class<*>) : LifecycleObserver, AbstractYouTubePlayerListener() {
+class NotificationManager(private val context: Context, private val notificationHostActivity: Class<*>) : AbstractYouTubePlayerListener() {
     private val notificationId = 1
     private val channelId = "CHANNEL_ID"
 
@@ -87,11 +87,11 @@ class NotificationManager(private val context: Context, private val notification
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            notificationBuilder.setContentTitle(it.first.first)
-                            notificationBuilder.setContentText(it.first.second)
-                            notificationBuilder.setLargeIcon(it?.second)
+                            notificationBuilder.setContentTitle(it.videoTitle)
+                            notificationBuilder.setContentText(it.channelTitle)
+                            notificationBuilder.setLargeIcon(it?.thumbnail)
 
-                            val color = Palette.from(it.second!!).generate().getDominantColor(ContextCompat.getColor(context, android.R.color.black))
+                            val color = Palette.from(it?.thumbnail!!).generate().getDominantColor(ContextCompat.getColor(context, android.R.color.black))
                             notificationBuilder.color = color
 
                             showNotification()

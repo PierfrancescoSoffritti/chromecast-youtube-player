@@ -11,7 +11,7 @@ import com.pierfrancescosoffritti.youtubeplayer.player.*
 import com.pierfrancescosoffritti.youtubeplayer.utils.YouTubePlayerStateTracker
 
 class YouTubePlayersManager(
-        private val localYouTubePlayerInitListener: LocalYouTubePlayerInitListener,
+        localYouTubePlayerInitListener: LocalYouTubePlayerInitListener,
         private val youtubePlayerView: YouTubePlayerView, chromecastControls: View,
         private val chromecastPlayerListener: YouTubePlayerListener) : ChromecastConnectionListener {
 

@@ -1,6 +1,5 @@
 package com.pierfrancescosoffritti.androidyoutubeplayer.chromecast.sampleapp.utils;
 
-import android.graphics.Bitmap
 import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.extensions.android.json.AndroidJsonFactory
 import com.google.api.services.youtube.YouTube
@@ -13,8 +12,8 @@ object YouTubeDataEndpoint {
     const val APP_NAME = "android-youtube-player-chromecast"
     const val YOUTUBE_DATA_API_KEY = "AIzaSyAVeTsyAjfpfBBbUQq4E7jooWwtV2D_tjE"
 
-    fun getVideoInfoFromYouTubeDataAPIs(videoId: String): Single<Pair< Pair<String, String> , Bitmap?>> {
-        val onSubscribe = SingleOnSubscribe<Pair< Pair<String, String> , Bitmap?>> { emitter ->
+    fun getVideoInfoFromYouTubeDataAPIs(videoId: String): Single<VideoInfo> {
+        val onSubscribe = SingleOnSubscribe<VideoInfo> { emitter ->
             try {
 
                 val youTubeDataAPIEndpoint = buildYouTubeEndpoint()
@@ -33,7 +32,7 @@ object YouTubeDataEndpoint {
                 val channel = buildChannelsListQuery(youTubeDataAPIEndpoint, video.snippet.channelId).execute()
                 val channelTitle = channel.items[0].snippet.title
 
-                emitter.onSuccess(Pair< Pair<String, String> , Bitmap?>( Pair(videoTitle, channelTitle), bitmap) )
+                emitter.onSuccess(VideoInfo(videoTitle, channelTitle, bitmap) )
 
             } catch (e: IOException) {
                 emitter.onError(e)
