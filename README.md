@@ -1,5 +1,3 @@
 # ChromecastYouTubeSample
 
-Early stage prototype showcasing how to build reliable YouTube Cast functionalities in an Android app.
-
-This project is partially built on top of [Android-YouTube-Player](https://github.com/PierfrancescoSoffritti/Android-YouTube-Player) and will probably become a complementary library.
+This project has been implemented as an extension for the android-youtube-player library. Read more on the project's [readme](https://github.com/PierfrancescoSoffritti/android-youtube-player#table-of-contents-chromecast).
